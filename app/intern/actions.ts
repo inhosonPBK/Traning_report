@@ -2,6 +2,7 @@
 
 import { createAdminClient } from '@/lib/supabase-admin'
 import { createClient } from '@/lib/supabase-server'
+import { revalidatePath } from 'next/cache'
 
 interface ReportPayload {
   weekNumber: number
@@ -47,6 +48,7 @@ export async function saveReport(payload: ReportPayload) {
     .single()
 
   if (error) return { error: error.message }
+  revalidatePath('/intern')
   return { data }
 }
 
@@ -73,6 +75,7 @@ export async function submitReport(payload: ReportPayload) {
     .single()
 
   if (error) return { error: error.message }
+  revalidatePath('/intern')
   return { data }
 }
 
@@ -103,5 +106,6 @@ export async function recallReport(weekNumber: number) {
     .single()
 
   if (error) return { error: error.message }
+  revalidatePath('/intern')
   return { data }
 }

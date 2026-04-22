@@ -12,7 +12,10 @@ export default async function ManagerPage() {
 
   const { data: interns } = await admin.from('profiles').select('*').eq('role', 'intern').eq('status', 'approved').order('department')
   const { data: mentors } = await admin.from('profiles').select('id, name').eq('role', 'mentor')
-  const { data: reports } = await admin.from('reports').select('*').order('week_number')
+  const internIds = (interns || []).map((i: any) => i.id)
+  const { data: reports } = internIds.length > 0
+    ? await admin.from('reports').select('*').in('intern_id', internIds).order('week_number')
+    : { data: [] }
   const mentorMap = Object.fromEntries((mentors || []).map((m: any) => [m.id, m.name]))
 
   return (

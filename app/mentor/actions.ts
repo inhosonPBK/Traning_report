@@ -41,6 +41,8 @@ export async function saveMentorFeedback(payload: FeedbackPayload) {
     .eq('id', payload.reportId)
 
   if (error) return { error: error.message }
+  revalidatePath('/mentor')
+  revalidatePath(`/mentor/${payload.reportId}`)
   return { success: true }
 }
 

@@ -27,6 +27,7 @@ export async function approveUser(formData: FormData) {
 
   if (error) return { error: error.message }
   revalidatePath('/admin')
+  revalidatePath('/manager')
   return { success: true }
 }
 
