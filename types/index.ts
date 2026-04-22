@@ -12,6 +12,7 @@ export interface Profile {
   department: string | null
   mentor_id: string | null
   status: ProfileStatus
+  is_admin: boolean
   created_at: string
 }
 

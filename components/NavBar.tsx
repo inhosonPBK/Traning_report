@@ -28,14 +28,14 @@ export default function NavBar({ profile }: { profile: Profile }) {
           {profile.name} · <span style={{ textTransform: 'capitalize' }}>{profile.role}</span>
         </span>
         {profile.role === 'manager' && (
-          <>
-            <Link href="/manager" style={{ color: '#cce3f5', fontSize: 12, fontWeight: 600, textDecoration: 'none', padding: '7px 14px', borderRadius: 7, background: 'rgba(255,255,255,.08)' }}>
-              All Reports
-            </Link>
-            <Link href="/admin" style={{ color: '#cce3f5', fontSize: 12, fontWeight: 600, textDecoration: 'none', padding: '7px 14px', borderRadius: 7, background: 'rgba(255,255,255,.08)' }}>
-              Admin
-            </Link>
-          </>
+          <Link href="/manager" style={{ color: '#cce3f5', fontSize: 12, fontWeight: 600, textDecoration: 'none', padding: '7px 14px', borderRadius: 7, background: 'rgba(255,255,255,.08)' }}>
+            All Reports
+          </Link>
+        )}
+        {profile.is_admin && (
+          <Link href="/admin" style={{ color: '#cce3f5', fontSize: 12, fontWeight: 600, textDecoration: 'none', padding: '7px 14px', borderRadius: 7, background: 'rgba(255,255,255,.08)' }}>
+            Admin
+          </Link>
         )}
         <button
           onClick={handleLogout}

@@ -23,6 +23,14 @@ body {
   line-height: 1.6;
 }
 
+.nav {
+  background: linear-gradient(135deg, #1F4E79 0%, #2E75B6 100%);
+  box-shadow: 0 2px 8px rgba(0,0,0,.18);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
 .card {
   background: #fff;
   border-radius: 12px;

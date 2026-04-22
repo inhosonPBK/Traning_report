@@ -1,4 +1,4 @@
-import { requireProfile } from '@/lib/get-profile'
+import { requireAdmin } from '@/lib/get-profile'
 import { createAdminClient } from '@/lib/supabase-admin'
 import NavBar from '@/components/NavBar'
 import ApproveForm from './ApproveForm'
@@ -6,7 +6,7 @@ import { Profile } from '@/types'
 import Link from 'next/link'
 
 export default async function AdminPage() {
-  const { profile } = await requireProfile('manager')
+  const { profile } = await requireAdmin()
   const admin = createAdminClient()
 
   const { data: pending } = await admin.from('profiles').select('*').eq('status', 'pending').order('created_at')

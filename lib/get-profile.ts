@@ -13,7 +13,7 @@ export async function getProfile(userId: string): Promise<Profile | null> {
   return data as Profile | null
 }
 
-// Get current user + profile, redirect if not authenticated or pending
+// For role-restricted pages (intern, mentor, manager)
 export async function requireProfile(allowedRole?: 'intern' | 'mentor' | 'manager') {
   const supabase = createClient()
   const { data: { user } } = await supabase.auth.getUser()
@@ -22,6 +22,19 @@ export async function requireProfile(allowedRole?: 'intern' | 'mentor' | 'manage
   const profile = await getProfile(user.id)
   if (!profile || profile.status === 'pending') redirect('/pending')
   if (allowedRole && profile.role !== allowedRole) redirect('/dashboard')
+
+  return { user, profile }
+}
+
+// For admin panel — any approved user with is_admin=true, regardless of role
+export async function requireAdmin() {
+  const supabase = createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) redirect('/login')
+
+  const profile = await getProfile(user.id)
+  if (!profile || profile.status === 'pending') redirect('/pending')
+  if (!profile.is_admin) redirect('/dashboard')
 
   return { user, profile }
 }
