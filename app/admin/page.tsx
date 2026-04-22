@@ -1,21 +1,14 @@
-import { redirect } from 'next/navigation'
-import { createClient } from '@/lib/supabase-server'
+import { requireProfile } from '@/lib/get-profile'
 import { createAdminClient } from '@/lib/supabase-admin'
-import { getProfile } from '@/lib/get-profile'
 import NavBar from '@/components/NavBar'
 import ApproveForm from './ApproveForm'
 import { Profile } from '@/types'
 import Link from 'next/link'
 
 export default async function AdminPage() {
-  const supabase = createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) redirect('/login')
-
-  const profile = await getProfile(user.id)
-  if (!profile || profile.role !== 'manager') redirect('/dashboard')
-
+  const { profile } = await requireProfile('manager')
   const admin = createAdminClient()
+
   const { data: pending } = await admin.from('profiles').select('*').eq('status', 'pending').order('created_at')
   const { data: approved } = await admin.from('profiles').select('*').eq('status', 'approved').order('role')
   const mentors = (approved || []).filter((p: Profile) => p.role === 'mentor')
@@ -39,12 +32,10 @@ export default async function AdminPage() {
           ) : (
             (pending as Profile[]).map(u => (
               <div key={u.id} style={{ borderBottom: '1px solid #E8EDF3', paddingBottom: 20, marginBottom: 20 }}>
-                <div>
-                  <div style={{ fontWeight: 700, fontSize: 15 }}>{u.name}</div>
-                  <div style={{ fontSize: 13, color: '#777' }}>{u.email}</div>
-                  <div style={{ fontSize: 12, color: '#aaa', marginTop: 2 }}>
-                    Department: {u.department || '—'} · Requested: {new Date(u.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-                  </div>
+                <div style={{ fontWeight: 700, fontSize: 15 }}>{u.name}</div>
+                <div style={{ fontSize: 13, color: '#777' }}>{u.email}</div>
+                <div style={{ fontSize: 12, color: '#aaa', marginTop: 2 }}>
+                  {u.department || '—'} · {new Date(u.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                 </div>
                 <ApproveForm user={u} mentors={mentors} />
               </div>
