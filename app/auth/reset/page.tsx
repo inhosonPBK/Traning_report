@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import { createClient } from '@/lib/supabase-browser'
 
 export default function ResetPasswordPage() {
@@ -10,21 +11,34 @@ export default function ResetPasswordPage() {
   const [confirm, setConfirm] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [linkExpired, setLinkExpired] = useState(false)
   const [ready, setReady] = useState(false)
 
-  // Supabase가 URL hash의 토큰을 세션으로 교환하기를 기다림
   useEffect(() => {
+    // URL 쿼리 파라미터 또는 해시에서 에러 감지
+    const params = new URLSearchParams(window.location.search)
+    const hashParams = new URLSearchParams(window.location.hash.replace('#', ''))
+
+    const errorCode = params.get('error_code') || hashParams.get('error_code')
+    const errorParam = params.get('error') || hashParams.get('error')
+
+    if (errorParam === 'access_denied' || errorCode === 'otp_expired') {
+      setLinkExpired(true)
+      return
+    }
+
     const supabase = createClient()
-    // onAuthStateChange가 PASSWORD_RECOVERY 이벤트를 처리
+
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
       if (event === 'PASSWORD_RECOVERY') {
         setReady(true)
       }
     })
-    // 이미 세션이 있는 경우 (직접 방문)
+
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session) setReady(true)
     })
+
     return () => subscription.unsubscribe()
   }, [])
 
@@ -51,11 +65,48 @@ export default function ResetPasswordPage() {
       return
     }
 
-    // 성공 — 로그인 페이지로 이동
     await supabase.auth.signOut()
     router.push('/login')
   }
 
+  // 링크 만료 에러 화면
+  if (linkExpired) {
+    return (
+      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#EEF2F7' }}>
+        <div style={{ background: '#fff', padding: '40px 36px', borderRadius: 12, maxWidth: 420, width: '100%', textAlign: 'center', boxShadow: '0 4px 20px rgba(0,0,0,.1)' }}>
+          <div style={{ fontSize: 40, marginBottom: 16 }}>⏱</div>
+          <div style={{ fontSize: 18, fontWeight: 700, color: '#C55A11', marginBottom: 12 }}>링크가 만료되었습니다</div>
+          <div style={{ fontSize: 14, color: '#666', lineHeight: 1.8, marginBottom: 28 }}>
+            비밀번호 재설정 링크는 <strong>1시간</strong> 동안만 유효합니다.<br />
+            링크를 다시 요청해 주세요.
+          </div>
+          <Link
+            href="/forgot-password"
+            style={{
+              display: 'inline-block',
+              background: '#1F4E79',
+              color: '#fff',
+              padding: '12px 28px',
+              borderRadius: 10,
+              fontSize: 14,
+              fontWeight: 700,
+              textDecoration: 'none',
+              marginBottom: 16,
+            }}
+          >
+            재설정 링크 다시 요청 →
+          </Link>
+          <div>
+            <Link href="/login" style={{ color: '#999', fontSize: 13, textDecoration: 'none' }}>
+              ← 로그인으로 돌아가기
+            </Link>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  // 토큰 확인 대기 화면
   if (!ready) {
     return (
       <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#EEF2F7' }}>
