@@ -1,5 +1,7 @@
 import { redirect, notFound } from 'next/navigation'
 import { createClient } from '@/lib/supabase-server'
+import { createAdminClient } from '@/lib/supabase-admin'
+import { getProfile } from '@/lib/get-profile'
 import NavBar from '@/components/NavBar'
 import StatusBadge from '@/components/StatusBadge'
 import MentorReview from '@/components/MentorReview'
@@ -14,20 +16,19 @@ export default async function MentorReportPage({ params }: { params: { reportId:
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
-  const { data: profile } = await supabase.from('profiles').select('*').eq('id', user.id).single()
-  if (!profile || profile.role !== 'mentor') redirect('/intern')
+  const profile = await getProfile(user.id)
+  if (!profile || profile.role !== 'mentor') redirect('/dashboard')
 
-  const { data: report } = await supabase.from('reports').select('*').eq('id', params.reportId).single()
+  const admin = createAdminClient()
+  const { data: report } = await admin.from('reports').select('*').eq('id', params.reportId).single()
   if (!report) notFound()
 
-  const { data: intern } = await supabase.from('profiles').select('*').eq('id', report.intern_id).single()
+  const { data: intern } = await admin.from('profiles').select('*').eq('id', report.intern_id).single()
 
   return (
     <>
       <NavBar profile={profile} />
       <div style={{ maxWidth: 860, margin: '28px auto', padding: '0 20px 80px' }}>
-
-        {/* Header */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
           <div>
             <Link href="/mentor" style={{ fontSize: 13, color: '#999', textDecoration: 'none' }}>← All Reports</Link>
@@ -39,18 +40,14 @@ export default async function MentorReportPage({ params }: { params: { reportId:
           <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
             <StatusBadge status={(report as Report).status} />
             {report.status === 'completed' && (
-              <a
-                href={`/report/${report.id}/print`}
-                target="_blank"
-                style={{ background: 'none', border: '1.5px solid #ddd', color: '#888', padding: '6px 14px', borderRadius: 8, fontSize: 12, fontWeight: 600, textDecoration: 'none' }}
-              >
+              <a href={`/report/${report.id}/print`} target="_blank"
+                style={{ background: 'none', border: '1.5px solid #ddd', color: '#888', padding: '6px 14px', borderRadius: 8, fontSize: 12, fontWeight: 600, textDecoration: 'none' }}>
                 🖨 Print / PDF
               </a>
             )}
           </div>
         </div>
 
-        {/* Week topic */}
         {report.topic && (
           <div className="card" style={{ marginBottom: 16 }}>
             <div style={{ fontSize: 11, fontWeight: 700, color: '#555', textTransform: 'uppercase', letterSpacing: .5, marginBottom: 4 }}>Topic</div>
@@ -58,7 +55,6 @@ export default async function MentorReportPage({ params }: { params: { reportId:
           </div>
         )}
 
-        {/* S01 */}
         <div className="card">
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
             <div className="sec-num" style={{ background: '#1F4E79' }}>01</div>
@@ -67,7 +63,6 @@ export default async function MentorReportPage({ params }: { params: { reportId:
           <textarea rows={7} value={report.learned ?? ''} disabled />
         </div>
 
-        {/* S02 */}
         <div className="card">
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
             <div className="sec-num" style={{ background: '#1F4E79' }}>02</div>
@@ -82,7 +77,6 @@ export default async function MentorReportPage({ params }: { params: { reportId:
           <textarea rows={5} value={report.feeling ?? ''} disabled />
         </div>
 
-        {/* S03 */}
         <div className="card">
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
             <div className="sec-num" style={{ background: '#C55A11' }}>03</div>
@@ -91,7 +85,6 @@ export default async function MentorReportPage({ params }: { params: { reportId:
           <textarea rows={6} value={report.questions ?? ''} disabled />
         </div>
 
-        {/* S04 Mentor */}
         <MentorReview report={report as Report} mentorId={user.id} />
       </div>
     </>

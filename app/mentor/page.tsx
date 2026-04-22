@@ -1,5 +1,7 @@
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase-server'
+import { createAdminClient } from '@/lib/supabase-admin'
+import { getProfile } from '@/lib/get-profile'
 import NavBar from '@/components/NavBar'
 import StatusBadge from '@/components/StatusBadge'
 import { getWeekInfo } from '@/lib/weeks'
@@ -11,29 +13,18 @@ export default async function MentorPage() {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('*')
-    .eq('id', user.id)
-    .single()
+  const profile = await getProfile(user.id)
+  if (!profile || profile.role !== 'mentor') redirect('/dashboard')
 
-  if (!profile) redirect('/login')
-  if (profile.role !== 'mentor') redirect('/intern')
-
-  // Find paired intern
-  const { data: intern } = await supabase
+  const admin = createAdminClient()
+  const { data: intern } = await admin
     .from('profiles')
     .select('*')
     .eq('mentor_id', user.id)
     .single()
 
-  // Load intern's reports
   const { data: reports } = intern
-    ? await supabase
-        .from('reports')
-        .select('*')
-        .eq('intern_id', intern.id)
-        .order('week_number', { ascending: true })
+    ? await admin.from('reports').select('*').eq('intern_id', intern.id).order('week_number', { ascending: true })
     : { data: [] }
 
   return (
@@ -43,11 +34,7 @@ export default async function MentorPage() {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
           <div>
             <div style={{ fontSize: 18, fontWeight: 700, color: '#1F4E79' }}>Intern Reports</div>
-            {intern && (
-              <div style={{ fontSize: 13, color: '#999', marginTop: 2 }}>
-                {intern.name} · {intern.department}
-              </div>
-            )}
+            {intern && <div style={{ fontSize: 13, color: '#999', marginTop: 2 }}>{intern.name} · {intern.department}</div>}
           </div>
         </div>
 
@@ -60,9 +47,7 @@ export default async function MentorPage() {
             <Link key={r.id} href={`/mentor/${r.id}`} style={{ textDecoration: 'none' }}>
               <div style={{ background: '#fff', borderRadius: 12, padding: '18px 22px', marginBottom: 12, cursor: 'pointer', boxShadow: '0 1px 4px rgba(0,0,0,.06)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div>
-                  <div style={{ fontSize: 13, color: '#999', marginBottom: 4 }}>
-                    Week {r.week_number} · {getWeekInfo(r.week_number)}
-                  </div>
+                  <div style={{ fontSize: 13, color: '#999', marginBottom: 4 }}>Week {r.week_number} · {getWeekInfo(r.week_number)}</div>
                   <div style={{ fontSize: 15, fontWeight: 600, color: '#1a1a1a' }}>{r.topic || '(No topic)'}</div>
                   {r.rating && <div style={{ fontSize: 12, color: '#777', marginTop: 4 }}>Rating: {r.rating}</div>}
                 </div>
