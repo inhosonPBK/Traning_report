@@ -21,26 +21,14 @@ export default function SignupPage() {
 
     const supabase = createClient()
 
-    // 1. Create auth user
-    const { data, error: signupError } = await supabase.auth.signUp({ email, password })
-    if (signupError || !data.user) {
-      setError(signupError?.message || 'Signup failed.')
-      setLoading(false)
-      return
-    }
-
-    // 2. Create pending profile
-    const { error: profileError } = await supabase.from('profiles').insert({
-      id: data.user.id,
-      name,
+    // Create auth user — profile is auto-created by DB trigger (handle_new_user)
+    const { error: signupError } = await supabase.auth.signUp({
       email,
-      department,
-      status: 'pending',
-      role: null,
+      password,
+      options: { data: { name, department } },
     })
-
-    if (profileError) {
-      setError('Could not create profile. ' + profileError.message)
+    if (signupError) {
+      setError(signupError.message)
       setLoading(false)
       return
     }
