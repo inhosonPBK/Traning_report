@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase-server'
+import { createAdminClient } from '@/lib/supabase-admin'
 import { redirect } from 'next/navigation'
 
 export default async function PendingPage() {
@@ -6,13 +7,14 @@ export default async function PendingPage() {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
-  const { data: profile } = await supabase
+  // Use admin client to bypass RLS for status check
+  const admin = createAdminClient()
+  const { data: profile } = await admin
     .from('profiles')
-    .select('name, status')
+    .select('name, status, role')
     .eq('id', user.id)
     .single()
 
-  // Already approved — go to dashboard
   if (profile?.status === 'approved') redirect('/dashboard')
 
   async function handleSignOut() {
@@ -28,7 +30,7 @@ export default async function PendingPage() {
         <div style={{ fontSize: 40, marginBottom: 16 }}>⏳</div>
         <div style={{ fontSize: 18, fontWeight: 700, color: '#1F4E79', marginBottom: 8 }}>Awaiting Approval</div>
         <div style={{ fontSize: 14, color: '#666', lineHeight: 1.8 }}>
-          Hi, <strong>{profile?.name}</strong>.<br />
+          Hi, <strong>{profile?.name || user.email}</strong>.<br />
           Your account is under review. An administrator will approve your account and assign your role shortly.
         </div>
         <form action={handleSignOut} style={{ marginTop: 28 }}>
