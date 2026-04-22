@@ -37,6 +37,9 @@ export default function NavBar({ profile }: { profile: Profile }) {
             Admin
           </Link>
         )}
+        <Link href="/settings" style={{ color: '#cce3f5', fontSize: 12, fontWeight: 600, textDecoration: 'none', padding: '7px 14px', borderRadius: 7, background: 'rgba(255,255,255,.08)' }}>
+          ⚙ Settings
+        </Link>
         <button
           onClick={handleLogout}
           style={{ background: 'rgba(255,255,255,.12)', border: 'none', color: '#cce3f5', padding: '7px 14px', borderRadius: 7, cursor: 'pointer', fontSize: 12, fontWeight: 600, fontFamily: 'inherit' }}

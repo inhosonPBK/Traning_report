@@ -2,14 +2,13 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { createClient } from '@/lib/supabase-browser'
+import { signUpAction } from './actions'
 
 export default function SignupPage() {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [department, setDepartment] = useState('')
-  const [message, setMessage] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const [done, setDone] = useState(false)
@@ -19,16 +18,10 @@ export default function SignupPage() {
     setLoading(true)
     setError('')
 
-    const supabase = createClient()
+    const result = await signUpAction({ name, email, password, department })
 
-    // Create auth user — profile is auto-created by DB trigger (handle_new_user)
-    const { error: signupError } = await supabase.auth.signUp({
-      email,
-      password,
-      options: { data: { name, department } },
-    })
-    if (signupError) {
-      setError(signupError.message)
+    if (result.error) {
+      setError(result.error)
       setLoading(false)
       return
     }
@@ -88,18 +81,11 @@ export default function SignupPage() {
           </div>
         ))}
 
-        <div style={{ marginBottom: 20 }}>
-          <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: '#555', textTransform: 'uppercase', letterSpacing: .5, marginBottom: 4 }}>Message to Admin (optional)</label>
-          <textarea
-            value={message}
-            onChange={e => setMessage(e.target.value)}
-            placeholder="Any context for the administrator…"
-            rows={2}
-            style={{ width: '100%', border: '1.5px solid #E8EDF3', borderRadius: 8, padding: '10px 14px', fontSize: 14, fontFamily: 'inherit', outline: 'none', resize: 'vertical' }}
-          />
-        </div>
-
-        {error && <div style={{ color: '#C55A11', fontSize: 13, marginBottom: 14 }}>{error}</div>}
+        {error && (
+          <div style={{ color: '#C55A11', fontSize: 13, marginBottom: 14, background: '#FFF3EE', border: '1px solid #FCE4D6', borderRadius: 8, padding: '10px 14px' }}>
+            ⚠ {error}
+          </div>
+        )}
 
         <button
           type="submit"
