@@ -1,5 +1,6 @@
 import { redirect, notFound } from 'next/navigation'
 import { createClient } from '@/lib/supabase-server'
+import { createAdminClient } from '@/lib/supabase-admin'
 import { getWeekInfo } from '@/lib/weeks'
 import { Report, Rating } from '@/types'
 
@@ -11,12 +12,13 @@ export default async function PrintPage({ params }: { params: { reportId: string
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
-  const { data: report } = await supabase.from('reports').select('*').eq('id', params.reportId).single()
+  const admin = createAdminClient()
+  const { data: report } = await admin.from('reports').select('*').eq('id', params.reportId).single()
   if (!report) notFound()
 
-  const { data: intern } = await supabase.from('profiles').select('*').eq('id', report.intern_id).single()
+  const { data: intern } = await admin.from('profiles').select('*').eq('id', report.intern_id).single()
   const { data: mentor } = report.mentor_id
-    ? await supabase.from('profiles').select('*').eq('id', report.mentor_id).single()
+    ? await admin.from('profiles').select('*').eq('id', report.mentor_id).single()
     : { data: null }
 
   return (
