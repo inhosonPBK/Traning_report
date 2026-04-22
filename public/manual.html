@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Weekly Training Report — 사용자 메뉴얼</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #F0F4F8; color: #222; line-height: 1.6; }
+
+  /* ── 커버 ── */
+  .cover {
+    background: linear-gradient(135deg, #1F4E79 0%, #2E75B6 100%);
+    color: #fff; padding: 72px 40px 60px; text-align: center;
+  }
+  .cover-sub { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #9DC3E6; margin-bottom: 12px; }
+  .cover h1 { font-size: 36px; font-weight: 800; margin-bottom: 12px; }
+  .cover p { font-size: 15px; color: #cce3f5; max-width: 520px; margin: 0 auto 32px; line-height: 1.8; }
+  .cover-badges { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .cover-badge { background: rgba(255,255,255,.15); border-radius: 20px; padding: 6px 18px; font-size: 13px; font-weight: 600; }
+
+  /* ── 목차 ── */
+  .toc { background: #fff; max-width: 860px; margin: 32px auto 0; border-radius: 14px; box-shadow: 0 2px 16px rgba(0,0,0,.07); padding: 32px 40px; }
+  .toc h2 { font-size: 16px; font-weight: 700; color: #1F4E79; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid #E8EDF3; }
+  .toc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .toc-item { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 8px; text-decoration: none; color: #333; font-size: 14px; transition: background .15s; }
+  .toc-item:hover { background: #EEF2F7; }
+  .toc-num { width: 26px; height: 26px; background: #1F4E79; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; }
+
+  /* ── 섹션 래퍼 ── */
+  .section { max-width: 860px; margin: 28px auto 0; }
+  .section-header {
+    border-radius: 12px 12px 0 0;
+    padding: 20px 32px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .section-header.common  { background: #2E75B6; }
+  .section-header.admin   { background: #C55A11; }
+  .section-header.intern  { background: #3730A3; }
+  .section-header.mentor  { background: #375623; }
+  .section-header.manager { background: #1F4E79; }
+  .section-icon { font-size: 28px; }
+  .section-title { color: #fff; }
+  .section-title h2 { font-size: 20px; font-weight: 800; }
+  .section-title p { font-size: 13px; color: rgba(255,255,255,.8); margin-top: 2px; }
+
+  .section-body { background: #fff; border-radius: 0 0 12px 12px; box-shadow: 0 2px 16px rgba(0,0,0,.07); padding: 32px; }
+
+  /* ── 기능 블록 ── */
+  .feature { margin-bottom: 40px; }
+  .feature:last-child { margin-bottom: 0; }
+  .feature-title { font-size: 15px; font-weight: 700; color: #1F4E79; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid #E8EDF3; display: flex; align-items: center; gap: 8px; }
+  .feature-desc { font-size: 14px; color: #444; line-height: 1.8; margin-top: 14px; }
+  .feature-desc ul { padding-left: 20px; margin-top: 8px; }
+  .feature-desc li { margin-bottom: 5px; }
+  .highlight { background: #EEF2F7; border-left: 3px solid #1F4E79; padding: 12px 16px; border-radius: 0 8px 8px 0; font-size: 13px; color: #333; margin-top: 14px; line-height: 1.8; }
+  .highlight.warn { background: #FFF3EE; border-color: #C55A11; color: #7a3000; }
+  .highlight.success { background: #E2EFDA; border-color: #375623; color: #2a4118; }
+
+  /* ── 앱 모크업 공통 ── */
+  .mockup { border-radius: 10px; overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,.12); border: 1px solid #E8EDF3; margin-bottom: 6px; }
+
+  /* ── NavBar 모크업 ── */
+  .nav-mock { background: linear-gradient(90deg, #1F4E79, #2E75B6); padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 56px; }
+  .nav-brand-sub { font-size: 9px; color: #9DC3E6; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase; }
+  .nav-brand-title { font-size: 14px; color: #fff; font-weight: 700; }
+  .nav-right { display: flex; align-items: center; gap: 8px; }
+  .nav-user { font-size: 11px; color: #9DC3E6; }
+  .nav-btn { background: rgba(255,255,255,.12); border: none; color: #cce3f5; padding: 5px 11px; border-radius: 6px; font-size: 11px; font-weight: 600; }
+
+  /* ── 페이지 바디 모크업 ── */
+  .page-mock { background: #EEF2F7; padding: 20px 24px; }
+  .card-mock { background: #fff; border-radius: 10px; padding: 20px 24px; box-shadow: 0 2px 10px rgba(0,0,0,.06); margin-bottom: 14px; }
+  .card-mock:last-child { margin-bottom: 0; }
+  .card-title { font-size: 14px; font-weight: 700; color: #1F4E79; margin-bottom: 14px; }
+  .card-title.orange { color: #C55A11; }
+
+  /* ── 로그인 폼 모크업 ── */
+  .login-wrap { background: #EEF2F7; padding: 30px 20px; display: flex; flex-direction: column; align-items: center; }
+  .login-header { background: #1F4E79; padding: 12px 24px; border-radius: 10px 10px 0 0; width: 100%; max-width: 340px; }
+  .login-header-sub { color: #9DC3E6; font-size: 9px; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase; }
+  .login-header-title { color: #fff; font-size: 15px; font-weight: 700; }
+  .login-body { background: #fff; border-radius: 0 0 10px 10px; padding: 22px 24px 18px; width: 100%; max-width: 340px; box-shadow: 0 4px 16px rgba(0,0,0,.1); }
+  .form-label { font-size: 10px; font-weight: 700; color: #555; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 4px; display: block; }
+  .form-input { width: 100%; border: 1.5px solid #E8EDF3; border-radius: 7px; padding: 9px 12px; font-size: 13px; color: #888; margin-bottom: 12px; }
+  .form-btn { width: 100%; background: #1F4E79; color: #fff; border: none; padding: 11px; border-radius: 9px; font-size: 14px; font-weight: 700; }
+  .form-link { text-align: center; margin-top: 12px; font-size: 12px; color: #999; }
+  .form-link a { color: #1F4E79; font-weight: 600; text-decoration: none; }
+
+  /* ── 배지 ── */
+  .badge { display: inline-block; padding: 2px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+  .badge-intern   { background: #EEF2FF; color: #3730A3; }
+  .badge-mentor   { background: #E2EFDA; color: #375623; }
+  .badge-manager  { background: #FCE4D6; color: #C55A11; }
+  .badge-draft    { background: #F3F4F6; color: #6B7280; }
+  .badge-submitted{ background: #DBEAFE; color: #1D4ED8; }
+  .badge-completed{ background: #D1FAE5; color: #065F46; }
+  .badge-pending  { background: #FCE4D6; color: #C55A11; }
+
+  /* ── 테이블 모크업 ── */
+  .table-mock { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .table-mock th { text-align: left; padding: 7px 10px; font-size: 10px; font-weight: 700; color: #555; text-transform: uppercase; letter-spacing: .5px; border-bottom: 2px solid #E8EDF3; }
+  .table-mock td { padding: 9px 10px; border-bottom: 1px solid #E8EDF3; color: #555; }
+  .table-mock td:first-child { font-weight: 600; color: #222; }
+
+  /* ── 레포트 행 ── */
+  .report-row { display: flex; justify-content: space-between; align-items: center; background: #F9FAFB; border: 1px solid #E8EDF3; border-radius: 8px; padding: 11px 14px; margin-bottom: 8px; font-size: 13px; }
+  .report-row:last-child { margin-bottom: 0; }
+  .report-week { font-weight: 700; color: #1F4E79; }
+  .report-date { font-size: 11px; color: #999; margin-left: 6px; }
+  .report-topic { color: #444; margin-left: 8px; }
+
+  /* ── 승인 폼 모크업 ── */
+  .approve-box { background: #F9FAFB; border: 1px solid #E8EDF3; border-radius: 8px; padding: 14px; margin-top: 10px; }
+  .approve-fields { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
+  .approve-field label { display: block; font-size: 10px; font-weight: 700; color: #555; text-transform: uppercase; margin-bottom: 4px; }
+  .approve-field select, .approve-field input { border: 1.5px solid #E8EDF3; border-radius: 6px; padding: 7px 10px; font-size: 12px; }
+  .approve-actions { display: flex; gap: 8px; }
+  .btn-approve { background: #1F4E79; color: #fff; border: none; padding: 7px 16px; border-radius: 7px; font-size: 12px; font-weight: 600; }
+  .btn-reject  { background: none; border: 1.5px solid #ddd; color: #888; padding: 7px 16px; border-radius: 7px; font-size: 12px; font-weight: 600; }
+  .btn-reset   { background: none; border: 1.5px solid #ddd; color: #888; padding: 5px 11px; border-radius: 6px; font-size: 11px; font-weight: 600; }
+
+  /* ── 리뷰 패널 모크업 ── */
+  .review-textarea { width: 100%; border: 1.5px solid #E8EDF3; border-radius: 7px; padding: 9px 12px; font-size: 12px; color: #555; resize: none; height: 64px; margin-bottom: 10px; }
+  .review-select { border: 1.5px solid #E8EDF3; border-radius: 6px; padding: 7px 10px; font-size: 12px; margin-bottom: 10px; }
+
+  /* ── 스텝 번호 ── */
+  .steps { counter-reset: step; }
+  .step { display: flex; gap: 14px; margin-bottom: 16px; }
+  .step-num { width: 28px; height: 28px; background: #1F4E79; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+  .step-content { flex: 1; }
+  .step-content strong { display: block; font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+  .step-content p { font-size: 13px; color: #555; line-height: 1.7; }
+
+  /* ── 화면 캡션 ── */
+  .screen-caption { font-size: 12px; color: #888; text-align: center; margin-bottom: 16px; }
+
+  /* ── footer ── */
+  footer { max-width: 860px; margin: 32px auto 48px; text-align: center; font-size: 12px; color: #aaa; }
+
+  @media (max-width: 600px) {
+    .toc-grid { grid-template-columns: 1fr; }
+    .cover h1 { font-size: 26px; }
+    .section-body { padding: 20px; }
+    .nav-mock { padding: 0 14px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     커버
+══════════════════════════════════════════ -->
+<div class="cover">
+  <div class="cover-sub">PBK Operations Team · Promega Biosystems Korea</div>
+  <h1>Weekly Training Report<br>사용자 메뉴얼</h1>
+  <p>주간 교육 훈련 보고서 시스템의 역할별 기능과 사용법을 안내합니다.<br>
+     인턴 · 멘토 · 매니저 · 어드민 각 계정의 화면과 워크플로우를 설명합니다.</p>
+  <div class="cover-badges">
+    <span class="cover-badge">🏠 서비스 소개</span>
+    <span class="cover-badge">🔑 공통 기능</span>
+    <span class="cover-badge">🛡 어드민</span>
+    <span class="cover-badge">📝 인턴</span>
+    <span class="cover-badge">👨‍🏫 멘토</span>
+    <span class="cover-badge">📊 매니저</span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     목차
+══════════════════════════════════════════ -->
+<div class="toc">
+  <h2>📋 목차</h2>
+  <div class="toc-grid">
+    <a href="#intro" class="toc-item"><span class="toc-num">0</span> 서비스 소개 및 역할 구조</a>
+    <a href="#common" class="toc-item"><span class="toc-num">1</span> 공통 기능 — 로그인 · 회원가입 · 비밀번호</a>
+    <a href="#admin" class="toc-item"><span class="toc-num">2</span> 어드민(Admin) 기능</a>
+    <a href="#intern" class="toc-item"><span class="toc-num">3</span> 인턴(Intern) 기능</a>
+    <a href="#mentor" class="toc-item"><span class="toc-num">4</span> 멘토(Mentor) 기능</a>
+    <a href="#manager" class="toc-item"><span class="toc-num">5</span> 매니저(Manager) 기능</a>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     0. 서비스 소개
+══════════════════════════════════════════ -->
+<div class="section" id="intro">
+  <div class="section-header common">
+    <span class="section-icon">🏠</span>
+    <div class="section-title">
+      <h2>서비스 소개</h2>
+      <p>Weekly Training Report란 무엇인가</p>
+    </div>
+  </div>
+  <div class="section-body">
+
+    <div class="feature">
+      <div class="feature-title">📌 서비스 목적</div>
+      <div class="feature-desc">
+        <p><strong>Weekly Training Report</strong>는 PBK Operations Team 인턴의 주간 교육 훈련 내용을 체계적으로 기록하고 관리하기 위한 내부 웹 서비스입니다. 인턴은 매주 학습 내용을 작성하고 제출하며, 멘토는 피드백을 남기고, 매니저는 전체 현황을 한눈에 파악할 수 있습니다.</p>
+      </div>
+    </div>
+
+    <div class="feature">
+      <div class="feature-title">👥 역할(Role) 구조</div>
+      <table class="table-mock" style="margin-top:4px">
+        <thead>
+          <tr>
+            <th>역할</th>
+            <th>설명</th>
+            <th>주요 기능</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="badge badge-intern">Intern</span></td>
+            <td>교육 훈련 중인 인턴</td>
+            <td>주간 레포트 작성 · 제출 · 회수</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-mentor">Mentor</span></td>
+            <td>인턴을 담당하는 멘토</td>
+            <td>제출된 레포트 검토 · 피드백 작성 · 완료 처리</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-manager">Manager</span></td>
+            <td>팀 전체 레포트를 열람하는 매니저</td>
+            <td>모든 인턴의 레포트 현황 조회</td>
+          </tr>
+          <tr>
+            <td><span class="badge" style="background:#E8EDF3;color:#1F4E79;">Admin</span></td>
+            <td>시스템 관리자 (역할과 별개로 부여)</td>
+            <td>사용자 승인 · 역할 부여 · 비밀번호 초기화</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="highlight" style="margin-top:14px">
+        💡 <strong>Admin은 역할이 아닌 권한입니다.</strong> 예를 들어 Mentor이면서 동시에 Admin 권한을 가질 수 있습니다. Admin 권한이 있는 사용자는 상단 내비게이션에 <strong>Admin</strong> 버튼이 추가로 표시됩니다.
+      </div>
+    </div>
+
+    <div class="feature">
+      <div class="feature-title">🔄 전체 워크플로우</div>
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><div class="step-content"><strong>회원 가입 요청</strong><p>신규 사용자가 /signup 페이지에서 이름·이메일·비밀번호·부서를 입력하고 가입 신청합니다.</p></div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-content"><strong>어드민 승인</strong><p>Admin 권한 보유자가 Admin Panel에서 신청 내역을 확인하고 역할을 지정한 뒤 승인합니다.</p></div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-content"><strong>인턴 레포트 작성 & 제출</strong><p>승인된 인턴이 로그인 후 해당 주차 레포트를 작성하고 제출합니다.</p></div></div>
+        <div class="step"><div class="step-num">4</div><div class="step-content"><strong>멘토 리뷰 & 완료</strong><p>담당 멘토가 제출된 레포트를 확인하고 피드백을 작성한 뒤 완료(Complete Review) 처리합니다.</p></div></div>
+        <div class="step"><div class="step-num">5</div><div class="step-content"><strong>매니저 현황 조회</strong><p>매니저가 All Reports 화면에서 전체 인턴의 레포트 제출 현황과 완료된 레포트를 열람합니다.</p></div></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     1. 공통 기능
+══════════════════════════════════════════ -->
+<div class="section" id="common">
+  <div class="section-header common">
+    <span class="section-icon">🔑</span>
+    <div class="section-title">
+      <h2>공통 기능</h2>
+      <p>로그인 · 회원가입 · 비밀번호 변경</p>
+    </div>
+  </div>
+  <div class="section-body">
+
+    <!-- 로그인 -->
+    <div class="feature">
+      <div class="feature-title">1-1. 로그인</div>
+      <div class="mockup">
+        <div class="login-wrap">
+          <div class="login-header">
+            <div class="login-header-sub">PBK Operations Team · Promega Biosystems Korea</div>
+            <div class="login-header-title">Weekly Training Report</div>
+          </div>
+          <div class="login-body">
+            <label class="form-label">Email</label>
+            <div class="form-input">your@email.com</div>
+            <label class="form-label">Password</label>
+            <div class="form-input">••••••••</div>
+            <button class="form-btn">Sign In →</button>
+            <div class="form-link">New user? <a href="#">Request Access</a></div>
+            <div class="form-link" style="margin-top:8px"><a href="#" style="color:#999;font-weight:400;">비밀번호를 잊으셨나요?</a></div>
+          </div>
+        </div>
+      </div>
+      <p class="screen-caption">▲ 로그인 화면 (/login)</p>
+      <div class="feature-desc">
+        <ul>
+          <li>서비스 URL에 접속하면 로그인 화면이 표시됩니다.</li>
+          <li>가입 시 등록한 <strong>이메일 주소</strong>와 <strong>비밀번호</strong>를 입력하고 <strong>Sign In →</strong>을 클릭합니다.</li>
+          <li>로그인 성공 후 역할에 따라 자동으로 해당 화면으로 이동합니다.</li>
+          <li>아직 어드민 승인이 완료되지 않은 계정은 <em>승인 대기</em> 화면으로 이동합니다.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 회원가입 -->
+    <div class="feature">
+      <div class="feature-title">1-2. 회원가입 (Request Access)</div>
+      <div class="mockup">
+        <div class="login-wrap">
+          <div class="login-header">
+            <div class="login-header-sub">PBK Operations Team · Promega Biosystems Korea</div>
+            <div class="login-header-title">Request Access</div>
+          </div>
+          <div class="login-body">
+            <label class="form-label">Full Name</label>
+            <div class="form-input">홍길동</div>
+            <label class="form-label">Email</label>
+            <div class="form-input">gildong@promega.com</div>
+            <label class="form-label">Department</label>
+            <div class="form-input">Operations/Manufacturing</div>
+            <label class="form-label">Password</label>
+            <div class="form-input">••••••••</div>
+            <button class="form-btn">Submit Request →</button>
+            <div class="form-link"><a href="#">← Back to Login</a></div>
+          </div>
+        </div>
+      </div>
+      <p class="screen-caption">▲ 회원가입 화면 (/signup)</p>
+      <div class="feature-desc">
+        <ul>
+          <li>로그인 화면 하단 <strong>Request Access</strong>를 클릭하면 가입 신청 페이지로 이동합니다.</li>
+          <li><strong>이름 · 이메일 · 부서 · 비밀번호(8자 이상)</strong>를 입력하고 Submit Request를 클릭합니다.</li>
+          <li>신청 완료 후 어드민의 승인을 기다립니다. 승인 전까지는 로그인해도 서비스를 이용할 수 없습니다.</li>
+        </ul>
+      </div>
+      <div class="highlight warn">⚠ 이메일 주소는 Promega 공식 이메일(@promega.com)을 사용해 주세요.</div>
+    </div>
+
+    <!-- 비밀번호 -->
+    <div class="feature">
+      <div class="feature-title">1-3. 비밀번호 변경 (로그인 상태)</div>
+      <div class="mockup">
+        <div class="nav-mock">
+          <div>
+            <div class="nav-brand-sub">PBK Operations Team · Promega Biosystems Korea</div>
+            <div class="nav-brand-title">Weekly Training Report</div>
+          </div>
+          <div class="nav-right">
+            <span class="nav-user">Inho Son · Mentor</span>
+            <button class="nav-btn">⚙ Settings</button>
+            <button class="nav-btn">Sign Out</button>
+          </div>
+        </div>
+        <div class="page-mock">
+          <div class="card-mock" style="max-width:400px">
+            <div class="card-title">비밀번호 변경</div>
+            <label class="form-label">새 비밀번호</label>
+            <div class="form-input" style="margin-bottom:10px">••••••••</div>
+            <label class="form-label">비밀번호 확인</label>
+            <div class="form-input">••••••••</div>
+            <button class="form-btn" style="width:auto;padding:9px 22px;font-size:13px;border-radius:7px;">비밀번호 변경</button>
+          </div>
+        </div>
+      </div>
+      <p class="screen-caption">▲ Settings 화면 (/settings) — 상단 내비게이션의 ⚙ Settings 클릭</p>
+      <div class="feature-desc">
+        <ul>
+          <li>로그인 상태에서 상단 내비게이션의 <strong>⚙ Settings</strong> 버튼을 클릭합니다.</li>
+          <li>새 비밀번호(8자 이상)를 입력하고 <strong>비밀번호 변경</strong> 버튼을 클릭합니다.</li>
+          <li>변경 성공 시 "✅ 비밀번호가 변경되었습니다" 메시지가 표시됩니다.</li>
+        </ul>
+      </div>
+
+      <div class="feature-title" style="margin-top:24px;">1-4. 비밀번호를 잊어버렸을 때</div>
+      <div class="mockup">
+        <div class="login-wrap">
+          <div style="background:#fff;border-radius:12px;max-width:340px;width:100%;text-align:center;padding:28px 28px 24px;box-shadow:0 4px 16px rgba(0,0,0,.1)">
+            <div style="font-size:32px;margin-bottom:12px">🔒</div>
+            <div style="font-size:16px;font-weight:700;color:#1F4E79;margin-bottom:10px">비밀번호를 잊으셨나요?</div>
+            <div style="font-size:13px;color:#666;line-height:1.8;margin-bottom:20px">관리자에게 비밀번호 초기화를 요청하세요.<br>관리자가 임시 비밀번호를 설정해 드리면,<br>로그인 후 Settings에서 변경하시면 됩니다.</div>
+            <div style="background:#EEF2F7;border-radius:8px;padding:12px 16px;font-size:13px;">
+              <div style="font-weight:700;color:#1F4E79;margin-bottom:3px">Inho Son · Admin</div>
+              <a href="mailto:inho.son@promega.com" style="color:#1F4E79;text-decoration:none;font-weight:600;">inho.son@promega.com</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="screen-caption">▲ 비밀번호 찾기 화면 (/forgot-password)</p>
+      <div class="feature-desc">
+        <ul>
+          <li>비밀번호를 잊은 경우 로그인 화면의 <strong>"비밀번호를 잊으셨나요?"</strong> 링크를 클릭합니다.</li>
+          <li>관리자(Inho Son)에게 연락하여 임시 비밀번호 초기화를 요청합니다.</li>
+          <li>관리자가 Admin Panel에서 임시 비밀번호를 설정하면, 해당 비밀번호로 로그인 후 Settings에서 원하는 비밀번호로 변경합니다.</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     2. 어드민
+══════════════════════════════════════════ -->
+<div class="section" id="admin">
+  <div class="section-header admin">
+    <span class="section-icon">🛡</span>
+    <div class="section-title">
+      <h2>어드민(Admin) 기능</h2>
+      <p>사용자 승인 · 역할 부여 · 비밀번호 초기화</p>
+    </div>
+  </div>
+  <div class="section-body">
+
+    <div class="highlight" style="margin-bottom:24px;">
+      🛡 <strong>Admin 패널 접근 방법:</strong> 상단 내비게이션에서 <strong>Admin</strong> 버튼 클릭 → /admin 페이지로 이동. Admin 권한이 있는 계정에서만 이 버튼이 표시됩니다.
+    </div>
+
+    <!-- 가입 승인 -->
+    <div class="feature">
+      <div class="feature-title">2-1. 신규 가입 승인 / 거절</div>
+      <div class="mockup">
+        <div class="nav-mock">
+          <div><div class="nav-brand-sub">PBK Operations Team · Promega Biosystems Korea</div><div class="nav-brand-title">Weekly Training Report</div></div>
+          <div class="nav-right"><span class="nav-user">Inho Son · Mentor</span><button class="nav-btn">All Reports</button><button class="nav-btn" style="background:rgba(255,255,255,.22);">Admin</button><button class="nav-btn">⚙ Settings</button><button class="nav-btn">Sign Out</button></div>
+        </div>
+        <div class="page-mock">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+            <div style="font-size:16px;font-weight:700;color:#1F4E79;">Admin Panel</div>
+            <a href="#" style="font-size:12px;color:#1F4E79;font-weight:600;text-decoration:none;">View All Reports →</a>
+          </div>
+          <div class="card-mock">
+            <div class="card-title orange">
+              Pending Approval <span style="background:#FCE4D6;color:#C55A11;border-radius:20px;padding:2px 10px;font-size:11px;margin-left:6px;">2</span>
+            </div>
+            <!-- 사용자 1 -->
+            <div style="border-bottom:1px solid #E8EDF3;padding-bottom:16px;margin-bottom:16px;">
+              <div style="font-weight:700;font-size:14px;">Hongmin Lee</div>
+              <div style="font-size:12px;color:#777;">hongmin.lee@promega.com</div>
+              <div style="font-size:11px;color:#aaa;margin-top:2px;">Operations/Procurement · Apr 22, 2026</div>
+              <div class="approve-box">
+                <div class="approve-fields">
+                  <div class="approve-field"><label>Department</label><input value="Operations/Procurement" style="width:180px"></div>
+                  <div class="approve-field"><label>Role</label><select><option>Intern (입력자)</option><option>Mentor</option><option>Manager</option></select></div>
+                  <div class="approve-field"><label>Paired Mentor</label><select><option>Jiwon Hwang (Operations)</option></select></div>
+                </div>
+                <div class="approve-actions"><button class="btn-approve">✓ Approve</button><button class="btn-reject">✕ Reject</button></div>
+              </div>
+            </div>
+            <!-- 사용자 2 -->
+            <div>
+              <div style="font-weight:700;font-size:14px;">Kwangil Kim</div>
+              <div style="font-size:12px;color:#777;">kwangil.kim@promega.com</div>
+              <div style="font-size:11px;color:#aaa;margin-top:2px;">Operation/Manager · Apr 22, 2026</div>
+              <div class="approve-box">
+                <div class="approve-fields">
+                  <div class="approve-field"><label>Department</label><input value="Operation/Manager" style="width:180px"></div>
+                  <div class="approve-field"><label>Role</label><select><option>Intern (입력자)</option><option>Mentor</option><option selected>Manager</option></select></div>
+                </div>
+                <div class="approve-actions"><button class="btn-approve">✓ Approve</button><button class="btn-reject">✕ Reject</button></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="screen-caption">▲ Admin Panel — Pending Approval 섹션</p>
+      <div class="feature-desc">
+        <ul>
+          <li><strong>Pending Approval</strong> 섹션에 가입 대기 중인 신청자 목록이 표시됩니다.</li>
+          <li><strong>Department</strong>: 부서명을 확인하거나 수정합니다.</li>
+          <li><strong>Role</strong>: 부여할 역할을 선택합니다 — Intern / Mentor / Manager 중 택일.</li>
+          <li><strong>Paired Mentor</strong>: Role이 Intern인 경우, 담당 멘토를 지정합니다.</li>
+          <li><strong>✓ Approve</strong> 클릭 시 즉시 승인되어 해당 사용자가 서비스를 이용할 수 있게 됩니다.</li>
+          <li><strong>✕ Reject</strong> 클릭 시 신청 정보가 삭제됩니다.</li>
+        </ul>
+      </div>
+      <div class="highlight warn">⚠ Intern을 승인할 때는 반드시 <strong>Paired Mentor</strong>를 지정해야 합니다. 지정하지 않으면 Approve 버튼이 비활성화됩니다.</div>
+    </div>
+
+    <!-- Active Users -->
+    <div class="feature">
+      <div class="feature-title">2-2. 활성 사용자 목록 및 비밀번호 초기화</div>
+      <div class="mockup">
+        <div class="page-mock" style="padding:20px;">
+          <div class="card-mock">
+            <div class="card-title">Active Users</div>
+            <table class="table-mock">
+              <thead>
+                <tr><th>Name</th><th>Email</th><th>Role</th><th>Department</th><th>Paired Mentor</th><th>Actions</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Inho Son</td><td style="color:#666;font-size:11px;">inho.son@promega.com</td>
+                  <td><span class="badge badge-mentor">mentor</span></td>
+                  <td style="color:#666;">Operations/Manufacturing</td><td style="color:#666;">—</td>
+                  <td><button class="btn-reset">Reset PW</button></td>
+                </tr>
+                <tr>
+                  <td>Jiwon Hwang</td><td style="color:#666;font-size:11px;">jiwon.hwang@promega.com</td>
+                  <td><span class="badge badge-mentor">mentor</span></td>
+                  <td style="color:#666;">Operations/Procurement</td><td style="color:#666;">—</td>
+                  <td><button class="btn-reset">Reset PW</button></td>
+                </tr>
+                <tr>
+                  <td>Soomin Kim</td><td style="color:#666;font-size:11px;">soomin.kim@promega.com</td>
+                  <td><span class="badge badge-intern">intern</span></td>
+                  <td style="color:#666;">Operations/Manufacturing</td><td style="color:#666;">Inho Son</td>
+                  <td><button class="btn-reset">Reset PW</button></td>
+                </tr>
+                <tr>
+                  <td>Kwangil Kim</td><td style="color:#666;font-size:11px;">kwangil.kim@promega.com</td>
+                  <td><span class="badge badge-manager">manager</span></td>
+                  <td style="color:#666;">Operation/Manager</td><td style="color:#666;">—</td>
+                  <td>
+                    <div style="display:flex;flex-direction:column;gap:5px;">
+                      <div style="font-size:11px;font-weight:700;color:#555;">Kwangil Kim 임시 비밀번호 설정</div>
+                      <div style="display:flex;gap:5px;align-items:center;">
+                        <input placeholder="8자 이상 임시 비밀번호" style="border:1.5px solid #E8EDF3;border-radius:5px;padding:5px 8px;font-size:11px;width:160px;">
+                        <button style="background:#1F4E79;color:#fff;border:none;padding:5px 10px;border-radius:5px;font-size:11px;font-weight:600;">초기화</button>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <p class="screen-caption">▲ Active Users 섹션 — Reset PW 클릭 시 인라인 입력 필드 표시</p>
+      <div class="feature-desc">
+        <ul>
+          <li>승인된 전체 사용자 목록이 표시됩니다.</li>
+          <li>각 사용자 행의 <strong>Reset PW</strong> 버튼을 클릭하면 임시 비밀번호 입력 필드가 인라인으로 나타납니다.</li>
+          <li>임시 비밀번호(8자 이상)를 입력하고 <strong>초기화</strong>를 클릭합니다.</li>
+          <li>초기화 성공 시 "✅ 초기화 완료" 메시지가 표시됩니다.</li>
+          <li>사용자에게 임시 비밀번호를 알려주고, 로그인 후 <strong>Settings</strong>에서 직접 변경하도록 안내합니다.</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     3. 인턴
+══════════════════════════════════════════ -->
+<div class="section" id="intern">
+  <div class="section-header intern">
+    <span class="section-icon">📝</span>
+    <div class="section-title">
+      <h2>인턴(Intern) 기능</h2>
+      <p>주간 레포트 작성 · 제출 · 회수</p>
+    </div>
+  </div>
+  <div class="section-body">
+
+    <!-- 대시보드 -->
+    <div class="feature">
+      <div class="feature-title">3-1. 인턴 대시보드 — 주차 선택 및 레포트 목록</div>
+      <div class="mockup">
+        <div class="nav-mock">
+          <div><div class="nav-brand-sub">PBK Operations Team · Promega Biosystems Korea</div><div class="nav-brand-title">Weekly Training Report</div></div>
+          <div class="nav-right"><span class="nav-user">Soomin Kim · Intern</span><button class="nav-btn">⚙ Settings</button><button class="nav-btn">Sign Out</button></div>
+        </div>
+        <div class="page-mock">
+          <div class="card-mock">
+            <div class="card-title">My Weekly Reports</div>
+            <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;">
+              <button style="background:#1F4E79;color:#fff;border:none;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;">Week 1</button>
+              <button style="background:#E8EDF3;color:#666;border:none;padding:6px 14px;border-radius:20px;font-size:12px;">Week 2</button>
+              <button style="background:#E8EDF3;color:#666;border:none;padding:6px 14px;border-radius:20px;font-size:12px;">Week 3</button>
+              <button style="background:#E8EDF3;color:#666;border:none;padding:6px 14px;border-radius:20px;font-size:12px;">Week 4</button>
+            </div>
+            <div class="report-row">
+              <div><span class="report-week">Week 1</span><span class="report-date">4/20 – 4/23</span><span class="report-topic">· Onboarding & Fundamentals</span></div>
+              <div style="display:flex;gap:10px;align-items:center;"><span style="font-size:12px;color:#777;">Excellent</span><span class="badge badge-completed">✓ Completed</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="screen-caption">▲ 인턴 대시보드 (/intern)</p>
+      <div class="feature-desc">
+        <ul>
+          <li>로그인 후 인턴에게는 <strong>주간 레포트 목록</strong>이 표시됩니다.</li>
+          <li>상단 주차 버튼(Week 1, 2, 3…)을 클릭하여 해당 주차 레포트 폼으로 이동합니다.</li>
+          <li>레포트 상태는 오른쪽에 배지로 표시됩니다:</li>
+        </ul>
+        <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;">
+          <span class="badge badge-draft">Draft — 작성 중</span>
+          <span class="badge badge-submitted">Submitted — 제출됨</span>
+          <span class="badge badge-completed">✓ Completed — 멘토 검토 완료</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 레포트 작성 -->
+    <div class="feature">
+      <div class="feature-title">3-2. 레포트 작성 및 자동 저장</div>
+      <div class="mockup">
+        <div class="page-mock">
+          <div class="card-mock">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+              <div class="card-title" style="margin:0;">Week 1 · 4/20 – 4/23</div>
+              <span class="badge badge-draft">Draft</span>
+            </div>
+            <label class="form-label">이번 주 교육 주제 (Topic)</label>
+            <div class="form-input" style="margin-bottom:14px;">Onboarding & Fundamentals</div>
+            <label class="form-label">학습한 내용 (What I Learned)</label>
+            <div style="width:100%;border:1.5px solid #E8EDF3;border-radius:7px;padding:9px 12px;font-size:13px;color:#555;height:72px;margin-bottom:14px;">제품 라인업 및 업무 프로세스를 이해했습니다...</div>
+            <div style="display:flex;gap:14px;margin-bottom:14px;">
+              <div style="flex:1;">
+                <label class="form-label">이번 주 느낌 (Rating)</label>
+                <div style="display:flex;gap:6px;margin-top:4px;">
+                  <button style="background:#1F4E79;color:#fff;border:none;padding:5px 12px;border-radius:20px;font-size:12px;font-weight:600;">Excellent</button>
+                  <button style="background:#E8EDF3;color:#666;border:none;padding:5px 12px;border-radius:20px;font-size:12px;">Good</button>
+                  <button style="background:#E8EDF3;color:#666;border:none;padding:5px 12px;border-radius:20px;font-size:12px;">Okay</button>
+                  <button style="background:#E8EDF3;color:#666;border:none;padding:5px 12px;border-radius:20px;font-size:12px;">Tough</button>
+                </div>
+              </div>
+            </div>
+            <label class="form-label">이번 주 소감 (How I Feel)</label>
+            <div style="width:100%;border:1.5px solid #E8EDF3;border-radius:7px;padding:9px 12px;font-size:13px;color:#555;height:56px;margin-bottom:14px;">팀 분위기가 좋아 빠르게 적응 중입니다...</div>
+            <label class="form-label">질문 / 개선 제안 (Questions)</label>
+            <div style="width:100%;border:1.5px solid #E8EDF3;border-radius:7px;padding:9px 12px;font-size:13px;color:#555;height:56px;margin-bottom:16px;">차주 교육 일정이 궁금합니다...</div>
+            <div style="display:flex;gap:10px;">
+              <button style="background:#1F4E79;color:#fff;border:none;padding:10px 28px;border-radius:8px;font-size:14px;font-weight:700;">📤 Submit Report</button>
+              <button style="background:none;border:1.5px solid #ddd;color:#888;padding:10px 20px;border-radius:8px;font-size:13px;">Save Draft</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="screen-caption">▲ 레포트 작성 폼 — 자동 저장 기능 포함</p>
+      <div class="feature-desc">
+        <ul>
+          <li><strong>Topic</strong>: 이번 주 교육 주제를 입력합니다.</li>
+          <li><strong>What I Learned</strong>: 학습한 내용을 자유롭게 작성합니다.</li>
+          <li><strong>Rating</strong>: Excellent / Good / Okay / Tough 중 이번 주 느낌을 선택합니다.</li>
+          <li><strong>How I Feel</strong>: 이번 주 소감이나 느낀 점을 작성합니다.</li>
+          <li><strong>Questions</strong>: 멘토에게 전하고 싶은 질문이나 개선 제안을 작성합니다.</li>
+        </ul>
+      </div>
+      <div class="highlight success">💾 <strong>자동 저장:</strong> 입력 후 2초가 지나면 자동으로 Draft 상태로 저장됩니다. 브라우저를 닫고 다시 돌아와도 작성 내용이 유지됩니다.</div>
+    </div>
+
+    <!-- 제출 및 회수 -->
+    <div class="feature">
+      <div class="feature-title">3-3. 레포트 제출 및 회수</div>
+      <div class="mockup">
+        <div class="page-mock">
+          <div class="card-mock">
+            <div style="background:#E2EFDA;border:1px solid #A9D18E;border-radius:8px;padding:12px 16px;margin-bottom:16px;color:#375623;font-weight:600;font-size:13px;">
+              ✅ Report Submitted! Inho Son이 피드백을 남기면 알려드리겠습니다.
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+              <div class="card-title" style="margin:0;">Week 1 · 4/20 – 4/23</div>
+              <span class="badge badge-submitted">Submitted</span>
+            </div>
+            <div style="font-size:13px;color:#777;margin-bottom:16px;">Topic: Onboarding & Fundamentals</div>
+            <button style="background:none;border:1.5px solid #ddd;color:#888;padding:9px 20px;border-radius:8px;font-size:13px;font-weight:600;">↩ Recall &amp; Edit</button>
+          </div>
+        </div>
+      </div>
+      <p class="screen-caption">▲ 제출 완료 상태 — Recall & Edit 버튼으로 회수 가능</p>
+      <div class="feature-desc">
+        <ul>
+          <li><strong>📤 Submit Report</strong>: 레포트를 제출합니다. 제출 후 멘토에게 검토 요청이 전달됩니다.</li>
+          <li>제출 후 상태가 <span class="badge badge-submitted">Submitted</span>로 변경됩니다.</li>
+          <li><strong>↩ Recall &amp; Edit</strong>: 멘토가 아직 검토를 완료하지 않았다면 레포트를 회수하여 수정할 수 있습니다.</li>
+        </ul>
+      </div>
+      <div class="highlight warn">⚠ 멘토가 검토를 완료하면(<span class="badge badge-completed" style="font-size:11px;">✓ Completed</span>) 더 이상 회수할 수 없습니다.</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     4. 멘토
+══════════════════════════════════════════ -->
+<div class="section" id="mentor">
+  <div class="section-header mentor">
+    <span class="section-icon">👨‍🏫</span>
+    <div class="section-title">
+      <h2>멘토(Mentor) 기능</h2>
+      <p>제출 레포트 검토 · 피드백 작성 · 완료 처리</p>
+    </div>
+  </div>
+  <div class="section-body">
+
+    <!-- 멘토 대시보드 -->
+    <div class="feature">
+      <div class="feature-title">4-1. 멘토 대시보드 — 담당 인턴 레포트 현황</div>
+      <div class="mockup">
+        <div class="nav-mock">
+          <div><div class="nav-brand-sub">PBK Operations Team · Promega Biosystems Korea</div><div class="nav-brand-title">Weekly Training Report</div></div>
+          <div class="nav-right"><span class="nav-user">Inho Son · Mentor</span><button class="nav-btn" style="background:rgba(255,255,255,.22);">Admin</button><button class="nav-btn">⚙ Settings</button><button class="nav-btn">Sign Out</button></div>
+        </div>
+        <div class="page-mock">
+          <div class="card-mock">
+            <div class="card-title">Soomin Kim의 레포트</div>
+            <div style="font-size:12px;color:#aaa;margin-bottom:14px;">Operation/Manufacturing Engineer Intern</div>
+            <div class="report-row">
+              <div><span class="report-week">Week 1</span><span class="report-date">4/20 – 4/23</span><span class="report-topic">· Onboarding & Fundamentals</span></div>
+              <div style="display:flex;gap:10px;align-items:center;"><span style="font-size:12px;color:#777;">Excellent</span><span class="badge badge-submitted">Submitted</span><span style="font-size:12px;color:#1F4E79;font-weight:600;cursor:pointer;">→ 리뷰하기</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="screen-caption">▲ 멘토 대시보드 (/mentor) — 담당 인턴의 레포트 목록</p>
+      <div class="feature-desc">
+        <ul>
+          <li>로그인 후 멘토에게는 <strong>담당 인턴의 레포트 목록</strong>이 표시됩니다.</li>
+          <li><span class="badge badge-submitted">Submitted</span> 상태의 레포트는 피드백 작성이 필요한 항목입니다.</li>
+          <li>레포트 행의 <strong>→ 리뷰하기</strong>를 클릭하여 상세 검토 페이지로 이동합니다.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 피드백 작성 -->
+    <div class="feature">
+      <div class="feature-title">4-2. 피드백 작성 및 완료 처리</div>
+      <div class="mockup">
+        <div class="page-mock">
+          <div class="card-mock">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+              <div class="card-title" style="margin:0;">Soomin Kim — Week 1</div>
+              <span class="badge badge-submitted">Submitted</span>
+            </div>
+            <!-- 인턴 작성 내용 -->
+            <div style="background:#F9FAFB;border:1px solid #E8EDF3;border-radius:8px;padding:14px;margin-bottom:18px;font-size:13px;">
+              <div style="font-size:11px;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;">인턴 작성 내용</div>
+              <div style="margin-bottom:6px;"><strong style="color:#555;">Topic:</strong> Onboarding & Fundamentals</div>
+              <div style="margin-bottom:6px;"><strong style="color:#555;">Learned:</strong> 제품 라인업 및 업무 프로세스를 파악했습니다.</div>
+              <div style="margin-bottom:6px;"><strong style="color:#555;">Rating:</strong> Excellent</div>
+              <div style="margin-bottom:6px;"><strong style="color:#555;">Feeling:</strong> 팀 분위기가 좋아 빠르게 적응 중입니다.</div>
+              <div><strong style="color:#555;">Questions:</strong> 차주 교육 일정이 궁금합니다.</div>
+            </div>
+            <!-- 멘토 피드백 입력 -->
+            <div style="font-size:13px;font-weight:700;color:#1F4E79;margin-bottom:12px;">멘토 피드백</div>
+            <label class="form-label">잘한 점 (Good)</label>
+            <textarea class="review-textarea" placeholder="인턴이 잘한 점을 작성해 주세요...">적극적으로 질문하고 기록하는 습관이 인상적이었습니다.</textarea>
+            <label class="form-label">개선 제안 (Next)</label>
+            <textarea class="review-textarea" placeholder="다음 주에 집중할 부분...">다음 주는 실무 적용 위주로 진행해 봅시다.</textarea>
+            <label class="form-label">Q&A 답변</label>
+            <textarea class="review-textarea" placeholder="인턴 질문에 대한 답변...">차주 일정은 별도로 공유드리겠습니다.</textarea>
+            <div style="display:flex;align-items:center;gap:14px;margin-bottom:14px;">
+              <div>
+                <label class="form-label">진행 상태 (Progress)</label>
+                <select class="review-select">
+                  <option selected>On Track</option>
+                  <option>Minor Adjustment</option>
+                  <option>Review Required</option>
+                </select>
+              </div>
+            </div>
+            <div style="display:flex;gap:10px;">
+              <button style="background:#375623;color:#fff;border:none;padding:10px 24px;border-radius:8px;font-size:14px;font-weight:700;">✓ Complete Review</button>
+              <button style="background:none;border:1.5px solid #ddd;color:#888;padding:10px 18px;border-radius:8px;font-size:13px;">임시 저장</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="screen-caption">▲ 멘토 피드백 작성 화면 (/mentor/[reportId])</p>
+      <div class="feature-desc">
+        <ul>
+          <li>상단에 인턴이 작성한 내용(Topic, Learned, Rating, Feeling, Questions)이 표시됩니다.</li>
+          <li><strong>잘한 점(Good)</strong>: 인턴이 이번 주 잘한 부분을 작성합니다.</li>
+          <li><strong>개선 제안(Next)</strong>: 다음 주에 집중하면 좋을 부분을 작성합니다.</li>
+          <li><strong>Q&amp;A 답변</strong>: 인턴의 질문에 대한 답변을 작성합니다.</li>
+          <li><strong>Progress</strong>: On Track / Minor Adjustment / Review Required 중 현재 진행 상태를 선택합니다.</li>
+          <li><strong>✓ Complete Review</strong>: 클릭 시 레포트 상태가 <span class="badge badge-completed">✓ Completed</span>로 변경되고 더 이상 수정이 불가합니다.</li>
+          <li><strong>임시 저장</strong>: 작성 중인 피드백을 저장하고 나중에 마무리할 수 있습니다.</li>
+        </ul>
+      </div>
+      <div class="highlight">📄 Complete Review 완료 후 해당 레포트는 <strong>인쇄 가능한 PDF 형식</strong>으로 조회할 수 있습니다. 매니저도 동일한 PDF를 열람할 수 있습니다.</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     5. 매니저
+══════════════════════════════════════════ -->
+<div class="section" id="manager">
+  <div class="section-header manager">
+    <span class="section-icon">📊</span>
+    <div class="section-title">
+      <h2>매니저(Manager) 기능</h2>
+      <p>전체 인턴 레포트 현황 열람</p>
+    </div>
+  </div>
+  <div class="section-body">
+
+    <div class="feature">
+      <div class="feature-title">5-1. 전체 레포트 현황 (All Reports)</div>
+      <div class="mockup">
+        <div class="nav-mock">
+          <div><div class="nav-brand-sub">PBK Operations Team · Promega Biosystems Korea</div><div class="nav-brand-title">Weekly Training Report</div></div>
+          <div class="nav-right"><span class="nav-user">Kwangil Kim · Manager</span><button class="nav-btn" style="background:rgba(255,255,255,.22);">All Reports</button><button class="nav-btn">⚙ Settings</button><button class="nav-btn">Sign Out</button></div>
+        </div>
+        <div class="page-mock">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+            <div style="font-size:16px;font-weight:700;color:#1F4E79;">All Reports — Manager View</div>
+          </div>
+          <!-- 인턴 1 -->
+          <div class="card-mock">
+            <div style="display:flex;justify-content:space-between;margin-bottom:12px;">
+              <div>
+                <div style="font-size:15px;font-weight:700;">Soomin Kim</div>
+                <div style="font-size:12px;color:#777;margin-top:2px;">Operations/Manufacturing Engineer Intern · Mentor: Inho Son</div>
+              </div>
+              <div style="font-size:12px;color:#aaa;">1 report</div>
+            </div>
+            <div class="report-row">
+              <div><span class="report-week">Week 1</span><span class="report-date">4/20 – 4/23</span><span class="report-topic">· Onboarding & Fundamentals</span></div>
+              <div style="display:flex;gap:10px;align-items:center;"><span style="font-size:12px;color:#777;">Excellent</span><span class="badge badge-completed">✓ Completed</span></div>
+            </div>
+          </div>
+          <!-- 인턴 2 -->
+          <div class="card-mock">
+            <div style="display:flex;justify-content:space-between;margin-bottom:12px;">
+              <div>
+                <div style="font-size:15px;font-weight:700;">Hongmin Lee</div>
+                <div style="font-size:12px;color:#777;margin-top:2px;">Operations/Procurement Intern · Mentor: Jiwon Hwang</div>
+              </div>
+              <div style="font-size:12px;color:#aaa;">0 reports</div>
+            </div>
+            <div style="color:#aaa;font-size:13px;font-style:italic;">No reports yet.</div>
+          </div>
+        </div>
+      </div>
+      <p class="screen-caption">▲ Manager All Reports 화면 (/manager)</p>
+      <div class="feature-desc">
+        <ul>
+          <li>로그인 후 매니저에게는 <strong>전체 인턴의 레포트 현황</strong>이 표시됩니다.</li>
+          <li>각 인턴 카드에는 이름 · 부서 · 담당 멘토 정보와 제출된 레포트 목록이 표시됩니다.</li>
+          <li><span class="badge badge-completed">✓ Completed</span> 상태의 레포트를 클릭하면 멘토 피드백이 포함된 <strong>인쇄용 상세 레포트</strong>를 별도 탭에서 열람할 수 있습니다.</li>
+          <li>Draft 또는 Submitted 상태의 레포트는 링크가 비활성화되어 클릭되지 않습니다.</li>
+        </ul>
+      </div>
+      <div class="highlight">📋 상단 내비게이션의 <strong>All Reports</strong> 버튼을 클릭하면 언제든지 이 화면으로 이동할 수 있습니다.</div>
+    </div>
+
+    <div class="feature">
+      <div class="feature-title">5-2. 완료 레포트 열람 (인쇄용 상세 보기)</div>
+      <div class="mockup">
+        <div class="page-mock" style="padding:20px 30px;">
+          <div style="max-width:600px;margin:0 auto;background:#fff;border-radius:10px;padding:28px;box-shadow:0 2px 10px rgba(0,0,0,.06);">
+            <div style="background:#1F4E79;color:#fff;border-radius:8px 8px 0 0;padding:14px 20px;margin:-28px -28px 20px;">
+              <div style="font-size:10px;color:#9DC3E6;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;">PBK Operations Team · Promega Biosystems Korea</div>
+              <div style="font-size:16px;font-weight:700;margin-top:4px;">Weekly Training Report</div>
+            </div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:16px;font-size:13px;">
+              <div><strong>Intern:</strong> Soomin Kim</div>
+              <div><strong>Mentor:</strong> Inho Son</div>
+              <div><strong>Week 1</strong> · 4/20 – 4/23</div>
+            </div>
+            <div style="background:#F9FAFB;border-radius:8px;padding:14px;margin-bottom:12px;font-size:12px;">
+              <div style="font-weight:700;color:#1F4E79;margin-bottom:6px;">📝 인턴 작성 내용</div>
+              <div><strong>Topic:</strong> Onboarding & Fundamentals</div>
+              <div style="margin-top:4px;"><strong>Rating:</strong> Excellent &nbsp;·&nbsp; <strong>Progress:</strong> <span style="color:#375623;font-weight:600;">On Track</span></div>
+            </div>
+            <div style="background:#E2EFDA;border-radius:8px;padding:14px;font-size:12px;">
+              <div style="font-weight:700;color:#375623;margin-bottom:6px;">👨‍🏫 멘토 피드백</div>
+              <div><strong>Good:</strong> 적극적으로 질문하고 기록하는 습관이 인상적이었습니다.</div>
+              <div style="margin-top:4px;"><strong>Next:</strong> 다음 주는 실무 적용 위주로 진행해 봅시다.</div>
+            </div>
+            <div style="text-align:right;margin-top:16px;">
+              <button style="background:#1F4E79;color:#fff;border:none;padding:8px 20px;border-radius:7px;font-size:13px;font-weight:600;">🖨 Print / Save PDF</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="screen-caption">▲ 완료 레포트 상세 / 인쇄 화면 (/report/[id]/print)</p>
+      <div class="feature-desc">
+        <ul>
+          <li>Completed 레포트 클릭 시 인쇄용 상세 화면이 <strong>새 탭</strong>에서 열립니다.</li>
+          <li>인턴 작성 내용과 멘토 피드백이 함께 표시됩니다.</li>
+          <li><strong>🖨 Print / Save PDF</strong> 버튼으로 브라우저 인쇄 기능을 통해 PDF로 저장하거나 출력할 수 있습니다.</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- footer -->
+<footer>
+  <p>Weekly Training Report · PBK Operations Team · Promega Biosystems Korea</p>
+  <p style="margin-top:4px;">문의: inho.son@promega.com</p>
+</footer>
+
+</body>
+</html>
