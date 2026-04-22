@@ -1,4 +1,5 @@
-export type Role = 'intern' | 'mentor'
+export type Role = 'intern' | 'mentor' | 'manager'
+export type ProfileStatus = 'pending' | 'approved'
 export type ReportStatus = 'draft' | 'submitted' | 'completed'
 export type Rating = 'Excellent' | 'Good' | 'Okay' | 'Tough' | ''
 export type Progress = 'On Track' | 'Minor Adjustment' | 'Review Required' | ''
@@ -7,9 +8,10 @@ export interface Profile {
   id: string
   name: string
   email: string
-  role: Role
-  department: string
+  role: Role | null
+  department: string | null
   mentor_id: string | null
+  status: ProfileStatus
   created_at: string
 }
 

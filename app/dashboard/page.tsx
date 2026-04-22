@@ -8,10 +8,13 @@ export default async function DashboardPage() {
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('role')
+    .select('role, status')
     .eq('id', user.id)
     .single()
 
-  if (profile?.role === 'mentor') redirect('/mentor')
+  if (!profile || profile.status === 'pending') redirect('/pending')
+
+  if (profile.role === 'manager') redirect('/manager')
+  if (profile.role === 'mentor') redirect('/mentor')
   redirect('/intern')
 }

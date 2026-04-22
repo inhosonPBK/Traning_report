@@ -1,6 +1,8 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
+const PUBLIC_PATHS = ['/login', '/signup']
+
 export async function middleware(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request })
 
@@ -24,12 +26,42 @@ export async function middleware(request: NextRequest) {
   const { data: { user } } = await supabase.auth.getUser()
   const { pathname } = request.nextUrl
 
-  if (!user && pathname !== '/login') {
+  // Not logged in → only allow public paths
+  if (!user) {
+    if (PUBLIC_PATHS.includes(pathname)) return supabaseResponse
     return NextResponse.redirect(new URL('/login', request.url))
   }
 
-  if (user && pathname === '/login') {
+  // Logged in on public paths → go to dashboard
+  if (PUBLIC_PATHS.includes(pathname)) {
     return NextResponse.redirect(new URL('/dashboard', request.url))
+  }
+
+  // Check profile approval status
+  if (pathname !== '/pending') {
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('status, role')
+      .eq('id', user.id)
+      .single()
+
+    if (!profile || profile.status === 'pending') {
+      return NextResponse.redirect(new URL('/pending', request.url))
+    }
+
+    // Role-based path protection
+    if (pathname.startsWith('/admin') && profile.role !== 'manager') {
+      return NextResponse.redirect(new URL('/dashboard', request.url))
+    }
+    if (pathname.startsWith('/manager') && profile.role !== 'manager') {
+      return NextResponse.redirect(new URL('/dashboard', request.url))
+    }
+    if (pathname.startsWith('/intern') && profile.role !== 'intern') {
+      return NextResponse.redirect(new URL('/dashboard', request.url))
+    }
+    if (pathname.startsWith('/mentor') && profile.role !== 'mentor') {
+      return NextResponse.redirect(new URL('/dashboard', request.url))
+    }
   }
 
   return supabaseResponse

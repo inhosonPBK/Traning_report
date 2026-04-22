@@ -1,6 +1,7 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import { createClient } from '@/lib/supabase-browser'
 import { Profile } from '@/types'
 
@@ -26,6 +27,16 @@ export default function NavBar({ profile }: { profile: Profile }) {
         <span style={{ color: '#9DC3E6', fontSize: 13 }}>
           {profile.name} · <span style={{ textTransform: 'capitalize' }}>{profile.role}</span>
         </span>
+        {profile.role === 'manager' && (
+          <>
+            <Link href="/manager" style={{ color: '#cce3f5', fontSize: 12, fontWeight: 600, textDecoration: 'none', padding: '7px 14px', borderRadius: 7, background: 'rgba(255,255,255,.08)' }}>
+              All Reports
+            </Link>
+            <Link href="/admin" style={{ color: '#cce3f5', fontSize: 12, fontWeight: 600, textDecoration: 'none', padding: '7px 14px', borderRadius: 7, background: 'rgba(255,255,255,.08)' }}>
+              Admin
+            </Link>
+          </>
+        )}
         <button
           onClick={handleLogout}
           style={{ background: 'rgba(255,255,255,.12)', border: 'none', color: '#cce3f5', padding: '7px 14px', borderRadius: 7, cursor: 'pointer', fontSize: 12, fontWeight: 600, fontFamily: 'inherit' }}
