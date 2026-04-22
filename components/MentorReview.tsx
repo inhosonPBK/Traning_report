@@ -2,8 +2,8 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { createClient } from '@/lib/supabase-browser'
 import { Report, Progress } from '@/types'
+import { saveMentorFeedback, completeMentorReview } from '@/app/mentor/actions'
 
 const PROGRESS_OPTIONS: Progress[] = ['On Track', 'Minor Adjustment', 'Review Required']
 
@@ -14,37 +14,57 @@ export default function MentorReview({ report, mentorId }: { report: Report; men
   const [mentorQA, setMentorQA] = useState(report.mentor_qa ?? '')
   const [progress, setProgress] = useState<Progress>(report.mentor_progress ?? '')
   const [saveHint, setSaveHint] = useState('')
+  const [saveError, setSaveError] = useState('')
   const [completing, setCompleting] = useState(false)
-  const supabase = createClient()
+  const [completed, setCompleted] = useState(report.status === 'completed')
 
-  const isCompleted = report.status === 'completed'
+  const isCompleted = completed || report.status === 'completed'
 
+  // 포커스 벗어날 때 자동저장 — Server Action 사용
   async function autoSave() {
     setSaveHint('Saving…')
-    await supabase.from('reports').update({
-      mentor_good: mentorGood,
-      mentor_next: mentorNext,
-      mentor_qa: mentorQA,
-      mentor_progress: progress,
-      mentor_id: mentorId,
-    }).eq('id', report.id)
-    setSaveHint('Saved')
-    setTimeout(() => setSaveHint(''), 1200)
+    setSaveError('')
+    const result = await saveMentorFeedback({
+      reportId: report.id,
+      mentorGood,
+      mentorNext,
+      mentorQA,
+      progress,
+    })
+    if ('error' in result && result.error) {
+      setSaveError(result.error)
+      setSaveHint('')
+    } else {
+      setSaveHint('Saved ✓')
+      setTimeout(() => setSaveHint(''), 1500)
+    }
   }
 
+  // 리뷰 완료 — Server Action 사용
   async function handleComplete() {
+    if (!progress) {
+      setSaveError('Progress status를 선택해 주세요.')
+      return
+    }
     setCompleting(true)
-    await supabase.from('reports').update({
-      mentor_good: mentorGood,
-      mentor_next: mentorNext,
-      mentor_qa: mentorQA,
-      mentor_progress: progress,
-      mentor_id: mentorId,
-      status: 'completed',
-      completed_at: new Date().toISOString(),
-    }).eq('id', report.id)
-    router.refresh()
-    setCompleting(false)
+    setSaveError('')
+    const result = await completeMentorReview({
+      reportId: report.id,
+      mentorGood,
+      mentorNext,
+      mentorQA,
+      progress,
+    })
+    if ('error' in result && result.error) {
+      setSaveError(result.error)
+      setCompleting(false)
+    } else {
+      setCompleted(true)
+      setCompleting(false)
+      // 멘토 목록으로 돌아가 Feedback given 상태 확인
+      router.push('/mentor')
+      router.refresh()
+    }
   }
 
   return (
@@ -52,28 +72,50 @@ export default function MentorReview({ report, mentorId }: { report: Report; men
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 8 }}>
         <div className="sec-num" style={{ background: '#595959' }}>04</div>
         <span style={{ fontSize: 15, fontWeight: 700, color: '#595959' }}>Mentor Feedback</span>
-        <span style={{ fontSize: 12, color: '#aaa', marginLeft: 'auto' }}>{saveHint}</span>
+        <span style={{ fontSize: 12, color: saveError ? '#C55A11' : '#aaa', marginLeft: 'auto' }}>{saveHint}</span>
       </div>
       <div style={{ fontSize: 12, color: '#aaa', fontStyle: 'italic', marginBottom: 14 }}>
         {isCompleted ? 'Review completed.' : 'Complete feedback and click "Complete Review" to finalize.'}
       </div>
+
       <div className="mentor-table">
         <div className="mentor-row">
           <div className="mentor-label">This week<br />good at</div>
           <div className="mentor-input-wrap">
-            <textarea rows={3} value={mentorGood} disabled={isCompleted} onChange={e => setMentorGood(e.target.value)} onBlur={autoSave} placeholder="What the intern did well this week…" />
+            <textarea
+              rows={3}
+              value={mentorGood}
+              disabled={isCompleted}
+              onChange={e => setMentorGood(e.target.value)}
+              onBlur={autoSave}
+              placeholder="What the intern did well this week…"
+            />
           </div>
         </div>
         <div className="mentor-row">
           <div className="mentor-label">Next week<br />focus</div>
           <div className="mentor-input-wrap">
-            <textarea rows={3} value={mentorNext} disabled={isCompleted} onChange={e => setMentorNext(e.target.value)} onBlur={autoSave} placeholder="Key points to focus on next week…" />
+            <textarea
+              rows={3}
+              value={mentorNext}
+              disabled={isCompleted}
+              onChange={e => setMentorNext(e.target.value)}
+              onBlur={autoSave}
+              placeholder="Key points to focus on next week…"
+            />
           </div>
         </div>
         <div className="mentor-row">
           <div className="mentor-label">Q&amp;A<br />summary</div>
           <div className="mentor-input-wrap">
-            <textarea rows={3} value={mentorQA} disabled={isCompleted} onChange={e => setMentorQA(e.target.value)} onBlur={autoSave} placeholder="Summary of questions discussed…" />
+            <textarea
+              rows={3}
+              value={mentorQA}
+              disabled={isCompleted}
+              onChange={e => setMentorQA(e.target.value)}
+              onBlur={autoSave}
+              placeholder="Summary of questions discussed…"
+            />
           </div>
         </div>
         <div className="mentor-row">
@@ -84,7 +126,7 @@ export default function MentorReview({ report, mentorId }: { report: Report; men
                 key={p}
                 disabled={isCompleted}
                 className={`pill${progress === p ? ' selected-gray' : ''}`}
-                onClick={() => { if (!isCompleted) { setProgress(progress === p ? '' : p) } }}
+                onClick={() => { if (!isCompleted) setProgress(progress === p ? '' : p) }}
               >{p}</button>
             ))}
           </div>
@@ -93,6 +135,11 @@ export default function MentorReview({ report, mentorId }: { report: Report; men
 
       {!isCompleted && (
         <div className="no-print" style={{ textAlign: 'center', marginTop: 20 }}>
+          {saveError && (
+            <div style={{ color: '#C55A11', fontSize: 13, marginBottom: 12, background: '#FFF3EE', border: '1px solid #FCE4D6', borderRadius: 8, padding: '10px 16px' }}>
+              ⚠ {saveError}
+            </div>
+          )}
           <button
             onClick={handleComplete}
             disabled={completing}
