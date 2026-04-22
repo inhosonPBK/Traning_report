@@ -24,7 +24,9 @@ export default async function ManagerPage() {
       <div style={{ maxWidth: 960, margin: '28px auto', padding: '0 20px 80px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
           <div style={{ fontSize: 18, fontWeight: 700, color: '#1F4E79' }}>All Reports — Manager View</div>
-          <Link href="/admin" style={{ fontSize: 13, color: '#1F4E79', fontWeight: 600, textDecoration: 'none' }}>Admin Panel →</Link>
+          {profile.is_admin && (
+            <Link href="/admin" style={{ fontSize: 13, color: '#1F4E79', fontWeight: 600, textDecoration: 'none' }}>Admin Panel →</Link>
+          )}
         </div>
         {!interns?.length ? (
           <div style={{ textAlign: 'center', color: '#aaa', padding: '60px 0' }}>No interns registered yet.</div>
