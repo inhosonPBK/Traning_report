@@ -2,6 +2,7 @@ import { requireAdmin } from '@/lib/get-profile'
 import { createAdminClient } from '@/lib/supabase-admin'
 import NavBar from '@/components/NavBar'
 import ApproveForm from './ApproveForm'
+import ResetPasswordForm from './ResetPasswordForm'
 import { Profile } from '@/types'
 import Link from 'next/link'
 
@@ -51,7 +52,7 @@ export default async function AdminPage() {
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
               <thead>
                 <tr style={{ borderBottom: '2px solid #E8EDF3' }}>
-                  {['Name', 'Email', 'Role', 'Department', 'Paired Mentor'].map(h => (
+                  {['Name', 'Email', 'Role', 'Department', 'Paired Mentor', 'Actions'].map(h => (
                     <th key={h} style={{ textAlign: 'left', padding: '8px 10px', fontSize: 11, fontWeight: 700, color: '#555', textTransform: 'uppercase', letterSpacing: .5 }}>{h}</th>
                   ))}
                 </tr>
@@ -67,6 +68,9 @@ export default async function AdminPage() {
                     <td style={{ padding: '10px', color: '#666' }}>{u.department || '—'}</td>
                     <td style={{ padding: '10px', color: '#666' }}>
                       {u.mentor_id ? (approved as Profile[]).find(m => m.id === u.mentor_id)?.name || '—' : '—'}
+                    </td>
+                    <td style={{ padding: '10px' }}>
+                      <ResetPasswordForm userId={u.id} userName={u.name} />
                     </td>
                   </tr>
                 ))}

@@ -30,6 +30,26 @@ export async function approveUser(formData: FormData) {
   return { success: true }
 }
 
+export async function resetUserPassword(formData: FormData) {
+  const supabase = createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return { error: 'Not authenticated' }
+
+  const admin = createAdminClient()
+  const { data: me } = await admin.from('profiles').select('is_admin').eq('id', user.id).single()
+  if (!me?.is_admin) return { error: 'Not authorized' }
+
+  const targetId = formData.get('userId') as string
+  const newPassword = formData.get('newPassword') as string
+
+  if (!newPassword || newPassword.length < 8) return { error: '비밀번호는 8자 이상이어야 합니다.' }
+
+  const { error } = await admin.auth.admin.updateUserById(targetId, { password: newPassword })
+  if (error) return { error: error.message }
+
+  return { success: true }
+}
+
 export async function rejectUser(formData: FormData) {
   const supabase = createClient()
   const { data: { user } } = await supabase.auth.getUser()
