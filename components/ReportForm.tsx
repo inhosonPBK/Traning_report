@@ -6,7 +6,7 @@ import { createClient } from '@/lib/supabase-browser'
 import { Profile, Report, Rating } from '@/types'
 import { getWeekInfo, getCurrentWeek, TOTAL_WEEKS } from '@/lib/weeks'
 import StatusBadge from './StatusBadge'
-import { saveReport, submitReport, recallReport } from '@/app/intern/actions'
+import { saveReport, submitReport, recallReport, getReport } from '@/app/intern/actions'
 
 const RATINGS: Rating[] = ['Excellent', 'Good', 'Okay', 'Tough']
 
@@ -29,15 +29,9 @@ export default function ReportForm({ profile }: { profile: Profile }) {
   const [recalling, setRecalling] = useState(false)
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  // 읽기는 브라우저 클라이언트 사용 (RLS SELECT 허용)
+  // 읽기는 Server Action 사용 (admin client → RLS 우회, completed 포함 모든 상태 조회 가능)
   const loadWeek = useCallback(async (w: number) => {
-    const supabase = createClient()
-    const { data } = await supabase
-      .from('reports')
-      .select('*')
-      .eq('intern_id', profile.id)
-      .eq('week_number', w)
-      .maybeSingle()
+    const { data } = await getReport(w)
 
     setReport(data)
     setTopic(data?.topic ?? '')
@@ -47,7 +41,7 @@ export default function ReportForm({ profile }: { profile: Profile }) {
     setQuestions(data?.questions ?? '')
     setSubmitted(false)
     setSaveError('')
-  }, [profile.id])
+  }, [])
 
   useEffect(() => { loadWeek(week) }, [week, loadWeek])
 
@@ -138,6 +132,17 @@ export default function ReportForm({ profile }: { profile: Profile }) {
 
       {/* Form */}
       <div style={{ maxWidth: 860, margin: '28px auto', padding: '0 20px 80px' }}>
+
+        {/* 완료 잠금 배너 */}
+        {isCompleted && (
+          <div style={{ background: '#E2EFDA', border: '1px solid #A9D18E', borderRadius: 10, padding: '14px 20px', marginBottom: 20, display: 'flex', alignItems: 'center', gap: 12 }}>
+            <span style={{ fontSize: 20 }}>🔒</span>
+            <div>
+              <div style={{ fontWeight: 700, color: '#375623', fontSize: 14 }}>멘토 리뷰가 완료된 레포트입니다</div>
+              <div style={{ fontSize: 12, color: '#375623', marginTop: 2 }}>이 주차의 내용은 조회만 가능하며 수정할 수 없습니다.</div>
+            </div>
+          </div>
+        )}
 
         {/* S01 */}
         <div className="card">

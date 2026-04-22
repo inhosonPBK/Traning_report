@@ -52,12 +52,41 @@ export async function saveReport(payload: ReportPayload) {
   return { data }
 }
 
+export async function getReport(weekNumber: number) {
+  const supabase = createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return { data: null }
+
+  const admin = createAdminClient()
+  const { data } = await admin
+    .from('reports')
+    .select('*')
+    .eq('intern_id', user.id)
+    .eq('week_number', weekNumber)
+    .maybeSingle()
+
+  return { data }
+}
+
 export async function submitReport(payload: ReportPayload) {
   const supabase = createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return { error: 'Not authenticated' }
 
   const admin = createAdminClient()
+
+  // completed 상태 레포트는 절대 덮어쓰기 불가
+  const { data: existing } = await admin
+    .from('reports')
+    .select('status')
+    .eq('intern_id', user.id)
+    .eq('week_number', payload.weekNumber)
+    .maybeSingle()
+
+  if (existing?.status === 'completed') {
+    return { error: '멘토 리뷰가 완료된 레포트는 수정할 수 없습니다.' }
+  }
+
   const { data, error } = await admin
     .from('reports')
     .upsert({
