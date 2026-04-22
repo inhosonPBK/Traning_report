@@ -30,11 +30,24 @@ export default async function MentorPage() {
         ) : (
           (reports as Report[]).map(r => (
             <Link key={r.id} href={`/mentor/${r.id}`} style={{ textDecoration: 'none' }}>
-              <div style={{ background: '#fff', borderRadius: 12, padding: '18px 22px', marginBottom: 12, cursor: 'pointer', boxShadow: '0 1px 4px rgba(0,0,0,.06)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div>
-                  <div style={{ fontSize: 13, color: '#999', marginBottom: 4 }}>Week {r.week_number} · {getWeekInfo(r.week_number)}</div>
-                  <div style={{ fontSize: 15, fontWeight: 600 }}>{r.topic || '(No topic)'}</div>
-                  {r.rating && <div style={{ fontSize: 12, color: '#777', marginTop: 4 }}>Rating: {r.rating}</div>}
+              <div style={{ background: '#fff', borderRadius: 12, padding: '18px 22px', marginBottom: 12, cursor: 'pointer', boxShadow: '0 1px 4px rgba(0,0,0,.06)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', transition: 'box-shadow .15s' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                  {/* 주차 번호 강조 */}
+                  <div style={{ width: 48, height: 48, borderRadius: 10, background: '#EEF2F7', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <div style={{ fontSize: 10, color: '#999', fontWeight: 700, letterSpacing: .5 }}>WEEK</div>
+                    <div style={{ fontSize: 20, fontWeight: 700, color: '#1F4E79', lineHeight: 1 }}>{r.week_number}</div>
+                  </div>
+                  <div>
+                    <div style={{ fontSize: 15, fontWeight: 600, color: '#1a1a1a' }}>{r.topic || '(No topic)'}</div>
+                    <div style={{ fontSize: 12, color: '#999', marginTop: 2 }}>{getWeekInfo(r.week_number)}{r.rating ? ` · ${r.rating}` : ''}</div>
+                    {/* 피드백 여부 표시 */}
+                    {r.status === 'completed' && (
+                      <div style={{ fontSize: 11, color: '#375623', fontWeight: 700, marginTop: 4 }}>✓ Feedback given</div>
+                    )}
+                    {r.status === 'submitted' && (
+                      <div style={{ fontSize: 11, color: '#C55A11', fontWeight: 700, marginTop: 4 }}>● Needs review</div>
+                    )}
+                  </div>
                 </div>
                 <StatusBadge status={r.status} />
               </div>
