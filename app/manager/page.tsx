@@ -81,21 +81,23 @@ export default async function ManagerPage() {
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                       {(internInterviews as InterviewReport[]).map(r => (
-                        <div key={r.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#F9FAFB', border: '1px solid #E8EDF3', borderRadius: 8, padding: '10px 14px' }}>
-                          <div>
-                            <span style={{ fontSize: 13, fontWeight: 600, color: '#595959' }}>
-                              {r.interview_date ? new Date(r.interview_date).toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' }) : '날짜 미입력'}
+                        <Link key={r.id} href={`/manager/interview/${r.id}`} style={{ textDecoration: 'none' }}>
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#F9FAFB', border: '1px solid #E8EDF3', borderRadius: 8, padding: '10px 14px', cursor: 'pointer' }}>
+                            <div>
+                              <span style={{ fontSize: 13, fontWeight: 600, color: '#595959' }}>
+                                {r.interview_date ? new Date(r.interview_date).toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' }) : '날짜 미입력'}
+                              </span>
+                              {r.content && (
+                                <div style={{ fontSize: 12, color: '#888', marginTop: 1, maxWidth: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                  {r.content}
+                                </div>
+                              )}
+                            </div>
+                            <span style={{ padding: '3px 10px', borderRadius: 20, fontSize: 11, fontWeight: 600, background: '#E2EFDA', color: '#375623', border: '1px solid #A9D18E' }}>
+                              ✓ 제출 완료
                             </span>
-                            {r.content && (
-                              <div style={{ fontSize: 12, color: '#888', marginTop: 1, maxWidth: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                                {r.content}
-                              </div>
-                            )}
                           </div>
-                          <span style={{ padding: '3px 10px', borderRadius: 20, fontSize: 11, fontWeight: 600, background: '#E2EFDA', color: '#375623', border: '1px solid #A9D18E' }}>
-                            ✓ 제출 완료
-                          </span>
-                        </div>
+                        </Link>
                       ))}
                     </div>
                   </div>
