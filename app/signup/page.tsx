@@ -9,6 +9,7 @@ export default function SignupPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [department, setDepartment] = useState('')
+  const [position, setPosition] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const [done, setDone] = useState(false)
@@ -18,7 +19,7 @@ export default function SignupPage() {
     setLoading(true)
     setError('')
 
-    const result = await signUpAction({ name, email, password, department })
+    const result = await signUpAction({ name, email, password, department, position })
 
     if (result.error) {
       setError(result.error)
@@ -50,7 +51,7 @@ export default function SignupPage() {
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: '#EEF2F7' }}>
       <div style={{ background: '#1F4E79', padding: '12px 28px', borderRadius: '10px 10px 0 0', width: '100%', maxWidth: 420 }}>
         <div style={{ color: '#9DC3E6', fontSize: 10, fontWeight: 700, letterSpacing: 1.6, textTransform: 'uppercase', marginBottom: 2 }}>
-          PBK Operations Team · Promega Biosystems Korea
+          Promega Korea · Promega Biosystems Korea
         </div>
         <div style={{ color: '#fff', fontSize: 17, fontWeight: 700 }}>Request Access</div>
       </div>
@@ -66,7 +67,8 @@ export default function SignupPage() {
           { label: 'Full Name', value: name, setter: setName, type: 'text', placeholder: 'e.g. Hongmin Lee' },
           { label: 'Email', value: email, setter: setEmail, type: 'email', placeholder: 'your@promega.com' },
           { label: 'Password', value: password, setter: setPassword, type: 'password', placeholder: '8+ characters' },
-          { label: 'Team / Department', value: department, setter: setDepartment, type: 'text', placeholder: 'e.g. Procurement' },
+          { label: 'Team / Department', value: department, setter: setDepartment, type: 'text', placeholder: 'e.g. Operations' },
+          { label: 'Position / 직책', value: position, setter: setPosition, type: 'text', placeholder: 'e.g. Manufacturing Engineer' },
         ].map(f => (
           <div key={f.label} style={{ marginBottom: 16 }}>
             <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: '#555', textTransform: 'uppercase', letterSpacing: .5, marginBottom: 4 }}>{f.label}</label>

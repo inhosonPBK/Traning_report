@@ -14,6 +14,7 @@ export default function ApproveForm({ user, mentors }: { user: Profile; mentors:
   const [role, setRole] = useState('intern')
   const [mentorId, setMentorId] = useState('')
   const [department, setDepartment] = useState(user.department || '')
+  const [position, setPosition] = useState(user.position || '')
   const [isPending, startTransition] = useTransition()
   const [done, setDone] = useState(false)
 
@@ -23,10 +24,20 @@ export default function ApproveForm({ user, mentors }: { user: Profile; mentors:
     <div style={{ background: '#F9FAFB', border: '1px solid #E8EDF3', borderRadius: 8, padding: 16, marginTop: 10 }}>
       <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', alignItems: 'flex-end' }}>
         <div>
-          <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: '#555', textTransform: 'uppercase', letterSpacing: .5, marginBottom: 4 }}>Department</label>
+          <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: '#555', textTransform: 'uppercase', letterSpacing: .5, marginBottom: 4 }}>Team</label>
           <input
             value={department}
             onChange={e => setDepartment(e.target.value)}
+            placeholder="e.g. Operations"
+            style={{ border: '1.5px solid #E8EDF3', borderRadius: 6, padding: '7px 10px', fontSize: 13, fontFamily: 'inherit', outline: 'none', width: 140 }}
+          />
+        </div>
+        <div>
+          <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: '#555', textTransform: 'uppercase', letterSpacing: .5, marginBottom: 4 }}>Position</label>
+          <input
+            value={position}
+            onChange={e => setPosition(e.target.value)}
+            placeholder="e.g. Engineer Intern"
             style={{ border: '1.5px solid #E8EDF3', borderRadius: 6, padding: '7px 10px', fontSize: 13, fontFamily: 'inherit', outline: 'none', width: 160 }}
           />
         </div>
@@ -49,7 +60,7 @@ export default function ApproveForm({ user, mentors }: { user: Profile; mentors:
               style={{ border: '1.5px solid #E8EDF3', borderRadius: 6, padding: '7px 10px', fontSize: 13, fontFamily: 'inherit', outline: 'none', background: '#fff' }}
             >
               <option value="">— select mentor —</option>
-              {mentors.map(m => <option key={m.id} value={m.id}>{m.name} ({m.department})</option>)}
+              {mentors.map(m => <option key={m.id} value={m.id}>{m.name} ({m.department}{m.position ? ` · ${m.position}` : ''})</option>)}
             </select>
           </div>
         )}
@@ -59,6 +70,7 @@ export default function ApproveForm({ user, mentors }: { user: Profile; mentors:
           fd.append('userId', user.id)
           fd.append('role', role)
           fd.append('department', department)
+          fd.append('position', position)
           if (role === 'intern') fd.append('mentorId', mentorId)
           startTransition(async () => { await approveUser(fd); setDone(true) })
         }}>

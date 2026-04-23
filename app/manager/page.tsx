@@ -3,7 +3,7 @@ import { createAdminClient } from '@/lib/supabase-admin'
 import NavBar from '@/components/NavBar'
 import StatusBadge from '@/components/StatusBadge'
 import { getWeekInfo } from '@/lib/weeks'
-import { Profile, Report } from '@/types'
+import { InterviewReport, Profile, Report } from '@/types'
 import Link from 'next/link'
 
 export default async function ManagerPage() {
@@ -15,6 +15,9 @@ export default async function ManagerPage() {
   const internIds = (interns || []).map((i: any) => i.id)
   const { data: reports } = internIds.length > 0
     ? await admin.from('reports').select('*').in('intern_id', internIds).order('week_number')
+    : { data: [] }
+  const { data: interviewReports } = internIds.length > 0
+    ? await admin.from('interview_reports').select('*').in('intern_id', internIds).eq('status', 'submitted').order('interview_date', { ascending: false })
     : { data: [] }
   const mentorMap = Object.fromEntries((mentors || []).map((m: any) => [m.id, m.name]))
 
@@ -33,16 +36,21 @@ export default async function ManagerPage() {
         ) : (
           (interns as Profile[]).map(intern => {
             const internReports = (reports || []).filter((r: Report) => r.intern_id === intern.id)
+            const internInterviews = (interviewReports || []).filter((r: InterviewReport) => r.intern_id === intern.id)
             const mentor = intern.mentor_id ? mentorMap[intern.mentor_id] : null
             return (
               <div key={intern.id} className="card" style={{ marginBottom: 20 }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 14 }}>
                   <div>
                     <div style={{ fontSize: 16, fontWeight: 700 }}>{intern.name}</div>
-                    <div style={{ fontSize: 13, color: '#777', marginTop: 2 }}>{intern.department}{mentor ? ` · Mentor: ${mentor}` : ''}</div>
+                    <div style={{ fontSize: 13, color: '#777', marginTop: 2 }}>
+                      {intern.department}{intern.position ? ` · ${intern.position}` : ''}{mentor ? ` · Mentor: ${mentor}` : ''}
+                    </div>
                   </div>
                   <div style={{ fontSize: 12, color: '#aaa' }}>{internReports.length} report{internReports.length !== 1 ? 's' : ''}</div>
                 </div>
+
+                {/* 주간 레포트 */}
                 {!internReports.length ? (
                   <div style={{ color: '#aaa', fontSize: 13, fontStyle: 'italic' }}>No reports yet.</div>
                 ) : (
@@ -62,6 +70,34 @@ export default async function ManagerPage() {
                         </div>
                       </Link>
                     ))}
+                  </div>
+                )}
+
+                {/* 면담 보고서 */}
+                {internInterviews.length > 0 && (
+                  <div style={{ marginTop: 14, paddingTop: 14, borderTop: '1px solid #E8EDF3' }}>
+                    <div style={{ fontSize: 12, fontWeight: 700, color: '#595959', textTransform: 'uppercase', letterSpacing: 0.5, marginBottom: 8 }}>
+                      📋 면담 보고서
+                    </div>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                      {(internInterviews as InterviewReport[]).map(r => (
+                        <div key={r.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#F9FAFB', border: '1px solid #E8EDF3', borderRadius: 8, padding: '10px 14px' }}>
+                          <div>
+                            <span style={{ fontSize: 13, fontWeight: 600, color: '#595959' }}>
+                              {r.interview_date ? new Date(r.interview_date).toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' }) : '날짜 미입력'}
+                            </span>
+                            {r.content && (
+                              <div style={{ fontSize: 12, color: '#888', marginTop: 1, maxWidth: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                {r.content}
+                              </div>
+                            )}
+                          </div>
+                          <span style={{ padding: '3px 10px', borderRadius: 20, fontSize: 11, fontWeight: 600, background: '#E2EFDA', color: '#375623', border: '1px solid #A9D18E' }}>
+                            ✓ 제출 완료
+                          </span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 )}
               </div>

@@ -55,7 +55,7 @@ export default async function PrintPage({ params }: { params: { reportId: string
       <div className="print-wrap">
         {/* 헤더 */}
         <div className="ph">
-          <div className="ph-label">PBK Operations Team · Promega Biosystems Korea</div>
+          <div className="ph-label">Promega Korea · Promega Biosystems Korea</div>
           <div className="ph-title">Weekly Training Report</div>
           <div className="ph-meta">
             {intern?.name} · {intern?.department}&nbsp;|&nbsp;

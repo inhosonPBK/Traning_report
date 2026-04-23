@@ -9,11 +9,26 @@ export interface Profile {
   name: string
   email: string
   role: Role | null
-  department: string | null
+  department: string | null  // team
+  position: string | null    // 직책
   mentor_id: string | null
   status: ProfileStatus
   is_admin: boolean
   created_at: string
+}
+
+export interface InterviewReport {
+  id: string
+  mentor_id: string
+  intern_id: string
+  interview_date: string | null
+  content: string | null
+  suggestions: string | null
+  action_items: string | null
+  other: string | null
+  status: 'draft' | 'submitted'
+  created_at: string
+  updated_at: string
 }
 
 export interface Report {

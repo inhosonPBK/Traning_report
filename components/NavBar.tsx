@@ -19,7 +19,7 @@ export default function NavBar({ profile }: { profile: Profile }) {
     <div className="nav no-print" style={{ display: 'flex', alignItems: 'stretch', justifyContent: 'space-between', padding: '0 32px' }}>
       <div style={{ padding: '14px 0' }}>
         <div style={{ color: '#9DC3E6', fontSize: 10, fontWeight: 700, letterSpacing: 1.6, textTransform: 'uppercase', marginBottom: 2 }}>
-          PBK Operations Team · Promega Biosystems Korea
+          Promega Korea · Promega Biosystems Korea
         </div>
         <div style={{ color: '#fff', fontSize: 17, fontWeight: 700 }}>Weekly Training Report</div>
       </div>

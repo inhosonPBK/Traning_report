@@ -119,7 +119,7 @@ export default function ResetPasswordPage() {
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: '#EEF2F7' }}>
       <div style={{ background: '#1F4E79', padding: '12px 28px', borderRadius: '10px 10px 0 0', width: '100%', maxWidth: 400 }}>
         <div style={{ color: '#9DC3E6', fontSize: 10, fontWeight: 700, letterSpacing: 1.6, textTransform: 'uppercase', marginBottom: 2 }}>
-          PBK Operations Team · Promega Biosystems Korea
+          Promega Korea · Promega Biosystems Korea
         </div>
         <div style={{ color: '#fff', fontSize: 17, fontWeight: 700 }}>새 비밀번호 설정</div>
       </div>

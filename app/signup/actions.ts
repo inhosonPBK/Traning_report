@@ -7,6 +7,7 @@ export async function signUpAction(formData: {
   email: string
   password: string
   department: string
+  position: string
 }) {
   const admin = createAdminClient()
 
@@ -25,7 +26,7 @@ export async function signUpAction(formData: {
     email: formData.email,
     password: formData.password,
     email_confirm: true,
-    user_metadata: { name: formData.name, department: formData.department },
+    user_metadata: { name: formData.name, department: formData.department, position: formData.position },
   })
 
   if (authError) return { error: authError.message }
@@ -36,6 +37,7 @@ export async function signUpAction(formData: {
     name: formData.name,
     email: formData.email,
     department: formData.department,
+    position: formData.position,
     status: 'pending',
     is_admin: false,
   })

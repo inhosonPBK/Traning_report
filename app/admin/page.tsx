@@ -3,6 +3,7 @@ import { createAdminClient } from '@/lib/supabase-admin'
 import NavBar from '@/components/NavBar'
 import ApproveForm from './ApproveForm'
 import ResetPasswordForm from './ResetPasswordForm'
+import EditProfileForm from './EditProfileForm'
 import { Profile } from '@/types'
 import Link from 'next/link'
 
@@ -52,7 +53,7 @@ export default async function AdminPage() {
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
               <thead>
                 <tr style={{ borderBottom: '2px solid #E8EDF3' }}>
-                  {['Name', 'Email', 'Role', 'Department', 'Paired Mentor', 'Actions'].map(h => (
+                  {['Name', 'Email', 'Role', 'Team / Position', 'Paired Mentor', 'Actions'].map(h => (
                     <th key={h} style={{ textAlign: 'left', padding: '8px 10px', fontSize: 11, fontWeight: 700, color: '#555', textTransform: 'uppercase', letterSpacing: .5 }}>{h}</th>
                   ))}
                 </tr>
@@ -65,12 +66,18 @@ export default async function AdminPage() {
                     <td style={{ padding: '10px' }}>
                       <span style={{ padding: '2px 10px', borderRadius: 20, fontSize: 11, fontWeight: 600, background: u.role === 'intern' ? '#EEF2FF' : u.role === 'mentor' ? '#E2EFDA' : '#FCE4D6', color: u.role === 'intern' ? '#3730A3' : u.role === 'mentor' ? '#375623' : '#C55A11' }}>{u.role}</span>
                     </td>
-                    <td style={{ padding: '10px', color: '#666' }}>{u.department || '—'}</td>
+                    <td style={{ padding: '10px', color: '#666' }}>
+                      <div>{u.department || '—'}</div>
+                      {u.position && <div style={{ fontSize: 11, color: '#aaa', marginTop: 1 }}>{u.position}</div>}
+                    </td>
                     <td style={{ padding: '10px', color: '#666' }}>
                       {u.mentor_id ? (approved as Profile[]).find(m => m.id === u.mentor_id)?.name || '—' : '—'}
                     </td>
                     <td style={{ padding: '10px' }}>
-                      <ResetPasswordForm userId={u.id} userName={u.name} />
+                      <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+                        <EditProfileForm userId={u.id} userName={u.name} currentTeam={u.department} currentPosition={u.position} />
+                        <ResetPasswordForm userId={u.id} userName={u.name} />
+                      </div>
                     </td>
                   </tr>
                 ))}
