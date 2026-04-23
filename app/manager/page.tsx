@@ -56,12 +56,23 @@ export default async function ManagerPage() {
                 ) : (
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                     {internReports.map((r: Report) => (
-                      <Link key={r.id} href={r.status === 'completed' ? `/report/${r.id}/print` : '#'} target={r.status === 'completed' ? '_blank' : undefined} style={{ textDecoration: 'none' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#F9FAFB', border: '1px solid #E8EDF3', borderRadius: 8, padding: '12px 16px', opacity: r.status === 'draft' ? 0.6 : 1 }}>
+                      <Link
+                        key={r.id}
+                        href={r.status === 'completed' ? `/report/${r.id}/print` : r.status === 'draft' ? '#' : `/manager/report/${r.id}`}
+                        target={r.status === 'completed' ? '_blank' : undefined}
+                        style={{ textDecoration: 'none', pointerEvents: r.status === 'draft' ? 'none' : 'auto' }}
+                      >
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#F9FAFB', border: '1px solid #E8EDF3', borderRadius: 8, padding: '12px 16px', opacity: r.status === 'draft' ? 0.5 : 1, cursor: r.status === 'draft' ? 'default' : 'pointer' }}>
                           <div>
                             <span style={{ fontSize: 13, fontWeight: 600, color: '#1F4E79' }}>Week {r.week_number}</span>
                             <span style={{ fontSize: 12, color: '#999', marginLeft: 8 }}>{getWeekInfo(r.week_number)}</span>
                             {r.topic && <span style={{ fontSize: 13, color: '#444', marginLeft: 10 }}>· {r.topic}</span>}
+                            {r.status === 'submitted' && (
+                              <span style={{ marginLeft: 10, fontSize: 11, color: '#3730A3', fontWeight: 600 }}>⏳ 멘토 피드백 대기 중</span>
+                            )}
+                            {r.status === 'draft' && (
+                              <span style={{ marginLeft: 10, fontSize: 11, color: '#aaa', fontWeight: 600 }}>인턴 작성 중</span>
+                            )}
                           </div>
                           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                             {r.rating && <span style={{ fontSize: 12, color: '#777' }}>{r.rating}</span>}
