@@ -27,9 +27,14 @@ export default function NavBar({ profile }: { profile: Profile }) {
         <span style={{ color: '#9DC3E6', fontSize: 13 }}>
           {profile.name} · <span style={{ textTransform: 'capitalize' }}>{profile.role}</span>
         </span>
+        {profile.role === 'hr' && (
+          <Link href="/hr" style={{ color: '#cce3f5', fontSize: 12, fontWeight: 600, textDecoration: 'none', padding: '7px 14px', borderRadius: 7, background: 'rgba(255,255,255,.08)' }}>
+            All Reports
+          </Link>
+        )}
         {profile.role === 'manager' && (
           <Link href="/manager" style={{ color: '#cce3f5', fontSize: 12, fontWeight: 600, textDecoration: 'none', padding: '7px 14px', borderRadius: 7, background: 'rgba(255,255,255,.08)' }}>
-            All Reports
+            Team Reports
           </Link>
         )}
         {profile.is_admin && (

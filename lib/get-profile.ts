@@ -1,7 +1,7 @@
 import { createAdminClient } from './supabase-admin'
 import { createClient } from './supabase-server'
 import { redirect } from 'next/navigation'
-import { Profile } from '@/types'
+import { Profile, Role } from '@/types'
 
 export async function getProfile(userId: string): Promise<Profile | null> {
   const admin = createAdminClient()
@@ -13,15 +13,19 @@ export async function getProfile(userId: string): Promise<Profile | null> {
   return data as Profile | null
 }
 
-// For role-restricted pages (intern, mentor, manager)
-export async function requireProfile(allowedRole?: 'intern' | 'mentor' | 'manager') {
+// For role-restricted pages — accepts a single role or an array of allowed roles
+export async function requireProfile(allowedRole?: Role | Role[]) {
   const supabase = createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
   const profile = await getProfile(user.id)
   if (!profile || profile.status === 'pending') redirect('/pending')
-  if (allowedRole && profile.role !== allowedRole) redirect('/dashboard')
+
+  if (allowedRole) {
+    const allowed = Array.isArray(allowedRole) ? allowedRole : [allowedRole]
+    if (!profile.role || !allowed.includes(profile.role)) redirect('/dashboard')
+  }
 
   return { user, profile }
 }

@@ -1,4 +1,4 @@
-export type Role = 'intern' | 'mentor' | 'manager'
+export type Role = 'intern' | 'mentor' | 'manager' | 'hr'
 export type ProfileStatus = 'pending' | 'approved'
 export type ReportStatus = 'draft' | 'submitted' | 'completed'
 export type Rating = 'Excellent' | 'Good' | 'Okay' | 'Tough' | ''

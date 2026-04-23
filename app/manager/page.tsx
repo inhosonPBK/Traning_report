@@ -10,7 +10,10 @@ export default async function ManagerPage() {
   const { profile } = await requireProfile('manager')
   const admin = createAdminClient()
 
-  const { data: interns } = await admin.from('profiles').select('*').eq('role', 'intern').eq('status', 'approved').order('department')
+  // 매니저는 자신과 동일한 팀(department)의 인턴만 조회
+  const internsQuery = admin.from('profiles').select('*').eq('role', 'intern').eq('status', 'approved').order('department')
+  if (profile.department) internsQuery.eq('department', profile.department)
+  const { data: interns } = await internsQuery
   const { data: mentors } = await admin.from('profiles').select('id, name').eq('role', 'mentor')
   const internIds = (interns || []).map((i: any) => i.id)
   const { data: reports } = internIds.length > 0
@@ -26,12 +29,21 @@ export default async function ManagerPage() {
       <NavBar profile={profile} />
       <div style={{ maxWidth: 960, margin: '28px auto', padding: '0 20px 80px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-          <div style={{ fontSize: 18, fontWeight: 700, color: '#1F4E79' }}>All Reports — Manager View</div>
+          <div>
+            <div style={{ fontSize: 18, fontWeight: 700, color: '#1F4E79' }}>Team Reports — Manager View</div>
+            {profile.department && <div style={{ fontSize: 13, color: '#999', marginTop: 2 }}>{profile.department} 팀</div>}
+          </div>
           {profile.is_admin && (
             <Link href="/admin" style={{ fontSize: 13, color: '#1F4E79', fontWeight: 600, textDecoration: 'none' }}>Admin Panel →</Link>
           )}
         </div>
-        {!interns?.length ? (
+        {!profile.department ? (
+          <div style={{ textAlign: 'center', color: '#aaa', padding: '60px 0' }}>
+            <div style={{ fontSize: 16, marginBottom: 8 }}>⚠️</div>
+            <div>팀(Department)이 설정되지 않았습니다.</div>
+            <div style={{ fontSize: 13, marginTop: 4 }}>어드민 패널에서 팀을 설정해 주세요.</div>
+          </div>
+        ) : !interns?.length ? (
           <div style={{ textAlign: 'center', color: '#aaa', padding: '60px 0' }}>No interns registered yet.</div>
         ) : (
           (interns as Profile[]).map(intern => {

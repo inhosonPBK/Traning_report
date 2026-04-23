@@ -13,7 +13,7 @@ const RATING_COLOR: Record<string, string> = {
 }
 
 export default async function ManagerReportDetailPage({ params }: { params: { id: string } }) {
-  const { profile } = await requireProfile('manager')
+  const { profile } = await requireProfile(['manager', 'hr'])
   const admin = createAdminClient()
 
   const { data: report } = await admin

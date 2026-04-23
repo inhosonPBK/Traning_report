@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 
 export default async function ManagerInterviewDetailPage({ params }: { params: { id: string } }) {
-  const { profile } = await requireProfile('manager')
+  const { profile } = await requireProfile(['manager', 'hr'])
   const admin = createAdminClient()
 
   const { data: report } = await admin

@@ -7,7 +7,8 @@ import { Profile } from '@/types'
 const ROLE_OPTIONS = [
   { value: 'intern', label: 'Intern (입력자)' },
   { value: 'mentor', label: 'Mentor' },
-  { value: 'manager', label: 'Manager (전체 열람)' },
+  { value: 'manager', label: 'Manager (팀 열람)' },
+  { value: 'hr', label: 'HR (전사 열람)' },
 ]
 
 export default function ApproveForm({ user, mentors }: { user: Profile; mentors: Profile[] }) {
