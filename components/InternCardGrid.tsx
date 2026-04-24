@@ -311,18 +311,37 @@ export default function InternCardGrid({ internsData, groupByTeam = false, viewe
 
               {/* Interview Reports */}
               <div>
-                <div style={{
-                  fontSize: 11, fontWeight: 700, color: '#555',
-                  textTransform: 'uppercase', letterSpacing: 0.6,
-                  marginBottom: 12,
-                  display: 'flex', alignItems: 'center', gap: 6,
-                }}>
-                  <span>📋</span> 면담 보고서
-                  <span style={{
-                    background: '#E8EDF3', color: '#777',
-                    fontSize: 10, fontWeight: 700,
-                    borderRadius: 10, padding: '1px 7px',
-                  }}>{selected.interviewReports.length}</span>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
+                  <div style={{
+                    fontSize: 11, fontWeight: 700, color: '#555',
+                    textTransform: 'uppercase', letterSpacing: 0.6,
+                    display: 'flex', alignItems: 'center', gap: 6,
+                  }}>
+                    <span>📋</span> 면담 보고서
+                    <span style={{
+                      background: '#E8EDF3', color: '#777',
+                      fontSize: 10, fontWeight: 700,
+                      borderRadius: 10, padding: '1px 7px',
+                    }}>{selected.interviewReports.length}</span>
+                  </div>
+                  {viewerRole === 'mentor' && (
+                    <Link
+                      href={`/mentor/interview/new?internId=${selected.intern.id}`}
+                      onClick={() => setSelected(null)}
+                      style={{
+                        fontSize: 11, fontWeight: 700,
+                        color: '#1F4E79',
+                        background: '#EEF4FF',
+                        border: '1px solid #C7D2FE',
+                        borderRadius: 6,
+                        padding: '4px 10px',
+                        textDecoration: 'none',
+                        whiteSpace: 'nowrap',
+                      }}
+                    >
+                      + 새 면담 보고서
+                    </Link>
+                  )}
                 </div>
 
                 {!selected.interviewReports.length ? (
