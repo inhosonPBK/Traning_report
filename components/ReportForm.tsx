@@ -27,6 +27,7 @@ export default function ReportForm({ profile }: { profile: Profile }) {
   const [submitting, setSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [recalling, setRecalling] = useState(false)
+  const [topicHighlight, setTopicHighlight] = useState(false)
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   // 읽기는 Server Action 사용 (admin client → RLS 우회, completed 포함 모든 상태 조회 가능)
@@ -76,6 +77,14 @@ export default function ReportForm({ profile }: { profile: Profile }) {
 
   // 제출 — Server Action 사용
   async function handleSubmit() {
+    if (!topic.trim()) {
+      setTopicHighlight(true)
+      const proceed = confirm(
+        `Week ${week} has no Topic filled in.\n\nTip: e.g. "Onboarding & Lab Tour", "PCR & Gel Electrophoresis"\n\nSubmit without a Topic?`
+      )
+      if (!proceed) return
+    }
+    setTopicHighlight(false)
     setSubmitting(true)
     setSaveError('')
     const result = await submitReport({ weekNumber: week, topic, learned, rating, feeling, questions })
@@ -121,10 +130,20 @@ export default function ReportForm({ profile }: { profile: Profile }) {
         </div>
         <input
           value={topic}
-          onChange={e => { setTopic(e.target.value); if (!locked) autoSave() }}
+          onChange={e => { setTopic(e.target.value); setTopicHighlight(false); if (!locked) autoSave() }}
           disabled={locked}
           placeholder="Topic this week (e.g. Onboarding & Fundamentals)"
-          style={{ flex: 1, border: '1.5px solid #E8EDF3', borderRadius: 8, padding: '8px 14px', fontSize: 14, fontFamily: 'inherit', outline: 'none' }}
+          style={{
+            flex: 1,
+            border: `1.5px solid ${topicHighlight ? '#C55A11' : '#E8EDF3'}`,
+            borderRadius: 8,
+            padding: '8px 14px',
+            fontSize: 14,
+            fontFamily: 'inherit',
+            outline: 'none',
+            background: topicHighlight ? '#FFF3EE' : '#fff',
+            transition: 'border-color .2s, background .2s',
+          }}
         />
         <span style={{ fontSize: 12, color: saveError ? '#C55A11' : '#aaa' }}>{saveHint}</span>
         <StatusBadge status={report?.status || 'draft'} />
