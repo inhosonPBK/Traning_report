@@ -17,7 +17,7 @@ export default async function MentorReportPage({ params }: { params: { reportId:
   if (!user) redirect('/login')
 
   const profile = await getProfile(user.id)
-  if (!profile || profile.role !== 'mentor') redirect('/dashboard')
+  if (!profile || !['mentor', 'hr'].includes(profile.role!)) redirect('/dashboard')
 
   const admin = createAdminClient()
   const { data: report } = await admin.from('reports').select('*').eq('id', params.reportId).single()

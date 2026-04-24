@@ -5,7 +5,7 @@ import { InterviewReport, Profile } from '@/types'
 import Link from 'next/link'
 
 export default async function InterviewListPage() {
-  const { profile } = await requireProfile('mentor')
+  const { profile } = await requireProfile(['mentor', 'hr'])
   const admin = createAdminClient()
 
   const { data: interns } = await admin

@@ -28,9 +28,14 @@ export default function NavBar({ profile }: { profile: Profile }) {
           {profile.name} · <span style={{ textTransform: 'capitalize' }}>{profile.role}</span>
         </span>
         {profile.role === 'hr' && (
-          <Link href="/hr" style={{ color: '#cce3f5', fontSize: 12, fontWeight: 600, textDecoration: 'none', padding: '7px 14px', borderRadius: 7, background: 'rgba(255,255,255,.08)' }}>
-            All Reports
-          </Link>
+          <>
+            <Link href="/hr" style={{ color: '#cce3f5', fontSize: 12, fontWeight: 600, textDecoration: 'none', padding: '7px 14px', borderRadius: 7, background: 'rgba(255,255,255,.08)' }}>
+              All Reports
+            </Link>
+            <Link href="/mentor" style={{ color: '#cce3f5', fontSize: 12, fontWeight: 600, textDecoration: 'none', padding: '7px 14px', borderRadius: 7, background: 'rgba(255,255,255,.08)' }}>
+              My Intern
+            </Link>
+          </>
         )}
         {profile.role === 'manager' && (
           <Link href="/manager" style={{ color: '#cce3f5', fontSize: 12, fontWeight: 600, textDecoration: 'none', padding: '7px 14px', borderRadius: 7, background: 'rgba(255,255,255,.08)' }}>

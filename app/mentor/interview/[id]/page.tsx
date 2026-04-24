@@ -5,7 +5,7 @@ import InterviewReportForm from '@/components/InterviewReportForm'
 import { redirect } from 'next/navigation'
 
 export default async function InterviewDetailPage({ params }: { params: { id: string } }) {
-  const { profile } = await requireProfile('mentor')
+  const { profile } = await requireProfile(['mentor', 'hr'])
   const admin = createAdminClient()
 
   const { data: report } = await admin

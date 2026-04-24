@@ -5,7 +5,7 @@ import InternCardGrid, { InternData } from '@/components/InternCardGrid'
 import { InterviewReport, Report } from '@/types'
 
 export default async function MentorPage() {
-  const { profile } = await requireProfile('mentor')
+  const { profile } = await requireProfile(['mentor', 'hr'])
   const admin = createAdminClient()
 
   const { data: intern } = await admin

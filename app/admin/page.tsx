@@ -13,7 +13,7 @@ export default async function AdminPage() {
 
   const { data: pending } = await admin.from('profiles').select('*').eq('status', 'pending').order('created_at')
   const { data: approved } = await admin.from('profiles').select('*').eq('status', 'approved').order('role')
-  const mentors = (approved || []).filter((p: Profile) => p.role === 'mentor')
+  const mentors = (approved || []).filter((p: Profile) => p.role === 'mentor' || p.role === 'hr')
 
   return (
     <>

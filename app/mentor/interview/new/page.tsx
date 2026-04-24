@@ -9,7 +9,7 @@ export default async function NewInterviewPage({
 }: {
   searchParams: { internId?: string }
 }) {
-  const { profile } = await requireProfile('mentor')
+  const { profile } = await requireProfile(['mentor', 'hr'])
   const internId = searchParams.internId
 
   if (!internId) redirect('/mentor/interview')
