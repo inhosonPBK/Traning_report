@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Direction C Mockup — Sidebar Nav</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #EEF2F7; min-height: 100vh; }
+
+  /* ── NavBar ── */
+  .navbar {
+    background: #1F4E79;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 28px;
+    height: 52px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .navbar-brand { display: flex; flex-direction: column; }
+  .navbar-brand .title { font-size: 14px; font-weight: 700; letter-spacing: 0.3px; }
+  .navbar-brand .sub { font-size: 10px; color: rgba(255,255,255,0.6); margin-top: 1px; }
+  .navbar-right { display: flex; align-items: center; gap: 14px; }
+  .nav-btn {
+    background: rgba(255,255,255,0.12);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 5px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .nav-btn.active { background: rgba(255,255,255,0.25); }
+  .nav-avatar {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700;
+  }
+
+  /* ── Layout ── */
+  .layout {
+    display: flex;
+    height: calc(100vh - 52px);
+  }
+
+  /* ── Sidebar ── */
+  .sidebar {
+    width: 260px;
+    min-width: 260px;
+    background: #fff;
+    border-right: 1px solid #E0E7EF;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+  }
+  .sidebar-header {
+    padding: 16px 18px 12px;
+    border-bottom: 1px solid #E8EDF3;
+    position: sticky;
+    top: 0;
+    background: #fff;
+    z-index: 10;
+  }
+  .sidebar-header-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: #1F4E79;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+  }
+  .sidebar-header-sub {
+    font-size: 11px;
+    color: #aaa;
+    margin-top: 3px;
+  }
+  .sidebar-search {
+    margin: 10px 0 0;
+    width: 100%;
+    border: 1px solid #E0E7EF;
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 12px;
+    color: #333;
+    outline: none;
+    background: #F9FAFB;
+  }
+
+  .team-label {
+    padding: 10px 18px 4px;
+    font-size: 10px;
+    font-weight: 700;
+    color: #bbb;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+  }
+  .intern-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 18px;
+    cursor: pointer;
+    border-left: 3px solid transparent;
+    transition: background 0.12s, border-color 0.12s;
+  }
+  .intern-row:hover { background: #F4F7FB; }
+  .intern-row.selected {
+    background: #EEF4FF;
+    border-left-color: #1F4E79;
+  }
+  .intern-avatar {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: #1F4E79;
+    color: #fff;
+    font-size: 12px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .intern-avatar.green { background: #375623; }
+  .intern-avatar.orange { background: #C55A11; }
+  .intern-avatar.purple { background: #3730A3; }
+  .intern-avatar.teal { background: #0E7490; }
+  .intern-info { flex: 1; min-width: 0; }
+  .intern-name { font-size: 13px; font-weight: 600; color: #1a1a1a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .intern-meta { font-size: 11px; color: #999; margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .intern-badge {
+    flex-shrink: 0;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 20px;
+    background: #E2EFDA;
+    color: #375623;
+    border: 1px solid #A9D18E;
+  }
+  .intern-badge.blue { background: #EEF2FF; color: #3730A3; border-color: #C7D2FE; }
+  .intern-badge.gray { background: #F5F5F5; color: #999; border-color: #ddd; }
+
+  /* ── Main Content ── */
+  .main {
+    flex: 1;
+    overflow-y: auto;
+    padding: 28px 32px 60px;
+  }
+
+  /* Content Header */
+  .content-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 24px;
+  }
+  .content-name { font-size: 20px; font-weight: 700; color: #1F4E79; }
+  .content-meta { font-size: 13px; color: #888; margin-top: 4px; }
+  .print-btn {
+    border: 1.5px solid #ddd;
+    background: #fff;
+    color: #777;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 7px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  /* Section card */
+  .section-card {
+    background: #fff;
+    border: 1px solid #E8EDF3;
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 20px;
+  }
+  .section-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-title .dot {
+    width: 6px; height: 6px; border-radius: 50%; background: #1F4E79; display: inline-block;
+  }
+
+  /* Week Grid */
+  .week-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 6px;
+  }
+  .wc {
+    border-radius: 8px;
+    padding: 9px 4px 7px;
+    text-align: center;
+    font-size: 10px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.1s, box-shadow 0.1s;
+    border: 1px solid transparent;
+  }
+  .wc:hover { transform: translateY(-1px); box-shadow: 0 3px 8px rgba(0,0,0,.1); }
+  .wc .wnum { font-size: 9px; font-weight: 600; color: inherit; opacity: 0.65; margin-bottom: 3px; }
+  .wc .wicon { font-size: 12px; display: block; margin-bottom: 2px; }
+  .wc .wlabel { font-size: 9px; }
+
+  .wc-completed { background: #E2EFDA; color: #375623; border-color: #A9D18E; }
+  .wc-submitted { background: #EEF2FF; color: #3730A3; border-color: #C7D2FE; }
+  .wc-draft    { background: #F5F5F5; color: #888; border-color: #E0E0E0; }
+  .wc-empty    { background: #FAFAFA; color: #ccc; border-color: #EEEEEE; cursor: default; }
+  .wc-empty:hover { transform: none; box-shadow: none; }
+
+  /* Stats row */
+  .stats-row {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+  .stat-item {
+    flex: 1;
+    background: #F9FAFB;
+    border: 1px solid #E8EDF3;
+    border-radius: 10px;
+    padding: 12px 16px;
+    text-align: center;
+  }
+  .stat-value { font-size: 22px; font-weight: 700; color: #1F4E79; }
+  .stat-label { font-size: 11px; color: #999; margin-top: 2px; }
+
+  /* Progress bar */
+  .progress-wrap { margin-top: 4px; margin-bottom: 16px; }
+  .progress-bar {
+    height: 5px;
+    background: #E8EDF3;
+    border-radius: 3px;
+    overflow: hidden;
+    margin-top: 6px;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #1F4E79, #2D7FC1);
+    border-radius: 3px;
+    transition: width 0.5s ease;
+  }
+  .progress-label { font-size: 11px; color: #aaa; display: flex; justify-content: space-between; }
+
+  /* Interview list */
+  .interview-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #F9FAFB;
+    border: 1px solid #E8EDF3;
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: background 0.12s;
+  }
+  .interview-item:hover { background: #EEF4FF; border-color: #C7D2FE; }
+  .interview-date { font-size: 13px; font-weight: 600; color: #595959; }
+  .interview-preview { font-size: 11px; color: #aaa; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 380px; }
+  .badge-done {
+    font-size: 10px; font-weight: 700;
+    padding: 2px 9px; border-radius: 20px;
+    background: #E2EFDA; color: #375623; border: 1px solid #A9D18E;
+    white-space: nowrap; flex-shrink: 0;
+  }
+
+  /* Empty state */
+  .empty-state { color: #ccc; font-size: 13px; font-style: italic; padding: 8px 0; }
+
+  /* Floating note */
+  .floating-note {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: #1F4E79;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 10px 18px;
+    border-radius: 24px;
+    box-shadow: 0 4px 16px rgba(31,78,121,0.35);
+    z-index: 200;
+  }
+
+  /* Divider */
+  .divider { border: none; border-top: 1px solid #E8EDF3; margin: 16px 0; }
+</style>
+</head>
+<body>
+
+<!-- NavBar -->
+<nav class="navbar">
+  <div class="navbar-brand">
+    <div class="title">Promega Korea</div>
+    <div class="sub">Promega Biosystems Korea</div>
+  </div>
+  <div class="navbar-right">
+    <a class="nav-btn active">Team Reports</a>
+    <a class="nav-btn" style="background:transparent;color:rgba(255,255,255,0.6);">Admin Panel</a>
+    <div class="nav-avatar">HS</div>
+  </div>
+</nav>
+
+<!-- Layout -->
+<div class="layout">
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-header-title">인턴 목록</div>
+      <div class="sidebar-header-sub">Manager View · Operations</div>
+      <input class="sidebar-search" placeholder="이름 검색…" readonly />
+    </div>
+
+    <!-- Operations Team -->
+    <div class="team-label">Operations</div>
+
+    <div class="intern-row selected" onclick="selectIntern(0)">
+      <div class="intern-avatar">KS</div>
+      <div class="intern-info">
+        <div class="intern-name">김수민</div>
+        <div class="intern-meta">Operations · 인턴 사원</div>
+      </div>
+      <span class="intern-badge">12/20</span>
+    </div>
+
+    <div class="intern-row" onclick="selectIntern(1)">
+      <div class="intern-avatar green">LH</div>
+      <div class="intern-info">
+        <div class="intern-name">이홍민</div>
+        <div class="intern-meta">Operations · 인턴 사원</div>
+      </div>
+      <span class="intern-badge blue">1/20</span>
+    </div>
+
+    <div class="intern-row" onclick="selectIntern(2)">
+      <div class="intern-avatar orange">KK</div>
+      <div class="intern-info">
+        <div class="intern-name">김광일</div>
+        <div class="intern-meta">Operations · 인턴 연구원</div>
+      </div>
+      <span class="intern-badge">8/20</span>
+    </div>
+
+    <!-- Marketing Team (HR view would show more teams) -->
+    <div class="team-label" style="margin-top:8px;">Marketing</div>
+
+    <div class="intern-row" onclick="selectIntern(3)">
+      <div class="intern-avatar purple">JH</div>
+      <div class="intern-info">
+        <div class="intern-name">황지원</div>
+        <div class="intern-meta">Marketing · 인턴 사원</div>
+      </div>
+      <span class="intern-badge gray">0/20</span>
+    </div>
+
+    <div class="intern-row" onclick="selectIntern(4)">
+      <div class="intern-avatar teal">PJ</div>
+      <div class="intern-info">
+        <div class="intern-name">박준혁</div>
+        <div class="intern-meta">Marketing · 인턴 사원</div>
+      </div>
+      <span class="intern-badge blue">3/20</span>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main" id="main-content">
+    <!-- Content injected by JS -->
+  </div>
+</div>
+
+<div class="floating-note">💡 방향 C 목업 — 사이드바 선택 시 오른쪽 컨텐츠 갱신</div>
+
+<script>
+const interns = [
+  {
+    name: '김수민',
+    meta: 'Operations · 인턴 사원 · Mentor: Inho Son',
+    totalReports: 12,
+    totalInterviews: 3,
+    weeks: [
+      'completed','completed','completed','completed','completed',
+      'completed','completed','completed','submitted','draft',
+      'empty','empty','empty','empty','empty',
+      'empty','empty','empty','empty','empty'
+    ],
+    interviews: [
+      { date: '2025년 4월 15일', preview: '업무 적응 상황 전반 점검, Q1 목표 검토' },
+      { date: '2025년 3월 10일', preview: '첫 면담 — 온보딩 진행 상황 및 어려움 파악' },
+      { date: '2025년 2월 20일', preview: '입사 초기 목표 설정 면담' },
+    ]
+  },
+  {
+    name: '이홍민',
+    meta: 'Operations · 인턴 사원 · Mentor: Inho Son',
+    totalReports: 1,
+    totalInterviews: 0,
+    weeks: [
+      'submitted','empty','empty','empty','empty',
+      'empty','empty','empty','empty','empty',
+      'empty','empty','empty','empty','empty',
+      'empty','empty','empty','empty','empty'
+    ],
+    interviews: []
+  },
+  {
+    name: '김광일',
+    meta: 'Operations · 인턴 연구원 · Mentor: Jiwon Hwang',
+    totalReports: 8,
+    totalInterviews: 2,
+    weeks: [
+      'completed','completed','completed','completed','completed',
+      'completed','submitted','draft','empty','empty',
+      'empty','empty','empty','empty','empty',
+      'empty','empty','empty','empty','empty'
+    ],
+    interviews: [
+      { date: '2025년 4월 10일', preview: '연구 진행 상황 점검 및 다음 단계 계획' },
+      { date: '2025년 3월 5일', preview: '실험 절차 관련 질의응답 면담' },
+    ]
+  },
+  {
+    name: '황지원',
+    meta: 'Marketing · 인턴 사원 · Mentor: 미배정',
+    totalReports: 0,
+    totalInterviews: 0,
+    weeks: Array(20).fill('empty'),
+    interviews: []
+  },
+  {
+    name: '박준혁',
+    meta: 'Marketing · 인턴 사원 · Mentor: 미배정',
+    totalReports: 3,
+    totalInterviews: 1,
+    weeks: [
+      'completed','completed','submitted','empty','empty',
+      'empty','empty','empty','empty','empty',
+      'empty','empty','empty','empty','empty',
+      'empty','empty','empty','empty','empty'
+    ],
+    interviews: [
+      { date: '2025년 4월 5일', preview: '마케팅 캠페인 초안 검토 면담' },
+    ]
+  }
+]
+
+const weekStatusLabel = {
+  completed: { icon: '✓', label: '완료', cls: 'wc-completed' },
+  submitted: { icon: '●', label: '제출됨', cls: 'wc-submitted' },
+  draft:     { icon: '✎', label: '작성 중', cls: 'wc-draft' },
+  empty:     { icon: '—', label: '미작성', cls: 'wc-empty' },
+}
+
+function selectIntern(idx) {
+  // Highlight sidebar row
+  document.querySelectorAll('.intern-row').forEach((el, i) => {
+    el.classList.toggle('selected', i === idx)
+  })
+  renderContent(idx)
+}
+
+function renderContent(idx) {
+  const d = interns[idx]
+  const progressPct = Math.round((d.totalReports / 20) * 100)
+
+  const weekCells = d.weeks.map((s, i) => {
+    const info = weekStatusLabel[s]
+    return `
+      <div class="wc ${info.cls}" title="Week ${i+1} — ${info.label}">
+        <div class="wnum">W${i+1}</div>
+        <span class="wicon">${info.icon}</span>
+        <div class="wlabel">${info.label}</div>
+      </div>
+    `
+  }).join('')
+
+  const interviewItems = d.interviews.length === 0
+    ? `<div class="empty-state">면담 보고서가 없습니다.</div>`
+    : d.interviews.map(r => `
+        <div class="interview-item">
+          <div>
+            <div class="interview-date">${r.date}</div>
+            <div class="interview-preview">${r.preview}</div>
+          </div>
+          <span class="badge-done">✓ 제출 완료</span>
+        </div>
+      `).join('')
+
+  document.getElementById('main-content').innerHTML = `
+    <div class="content-header">
+      <div>
+        <div class="content-name">${d.name}</div>
+        <div class="content-meta">${d.meta}</div>
+      </div>
+      <button class="print-btn">🖨 PDF 저장</button>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-row">
+      <div class="stat-item">
+        <div class="stat-value">${d.totalReports}</div>
+        <div class="stat-label">주간 레포트 제출</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">20</div>
+        <div class="stat-label">전체 주차</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">${d.totalInterviews}</div>
+        <div class="stat-label">면담 보고서</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">${progressPct}%</div>
+        <div class="stat-label">진행률</div>
+      </div>
+    </div>
+
+    <!-- Week Grid -->
+    <div class="section-card">
+      <div class="section-title"><span class="dot"></span> 주간 레포트 현황</div>
+      <div class="progress-wrap">
+        <div class="progress-label">
+          <span>${d.totalReports}주 완료 또는 제출</span>
+          <span>${progressPct}%</span>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" style="width:${progressPct}%"></div></div>
+      </div>
+      <div class="week-grid">${weekCells}</div>
+      <div style="display:flex;gap:16px;margin-top:14px;flex-wrap:wrap;">
+        <span style="font-size:11px;color:#555;display:flex;align-items:center;gap:5px;"><span style="display:inline-block;width:10px;height:10px;border-radius:3px;background:#E2EFDA;border:1px solid #A9D18E;"></span>완료</span>
+        <span style="font-size:11px;color:#555;display:flex;align-items:center;gap:5px;"><span style="display:inline-block;width:10px;height:10px;border-radius:3px;background:#EEF2FF;border:1px solid #C7D2FE;"></span>제출됨</span>
+        <span style="font-size:11px;color:#555;display:flex;align-items:center;gap:5px;"><span style="display:inline-block;width:10px;height:10px;border-radius:3px;background:#F5F5F5;border:1px solid #E0E0E0;"></span>작성 중</span>
+        <span style="font-size:11px;color:#555;display:flex;align-items:center;gap:5px;"><span style="display:inline-block;width:10px;height:10px;border-radius:3px;background:#FAFAFA;border:1px solid #EEEEEE;"></span>미작성</span>
+      </div>
+    </div>
+
+    <!-- Interview Reports -->
+    <div class="section-card">
+      <div class="section-title"><span style="font-size:13px;">📋</span> 면담 보고서</div>
+      ${interviewItems}
+    </div>
+  `
+}
+
+// Init
+renderContent(0)
+</script>
+</body>
+</html>
