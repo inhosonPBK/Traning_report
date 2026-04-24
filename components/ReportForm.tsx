@@ -90,7 +90,7 @@ export default function ReportForm({ profile }: { profile: Profile }) {
 
   // 회수 — Server Action 사용
   async function handleRecall() {
-    if (!confirm('제출을 취소하고 레포트를 수정하시겠습니까?')) return
+    if (!confirm('Recall this report and return to draft?')) return
     setRecalling(true)
     setSaveError('')
     const result = await recallReport(week)
@@ -138,8 +138,8 @@ export default function ReportForm({ profile }: { profile: Profile }) {
           <div style={{ background: '#E2EFDA', border: '1px solid #A9D18E', borderRadius: 10, padding: '14px 20px', marginBottom: 20, display: 'flex', alignItems: 'center', gap: 12 }}>
             <span style={{ fontSize: 20 }}>🔒</span>
             <div>
-              <div style={{ fontWeight: 700, color: '#375623', fontSize: 14 }}>멘토 리뷰가 완료된 레포트입니다</div>
-              <div style={{ fontSize: 12, color: '#375623', marginTop: 2 }}>이 주차의 내용은 조회만 가능하며 수정할 수 없습니다.</div>
+              <div style={{ fontWeight: 700, color: '#375623', fontSize: 14 }}>This report has been reviewed and locked.</div>
+              <div style={{ fontSize: 12, color: '#375623', marginTop: 2 }}>Content is read-only and cannot be edited.</div>
             </div>
           </div>
         )}
@@ -191,7 +191,7 @@ export default function ReportForm({ profile }: { profile: Profile }) {
             <span style={{ fontSize: 22 }}>✅</span>
             <div>
               <div style={{ fontWeight: 700, color: '#375623', fontSize: 15 }}>Report Submitted!</div>
-              <div style={{ fontSize: 13, color: '#375623', marginTop: 2 }}>멘토의 피드백을 기다려 주세요.</div>
+              <div style={{ fontSize: 13, color: '#375623', marginTop: 2 }}>Waiting for mentor feedback.</div>
             </div>
           </div>
         )}
@@ -230,7 +230,7 @@ export default function ReportForm({ profile }: { profile: Profile }) {
             >
               {recalling ? 'Recalling…' : '↩ Recall & Edit'}
             </button>
-            <div style={{ fontSize: 11, color: '#bbb', marginTop: 4 }}>멘토 피드백 완료 후에는 회수할 수 없습니다</div>
+            <div style={{ fontSize: 11, color: '#bbb', marginTop: 4 }}>Cannot be recalled after mentor completes feedback.</div>
           </div>
         )}
 

@@ -52,10 +52,23 @@ export default async function ManagerInterviewDetailPage({ params }: { params: {
           <Link href="/manager" style={{ fontSize: 13, color: '#888', textDecoration: 'none', fontWeight: 600 }}>
             ← All Reports
           </Link>
-          <div style={{ fontSize: 18, fontWeight: 700, color: '#1F4E79', marginTop: 12 }}>면담 보고서</div>
-          <div style={{ fontSize: 13, color: '#999', marginTop: 4 }}>
-            {intern?.name} · {intern?.department}{intern?.position ? ` · ${intern.position}` : ''}
-            {report.interview_date && ` · ${new Date(report.interview_date).toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' })}`}
+          <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginTop: 12 }}>
+            <div>
+              <div style={{ fontSize: 18, fontWeight: 700, color: '#1F4E79' }}>Interview Report</div>
+              <div style={{ fontSize: 13, color: '#999', marginTop: 4 }}>
+                {intern?.name} · {intern?.department}{intern?.position ? ` · ${intern.position}` : ''}
+                {report.interview_date && ` · ${new Date(report.interview_date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}`}
+              </div>
+            </div>
+            {report.status === 'submitted' && (
+              <a
+                href={`/mentor/interview/${report.id}/print`}
+                target="_blank"
+                style={{ fontSize: 12, color: '#888', textDecoration: 'none', border: '1.5px solid #ddd', padding: '6px 14px', borderRadius: 8, fontWeight: 600, whiteSpace: 'nowrap', flexShrink: 0 }}
+              >
+                🖨 Print / PDF
+              </a>
+            )}
           </div>
         </div>
 
@@ -63,18 +76,18 @@ export default async function ManagerInterviewDetailPage({ params }: { params: {
           {/* 메타 정보 */}
           <div style={{ display: 'flex', gap: 24, marginBottom: 24, paddingBottom: 16, borderBottom: '1px solid #E8EDF3' }}>
             <div>
-              <div style={{ fontSize: 11, color: '#aaa', fontWeight: 600, textTransform: 'uppercase', letterSpacing: 0.5 }}>인턴</div>
+              <div style={{ fontSize: 11, color: '#aaa', fontWeight: 600, textTransform: 'uppercase', letterSpacing: 0.5 }}>Intern</div>
               <div style={{ fontSize: 14, fontWeight: 600, marginTop: 2 }}>{intern?.name}</div>
             </div>
             <div>
-              <div style={{ fontSize: 11, color: '#aaa', fontWeight: 600, textTransform: 'uppercase', letterSpacing: 0.5 }}>멘토</div>
+              <div style={{ fontSize: 11, color: '#aaa', fontWeight: 600, textTransform: 'uppercase', letterSpacing: 0.5 }}>Mentor</div>
               <div style={{ fontSize: 14, fontWeight: 600, marginTop: 2 }}>{mentor?.name}</div>
             </div>
             <div>
-              <div style={{ fontSize: 11, color: '#aaa', fontWeight: 600, textTransform: 'uppercase', letterSpacing: 0.5 }}>면담일</div>
+              <div style={{ fontSize: 11, color: '#aaa', fontWeight: 600, textTransform: 'uppercase', letterSpacing: 0.5 }}>Date</div>
               <div style={{ fontSize: 14, fontWeight: 600, marginTop: 2 }}>
                 {report.interview_date
-                  ? new Date(report.interview_date).toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' })
+                  ? new Date(report.interview_date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
                   : '—'}
               </div>
             </div>
@@ -82,25 +95,25 @@ export default async function ManagerInterviewDetailPage({ params }: { params: {
 
           {/* 면담내용 */}
           <div style={{ marginBottom: 20 }}>
-            <label style={labelStyle}>면담 내용</label>
+            <label style={labelStyle}>Content</label>
             <div style={fieldStyle}>{report.content || '—'}</div>
           </div>
 
           {/* 건의 및 문의 */}
           <div style={{ marginBottom: 20 }}>
-            <label style={labelStyle}>건의 및 문의</label>
+            <label style={labelStyle}>Suggestions</label>
             <div style={fieldStyle}>{report.suggestions || '—'}</div>
           </div>
 
           {/* 조치사항 */}
           <div style={{ marginBottom: 20 }}>
-            <label style={labelStyle}>조치사항</label>
+            <label style={labelStyle}>Action Items</label>
             <div style={fieldStyle}>{report.action_items || '—'}</div>
           </div>
 
           {/* 기타 */}
           <div style={{ marginBottom: 8 }}>
-            <label style={labelStyle}>기타</label>
+            <label style={labelStyle}>Other</label>
             <div style={fieldStyle}>{report.other || '—'}</div>
           </div>
         </div>

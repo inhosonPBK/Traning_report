@@ -34,13 +34,13 @@ export default function EditProfileForm({
 
   if (message && !isError) {
     return (
-      <div style={{ fontSize: 12, color: '#375623', fontWeight: 600 }}>✅ 저장 완료</div>
+      <div style={{ fontSize: 12, color: '#375623', fontWeight: 600 }}>✅ Saved</div>
     )
   }
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 6, minWidth: 260 }}>
-      <div style={{ fontSize: 12, color: '#555', fontWeight: 600 }}>{userName} 정보 수정</div>
+      <div style={{ fontSize: 12, color: '#555', fontWeight: 600 }}>Edit {userName}</div>
       <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
         <input
           type="text"
@@ -76,7 +76,7 @@ export default function EditProfileForm({
           }}
           style={{ background: '#1F4E79', color: '#fff', border: 'none', padding: '6px 10px', borderRadius: 6, fontSize: 12, fontWeight: 600, cursor: isPending ? 'default' : 'pointer', opacity: isPending ? 0.6 : 1, fontFamily: 'inherit', whiteSpace: 'nowrap' }}
         >
-          {isPending ? '…' : '저장'}
+          {isPending ? '…' : 'Save'}
         </button>
         <button
           onClick={() => { setOpen(false); setMessage(''); setIsError(false) }}

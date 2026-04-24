@@ -90,7 +90,7 @@ export default function InterviewReportForm({
     <div>
       {/* 면담일 */}
       <div style={{ marginBottom: 20 }}>
-        <label style={labelStyle}>면담일 (Interview Date)</label>
+        <label style={labelStyle}>Interview Date</label>
         <input
           type="date"
           value={interviewDate}
@@ -103,7 +103,7 @@ export default function InterviewReportForm({
 
       {/* 면담내용 */}
       <div style={{ marginBottom: 16 }}>
-        <label style={labelStyle}>면담 내용</label>
+        <label style={labelStyle}>Content</label>
         <textarea
           rows={4}
           value={content}
@@ -115,7 +115,7 @@ export default function InterviewReportForm({
 
       {/* 건의 및 문의 */}
       <div style={{ marginBottom: 16 }}>
-        <label style={labelStyle}>건의 및 문의</label>
+        <label style={labelStyle}>Suggestions</label>
         <textarea
           rows={3}
           value={suggestions}
@@ -127,7 +127,7 @@ export default function InterviewReportForm({
 
       {/* 조치사항 */}
       <div style={{ marginBottom: 16 }}>
-        <label style={labelStyle}>조치사항</label>
+        <label style={labelStyle}>Action Items</label>
         <textarea
           rows={3}
           value={actionItems}
@@ -139,7 +139,7 @@ export default function InterviewReportForm({
 
       {/* 기타 */}
       <div style={{ marginBottom: 24 }}>
-        <label style={labelStyle}>기타</label>
+        <label style={labelStyle}>Other</label>
         <textarea
           rows={2}
           value={other}
@@ -154,8 +154,8 @@ export default function InterviewReportForm({
         <div style={{ background: '#E2EFDA', border: '1px solid #A9D18E', borderRadius: 10, padding: '14px 20px', marginBottom: 16, display: 'flex', alignItems: 'center', gap: 12 }}>
           <span style={{ fontSize: 20 }}>✅</span>
           <div>
-            <div style={{ fontWeight: 700, color: '#375623', fontSize: 14 }}>면담 보고서가 제출되었습니다</div>
-            <div style={{ fontSize: 12, color: '#375623', marginTop: 2 }}>매니저가 확인할 수 있습니다.</div>
+            <div style={{ fontWeight: 700, color: '#375623', fontSize: 14 }}>Interview report submitted</div>
+            <div style={{ fontSize: 12, color: '#375623', marginTop: 2 }}>Your manager can now review this report.</div>
           </div>
         </div>
       )}
@@ -175,13 +175,13 @@ export default function InterviewReportForm({
             disabled={submitting}
             style={{ background: '#1F4E79', color: '#fff', border: 'none', padding: '11px 32px', borderRadius: 10, fontSize: 14, fontWeight: 700, cursor: submitting ? 'default' : 'pointer', fontFamily: 'inherit', opacity: submitting ? 0.7 : 1 }}
           >
-            {submitting ? '제출 중…' : '제출 →'}
+            {submitting ? 'Submitting…' : 'Submit →'}
           </button>
           <button
             onClick={() => router.push('/mentor/interview')}
             style={{ background: 'none', border: '1.5px solid #ddd', color: '#888', padding: '11px 20px', borderRadius: 10, fontSize: 14, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}
           >
-            목록으로
+            Back to List
           </button>
         </div>
       )}
@@ -191,7 +191,7 @@ export default function InterviewReportForm({
           onClick={() => router.push('/mentor/interview')}
           style={{ background: 'none', border: '1.5px solid #ddd', color: '#888', padding: '10px 20px', borderRadius: 10, fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}
         >
-          ← 목록으로
+          ← Back
         </button>
       )}
     </div>

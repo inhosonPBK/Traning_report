@@ -74,7 +74,7 @@ export default function LoginPage() {
           <Link href="/signup" style={{ color: '#1F4E79', fontWeight: 600 }}>Request Access</Link>
         </div>
         <div style={{ textAlign: 'center', marginTop: 10, fontSize: 13 }}>
-          <Link href="/forgot-password" style={{ color: '#999', textDecoration: 'none' }}>비밀번호를 잊으셨나요?</Link>
+          <Link href="/forgot-password" style={{ color: '#999', textDecoration: 'none' }}>Forgot your password?</Link>
         </div>
       </form>
     </div>

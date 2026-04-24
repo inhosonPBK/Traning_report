@@ -29,12 +29,23 @@ export default async function InterviewDetailPage({ params }: { params: { id: st
     <>
       <NavBar profile={profile} />
       <div style={{ maxWidth: 800, margin: '28px auto', padding: '0 20px 80px' }}>
-        <div style={{ marginBottom: 24 }}>
-          <div style={{ fontSize: 18, fontWeight: 700, color: '#1F4E79' }}>면담 보고서</div>
-          <div style={{ fontSize: 13, color: '#999', marginTop: 2 }}>
-            {intern.name} · {intern.department}{intern.position ? ` · ${intern.position}` : ''}
-            {report.interview_date && ` · ${new Date(report.interview_date).toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' })}`}
+        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 24 }}>
+          <div>
+            <div style={{ fontSize: 18, fontWeight: 700, color: '#1F4E79' }}>Interview Report</div>
+            <div style={{ fontSize: 13, color: '#999', marginTop: 2 }}>
+              {intern.name} · {intern.department}{intern.position ? ` · ${intern.position}` : ''}
+              {report.interview_date && ` · ${new Date(report.interview_date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}`}
+            </div>
           </div>
+          {report.status === 'submitted' && (
+            <a
+              href={`/mentor/interview/${report.id}/print`}
+              target="_blank"
+              style={{ fontSize: 12, color: '#888', textDecoration: 'none', border: '1.5px solid #ddd', padding: '6px 14px', borderRadius: 8, fontWeight: 600, whiteSpace: 'nowrap', flexShrink: 0 }}
+            >
+              🖨 Print / PDF
+            </a>
+          )}
         </div>
         <div className="card">
           <InterviewReportForm intern={intern} initialReport={report} />

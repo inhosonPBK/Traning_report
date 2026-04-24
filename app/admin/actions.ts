@@ -45,7 +45,7 @@ export async function resetUserPassword(formData: FormData) {
   const targetId = formData.get('userId') as string
   const newPassword = formData.get('newPassword') as string
 
-  if (!newPassword || newPassword.length < 8) return { error: '비밀번호는 8자 이상이어야 합니다.' }
+  if (!newPassword || newPassword.length < 8) return { error: 'Password must be at least 8 characters.' }
 
   const { error } = await admin.auth.admin.updateUserById(targetId, { password: newPassword })
   if (error) return { error: error.message }

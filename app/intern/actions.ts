@@ -84,7 +84,7 @@ export async function submitReport(payload: ReportPayload) {
     .maybeSingle()
 
   if (existing?.status === 'completed') {
-    return { error: '멘토 리뷰가 완료된 레포트는 수정할 수 없습니다.' }
+    return { error: 'This report has been reviewed and cannot be edited.' }
   }
 
   const { data, error } = await admin
@@ -124,7 +124,7 @@ export async function recallReport(weekNumber: number) {
     .single()
 
   if (!existing) return { error: 'Report not found' }
-  if (existing.status === 'completed') return { error: '멘토가 이미 피드백을 완료해 회수할 수 없습니다.' }
+  if (existing.status === 'completed') return { error: 'Mentor has completed feedback. Report cannot be recalled.' }
 
   const { data, error } = await admin
     .from('reports')

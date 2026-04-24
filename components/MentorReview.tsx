@@ -43,7 +43,7 @@ export default function MentorReview({ report, mentorId }: { report: Report; men
   // 리뷰 완료 — Server Action 사용
   async function handleComplete() {
     if (!progress) {
-      setSaveError('Progress status를 선택해 주세요.')
+      setSaveError('Please select a progress status.')
       return
     }
     setCompleting(true)

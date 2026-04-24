@@ -23,19 +23,19 @@ export default function ResetPasswordForm({ userId, userName }: { userId: string
 
   if (message && !isError) {
     return (
-      <div style={{ fontSize: 12, color: '#375623', fontWeight: 600 }}>✅ 초기화 완료</div>
+      <div style={{ fontSize: 12, color: '#375623', fontWeight: 600 }}>✅ Password reset</div>
     )
   }
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 6, minWidth: 220 }}>
-      <div style={{ fontSize: 12, color: '#555', fontWeight: 600 }}>{userName} 임시 비밀번호 설정</div>
+      <div style={{ fontSize: 12, color: '#555', fontWeight: 600 }}>Set Temporary Password for {userName}</div>
       <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
         <input
           type="text"
           value={password}
           onChange={e => setPassword(e.target.value)}
-          placeholder="8자 이상 임시 비밀번호"
+          placeholder="Temporary password (min. 8 chars)"
           style={{ border: '1.5px solid #E8EDF3', borderRadius: 6, padding: '6px 10px', fontSize: 12, fontFamily: 'inherit', outline: 'none', width: 170 }}
         />
         <button
@@ -57,7 +57,7 @@ export default function ResetPasswordForm({ userId, userName }: { userId: string
           }}
           style={{ background: '#1F4E79', color: '#fff', border: 'none', padding: '6px 12px', borderRadius: 6, fontSize: 12, fontWeight: 600, cursor: isPending || password.length < 8 ? 'default' : 'pointer', opacity: isPending || password.length < 8 ? 0.6 : 1, fontFamily: 'inherit', whiteSpace: 'nowrap' }}
         >
-          {isPending ? '…' : '초기화'}
+          {isPending ? '…' : 'Reset'}
         </button>
         <button
           onClick={() => { setOpen(false); setPassword(''); setMessage(''); setIsError(false) }}

@@ -16,11 +16,11 @@ export default function PasswordForm() {
     setSuccess(false)
 
     if (newPassword.length < 8) {
-      setError('비밀번호는 8자 이상이어야 합니다.')
+      setError('Password must be at least 8 characters.')
       return
     }
     if (newPassword !== confirm) {
-      setError('비밀번호가 일치하지 않습니다.')
+      setError('Passwords do not match.')
       return
     }
 
@@ -40,34 +40,34 @@ export default function PasswordForm() {
 
   return (
     <div className="card">
-      <div style={{ fontSize: 15, fontWeight: 700, color: '#1F4E79', marginBottom: 20 }}>비밀번호 변경</div>
+      <div style={{ fontSize: 15, fontWeight: 700, color: '#1F4E79', marginBottom: 20 }}>Change Password</div>
 
       {success && (
         <div style={{ background: '#E2EFDA', border: '1px solid #A9D18E', borderRadius: 8, padding: '12px 16px', marginBottom: 20, color: '#375623', fontWeight: 600, fontSize: 14 }}>
-          ✅ 비밀번호가 변경되었습니다.
+          ✅ Password updated successfully.
         </div>
       )}
 
       <form onSubmit={handleSubmit}>
         <div style={{ marginBottom: 16 }}>
-          <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: '#555', textTransform: 'uppercase', letterSpacing: .5, marginBottom: 4 }}>새 비밀번호</label>
+          <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: '#555', textTransform: 'uppercase', letterSpacing: .5, marginBottom: 4 }}>New Password</label>
           <input
             type="password"
             value={newPassword}
             onChange={e => setNewPassword(e.target.value)}
             required
-            placeholder="8자 이상"
+            placeholder="At least 8 characters"
             style={{ width: '100%', border: '1.5px solid #E8EDF3', borderRadius: 8, padding: '10px 14px', fontSize: 14, fontFamily: 'inherit', outline: 'none' }}
           />
         </div>
         <div style={{ marginBottom: 20 }}>
-          <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: '#555', textTransform: 'uppercase', letterSpacing: .5, marginBottom: 4 }}>비밀번호 확인</label>
+          <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: '#555', textTransform: 'uppercase', letterSpacing: .5, marginBottom: 4 }}>Confirm Password</label>
           <input
             type="password"
             value={confirm}
             onChange={e => setConfirm(e.target.value)}
             required
-            placeholder="비밀번호 재입력"
+            placeholder="Re-enter password"
             style={{ width: '100%', border: '1.5px solid #E8EDF3', borderRadius: 8, padding: '10px 14px', fontSize: 14, fontFamily: 'inherit', outline: 'none' }}
           />
         </div>
@@ -83,7 +83,7 @@ export default function PasswordForm() {
           disabled={loading}
           style={{ background: '#1F4E79', color: '#fff', border: 'none', padding: '11px 28px', borderRadius: 8, fontSize: 14, fontWeight: 700, cursor: loading ? 'default' : 'pointer', opacity: loading ? 0.7 : 1, fontFamily: 'inherit' }}
         >
-          {loading ? '변경 중…' : '비밀번호 변경'}
+          {loading ? 'Saving…' : 'Update Password'}
         </button>
       </form>
     </div>

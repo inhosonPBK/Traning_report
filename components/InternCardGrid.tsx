@@ -42,10 +42,10 @@ function reportHref(r: Report, viewerRole: 'mentor' | 'manager' | 'hr'): string 
 }
 
 const WEEK_STYLE: Record<string, { bg: string; border: string; color: string; icon: string; label: string }> = {
-  completed: { bg: '#E2EFDA', border: '#A9D18E', color: '#375623', icon: '✓', label: '완료' },
-  submitted: { bg: '#EEF2FF', border: '#C7D2FE', color: '#3730A3', icon: '●', label: '제출됨' },
-  draft:     { bg: '#F5F5F5', border: '#E0E0E0', color: '#888',    icon: '✎', label: '작성 중' },
-  empty:     { bg: '#FAFAFA', border: '#EEEEEE', color: '#ccc',    icon: '—', label: '미작성' },
+  completed: { bg: '#E2EFDA', border: '#A9D18E', color: '#375623', icon: '✓', label: 'Done' },
+  submitted: { bg: '#EEF2FF', border: '#C7D2FE', color: '#3730A3', icon: '●', label: 'Submitted' },
+  draft:     { bg: '#F5F5F5', border: '#E0E0E0', color: '#888',    icon: '✎', label: 'Draft' },
+  empty:     { bg: '#FAFAFA', border: '#EEEEEE', color: '#ccc',    icon: '—', label: 'Not started' },
 }
 
 export default function InternCardGrid({ internsData, groupByTeam = false, viewerRole }: Props) {
@@ -55,7 +55,7 @@ export default function InternCardGrid({ internsData, groupByTeam = false, viewe
   const grouped: { team: string; items: InternData[] }[] = groupByTeam
     ? Array.from(
         internsData.reduce((map, d) => {
-          const team = d.intern.department || '기타'
+          const team = d.intern.department || 'Other'
           if (!map.has(team)) map.set(team, [])
           map.get(team)!.push(d)
           return map
@@ -77,7 +77,7 @@ export default function InternCardGrid({ internsData, groupByTeam = false, viewe
               display: 'flex', alignItems: 'center', gap: 8,
             }}>
               <span style={{ display: 'inline-block', width: 3, height: 14, borderRadius: 2, background: '#1F4E79' }} />
-              {team} 팀
+              {team} Team
             </div>
           )}
 
@@ -118,7 +118,7 @@ export default function InternCardGrid({ internsData, groupByTeam = false, viewe
                       position: 'absolute', top: 14, right: 14,
                       width: 8, height: 8, borderRadius: '50%',
                       background: '#C55A11',
-                    }} title="피드백 대기 중" />
+                    }} title="Awaiting feedback" />
                   )}
 
                   {/* Header */}
@@ -147,21 +147,21 @@ export default function InternCardGrid({ internsData, groupByTeam = false, viewe
                   <div style={{ display: 'flex', gap: 8, marginBottom: 12 }}>
                     <div style={{ flex: 1, background: '#F4F7FB', borderRadius: 8, padding: '8px 10px', textAlign: 'center' }}>
                       <div style={{ fontSize: 16, fontWeight: 700, color: '#1F4E79' }}>{completedCount}</div>
-                      <div style={{ fontSize: 10, color: '#aaa', marginTop: 1 }}>완료</div>
+                      <div style={{ fontSize: 10, color: '#aaa', marginTop: 1 }}>Done</div>
                     </div>
                     {submittedCount > 0 && (
                       <div style={{ flex: 1, background: '#EEF2FF', borderRadius: 8, padding: '8px 10px', textAlign: 'center' }}>
                         <div style={{ fontSize: 16, fontWeight: 700, color: '#3730A3' }}>{submittedCount}</div>
-                        <div style={{ fontSize: 10, color: '#aaa', marginTop: 1 }}>검토 대기</div>
+                        <div style={{ fontSize: 10, color: '#aaa', marginTop: 1 }}>Pending</div>
                       </div>
                     )}
                     <div style={{ flex: 1, background: '#F4F7FB', borderRadius: 8, padding: '8px 10px', textAlign: 'center' }}>
                       <div style={{ fontSize: 16, fontWeight: 700, color: '#595959' }}>{interviewReports.length}</div>
-                      <div style={{ fontSize: 10, color: '#aaa', marginTop: 1 }}>면담</div>
+                      <div style={{ fontSize: 10, color: '#aaa', marginTop: 1 }}>Interviews</div>
                     </div>
                     <div style={{ flex: 1, background: '#F4F7FB', borderRadius: 8, padding: '8px 10px', textAlign: 'center' }}>
                       <div style={{ fontSize: 16, fontWeight: 700, color: '#1F4E79' }}>{progressPct}%</div>
-                      <div style={{ fontSize: 10, color: '#aaa', marginTop: 1 }}>진행률</div>
+                      <div style={{ fontSize: 10, color: '#aaa', marginTop: 1 }}>Progress</div>
                     </div>
                   </div>
 
@@ -176,7 +176,7 @@ export default function InternCardGrid({ internsData, groupByTeam = false, viewe
                     }} />
                   </div>
                   <div style={{ fontSize: 10, color: '#bbb', marginTop: 4, textAlign: 'right' }}>
-                    {reports.filter(r => r.status !== 'draft').length} / {WEEK_TOTAL}주
+                    {reports.filter(r => r.status !== 'draft').length} / {WEEK_TOTAL} wks
                   </div>
                 </div>
               )
@@ -254,7 +254,7 @@ export default function InternCardGrid({ internsData, groupByTeam = false, viewe
                   fontSize: 11, fontWeight: 700, color: '#555',
                   textTransform: 'uppercase', letterSpacing: 0.6,
                   marginBottom: 12,
-                }}>주간 레포트 현황</div>
+                }}>Weekly Reports</div>
 
                 {/* Legend */}
                 <div style={{ display: 'flex', gap: 12, marginBottom: 10, flexWrap: 'wrap' }}>
@@ -317,7 +317,7 @@ export default function InternCardGrid({ internsData, groupByTeam = false, viewe
                     textTransform: 'uppercase', letterSpacing: 0.6,
                     display: 'flex', alignItems: 'center', gap: 6,
                   }}>
-                    <span>📋</span> 면담 보고서
+                    <span>📋</span> Interview Reports
                     <span style={{
                       background: '#E8EDF3', color: '#777',
                       fontSize: 10, fontWeight: 700,
@@ -339,13 +339,13 @@ export default function InternCardGrid({ internsData, groupByTeam = false, viewe
                         whiteSpace: 'nowrap',
                       }}
                     >
-                      + 새 면담 보고서
+                      + New Report
                     </Link>
                   )}
                 </div>
 
                 {!selected.interviewReports.length ? (
-                  <div style={{ color: '#ccc', fontSize: 13, fontStyle: 'italic', padding: '8px 0' }}>면담 보고서가 없습니다.</div>
+                  <div style={{ color: '#ccc', fontSize: 13, fontStyle: 'italic', padding: '8px 0' }}>No interview reports yet.</div>
                 ) : (
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                     {selected.interviewReports.map(r => {
@@ -371,8 +371,8 @@ export default function InternCardGrid({ internsData, groupByTeam = false, viewe
                               <div>
                                 <div style={{ fontSize: 13, fontWeight: 600, color: '#595959' }}>
                                   {r.interview_date
-                                    ? new Date(r.interview_date).toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' })
-                                    : '날짜 미입력'}
+                                    ? new Date(r.interview_date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+                                    : 'No date'}
                                 </div>
                                 {r.content && (
                                   <div style={{ fontSize: 11, color: '#aaa', marginTop: 2, maxWidth: 320, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
@@ -387,7 +387,7 @@ export default function InternCardGrid({ internsData, groupByTeam = false, viewe
                                 border: `1px solid ${r.status === 'submitted' ? '#A9D18E' : '#FDBA74'}`,
                                 flexShrink: 0,
                               }}>
-                                {r.status === 'submitted' ? '✓ 제출 완료' : '✎ 작성 중'}
+                                {r.status === 'submitted' ? '✓ Submitted' : '✎ Draft'}
                               </span>
                             </div>
                           </div>

@@ -5,10 +5,10 @@ import { approveUser, rejectUser } from './actions'
 import { Profile } from '@/types'
 
 const ROLE_OPTIONS = [
-  { value: 'intern', label: 'Intern (입력자)' },
+  { value: 'intern', label: 'Intern' },
   { value: 'mentor', label: 'Mentor' },
-  { value: 'manager', label: 'Manager (팀 열람)' },
-  { value: 'hr', label: 'HR (전사 열람)' },
+  { value: 'manager', label: 'Manager (Team)' },
+  { value: 'hr', label: 'HR (All Teams)' },
 ]
 
 export default function ApproveForm({ user, mentors }: { user: Profile; mentors: Profile[] }) {

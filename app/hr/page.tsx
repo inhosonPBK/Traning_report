@@ -45,7 +45,7 @@ export default async function HRPage() {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
           <div>
             <div style={{ fontSize: 18, fontWeight: 700, color: '#1F4E79' }}>All Reports — HR View</div>
-            <div style={{ fontSize: 13, color: '#999', marginTop: 2 }}>전사 인턴 레포트 및 면담 보고서 열람 · {internsData.length}명</div>
+            <div style={{ fontSize: 13, color: '#999', marginTop: 2 }}>All intern reports & interview records · {internsData.length} {internsData.length === 1 ? 'intern' : 'interns'}</div>
           </div>
           {profile.is_admin && (
             <Link href="/admin" style={{ fontSize: 13, color: '#1F4E79', fontWeight: 600, textDecoration: 'none' }}>Admin Panel →</Link>
@@ -53,7 +53,7 @@ export default async function HRPage() {
         </div>
 
         {!internsData.length ? (
-          <div style={{ textAlign: 'center', color: '#aaa', padding: '60px 0' }}>등록된 인턴이 없습니다.</div>
+          <div style={{ textAlign: 'center', color: '#aaa', padding: '60px 0' }}>No interns registered yet.</div>
         ) : (
           <InternCardGrid
             internsData={internsData}

@@ -31,14 +31,14 @@ export default async function InterviewListPage() {
         {/* 헤더 */}
         <div style={{ marginBottom: 28 }}>
           <Link href="/mentor" style={{ fontSize: 13, color: '#888', fontWeight: 600, textDecoration: 'none' }}>
-            ← 돌아가기
+            ← Back
           </Link>
-          <div style={{ fontSize: 20, fontWeight: 700, color: '#1F4E79', marginTop: 10 }}>면담 보고서</div>
-          <div style={{ fontSize: 13, color: '#999', marginTop: 3 }}>인턴 면담 보고서 작성 및 관리</div>
+          <div style={{ fontSize: 20, fontWeight: 700, color: '#1F4E79', marginTop: 10 }}>Interview Reports</div>
+          <div style={{ fontSize: 13, color: '#999', marginTop: 3 }}>Manage intern interview reports</div>
         </div>
 
         {!interns?.length ? (
-          <div style={{ textAlign: 'center', color: '#aaa', padding: '60px 0' }}>담당 인턴이 없습니다.</div>
+          <div style={{ textAlign: 'center', color: '#aaa', padding: '60px 0' }}>No assigned interns.</div>
         ) : (
           (interns as Profile[]).map(intern => {
             const internReports = (reports || []).filter((r: InterviewReport) => r.intern_id === intern.id)
@@ -70,7 +70,7 @@ export default async function InterviewListPage() {
                       <div style={{ fontSize: 11, color: '#999', marginTop: 1 }}>
                         {intern.department}{intern.position ? ` · ${intern.position}` : ''}
                         {' · '}
-                        <span style={{ color: '#1F4E79', fontWeight: 600 }}>{internReports.length}건</span>
+                        <span style={{ color: '#1F4E79', fontWeight: 600 }}>{internReports.length} {internReports.length === 1 ? 'report' : 'reports'}</span>
                         {draftCount > 0 && (
                           <span style={{
                             marginLeft: 6,
@@ -94,14 +94,14 @@ export default async function InterviewListPage() {
                       textDecoration: 'none',
                     }}
                   >
-                    + 새 면담 보고서
+                    + New Report
                   </Link>
                 </div>
 
                 {/* 보고서 목록 */}
                 {!internReports.length ? (
                   <div style={{ color: '#bbb', fontSize: 13, fontStyle: 'italic', padding: '12px 0' }}>
-                    작성된 면담 보고서가 없습니다.
+                    No reports yet.
                   </div>
                 ) : (
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
@@ -121,8 +121,8 @@ export default async function InterviewListPage() {
                           <div style={{ flex: 1, minWidth: 0 }}>
                             <div style={{ fontSize: 14, fontWeight: 600, color: '#1a1a1a' }}>
                               {r.interview_date
-                                ? new Date(r.interview_date).toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' })
-                                : '날짜 미입력'}
+                                ? new Date(r.interview_date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+                                : 'No date'}
                             </div>
                             {r.content && (
                               <div style={{
@@ -143,7 +143,7 @@ export default async function InterviewListPage() {
                             color: r.status === 'submitted' ? '#375623' : '#C55A11',
                             border: `1px solid ${r.status === 'submitted' ? '#A9D18E' : '#FDBA74'}`,
                           }}>
-                            {r.status === 'submitted' ? '✓ 제출 완료' : '✎ 작성 중'}
+                            {r.status === 'submitted' ? '✓ Submitted' : '✎ Draft'}
                           </span>
                         </div>
                       </Link>

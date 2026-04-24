@@ -91,9 +91,9 @@ export default async function ManagerReportDetailPage({ params }: { params: { id
           <div style={{ background: '#EEF2FF', border: '1px solid #C7D2FE', borderRadius: 10, padding: '12px 18px', marginBottom: 20, display: 'flex', alignItems: 'center', gap: 10 }}>
             <span style={{ fontSize: 18 }}>⏳</span>
             <div>
-              <div style={{ fontWeight: 700, color: '#3730A3', fontSize: 13 }}>멘토 피드백 대기 중</div>
+              <div style={{ fontWeight: 700, color: '#3730A3', fontSize: 13 }}>Awaiting Mentor Feedback</div>
               <div style={{ fontSize: 12, color: '#3730A3', marginTop: 1 }}>
-                인턴이 제출한 레포트입니다. 멘토({intern?.mentor_id ? '담당 멘토' : '미배정'})의 피드백을 기다리고 있습니다.
+                This report has been submitted. Waiting for mentor feedback.
               </div>
             </div>
           </div>
@@ -105,7 +105,7 @@ export default async function ManagerReportDetailPage({ params }: { params: { id
             <div style={{ width: 28, height: 28, borderRadius: 6, background: '#1F4E79', color: '#fff', fontSize: 12, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>01</div>
             <span style={{ fontSize: 15, fontWeight: 700, color: '#1F4E79' }}>What I Learned This Week</span>
           </div>
-          <div style={fieldStyle}>{report.learned || '(미작성)'}</div>
+          <div style={fieldStyle}>{report.learned || '(not filled)'}</div>
         </div>
 
         <div className="card">
@@ -120,7 +120,7 @@ export default async function ManagerReportDetailPage({ params }: { params: { id
               </span>
             </div>
           )}
-          <div style={fieldStyle}>{report.feeling || '(미작성)'}</div>
+          <div style={fieldStyle}>{report.feeling || '(not filled)'}</div>
         </div>
 
         <div className="card">
@@ -128,7 +128,7 @@ export default async function ManagerReportDetailPage({ params }: { params: { id
             <div style={{ width: 28, height: 28, borderRadius: 6, background: '#C55A11', color: '#fff', fontSize: 12, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>03</div>
             <span style={{ fontSize: 15, fontWeight: 700, color: '#C55A11' }}>Questions &amp; What I Want to Know More</span>
           </div>
-          <div style={fieldStyle}>{report.questions || '(미작성)'}</div>
+          <div style={fieldStyle}>{report.questions || '(not filled)'}</div>
         </div>
 
         {/* 멘토 피드백 (completed일 때만) */}

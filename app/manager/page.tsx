@@ -42,7 +42,7 @@ export default async function ManagerPage() {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
           <div>
             <div style={{ fontSize: 18, fontWeight: 700, color: '#1F4E79' }}>Team Reports — Manager View</div>
-            {profile.department && <div style={{ fontSize: 13, color: '#999', marginTop: 2 }}>{profile.department} 팀 · {internsData.length}명</div>}
+            {profile.department && <div style={{ fontSize: 13, color: '#999', marginTop: 2 }}>{profile.department} Team · {internsData.length} {internsData.length === 1 ? 'intern' : 'interns'}</div>}
           </div>
           {profile.is_admin && (
             <Link href="/admin" style={{ fontSize: 13, color: '#1F4E79', fontWeight: 600, textDecoration: 'none' }}>Admin Panel →</Link>
@@ -52,8 +52,8 @@ export default async function ManagerPage() {
         {!profile.department ? (
           <div style={{ textAlign: 'center', color: '#aaa', padding: '60px 0' }}>
             <div style={{ fontSize: 16, marginBottom: 8 }}>⚠️</div>
-            <div>팀(Department)이 설정되지 않았습니다.</div>
-            <div style={{ fontSize: 13, marginTop: 4 }}>어드민 패널에서 팀을 설정해 주세요.</div>
+            <div>Team (Department) is not configured.</div>
+            <div style={{ fontSize: 13, marginTop: 4 }}>Please configure your team in the Admin Panel.</div>
           </div>
         ) : !internsData.length ? (
           <div style={{ textAlign: 'center', color: '#aaa', padding: '60px 0' }}>No interns registered yet.</div>
