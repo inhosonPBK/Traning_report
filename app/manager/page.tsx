@@ -14,9 +14,9 @@ export default async function ManagerPage() {
   if (profile.department) internsQuery.eq('department', profile.department)
   const { data: interns } = await internsQuery
 
-  const { data: mentors } = await admin.from('profiles').select('id, name').eq('role', 'mentor')
+  const { data: mentors } = await admin.from('profiles').select('id, name').in('role', ['mentor', 'hr'])
 
-  const internIds = (interns || []).map((i: any) => i.id)
+  const internIds = (interns as Profile[] || []).map(i => i.id)
 
   const { data: reports } = internIds.length > 0
     ? await admin.from('reports').select('*').in('intern_id', internIds).order('week_number')
@@ -26,7 +26,7 @@ export default async function ManagerPage() {
     ? await admin.from('interview_reports').select('*').in('intern_id', internIds).order('interview_date', { ascending: false })
     : { data: [] }
 
-  const mentorMap = Object.fromEntries((mentors || []).map((m: any) => [m.id, m.name]))
+  const mentorMap = Object.fromEntries((mentors as Pick<Profile, 'id' | 'name'>[] || []).map(m => [m.id, m.name]))
 
   const internsData: InternData[] = (interns as Profile[] || []).map(intern => ({
     intern,

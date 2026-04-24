@@ -14,7 +14,7 @@ export default async function InterviewListPage() {
     .eq('mentor_id', profile.id)
     .eq('status', 'approved')
 
-  const internIds = (interns || []).map((i: any) => i.id)
+  const internIds = (interns as Profile[] || []).map(i => i.id)
   const { data: reports } = internIds.length > 0
     ? await admin
         .from('interview_reports')

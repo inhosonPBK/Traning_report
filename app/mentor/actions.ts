@@ -29,6 +29,14 @@ export async function saveMentorFeedback(payload: FeedbackPayload) {
   if (!report) return { error: 'Report not found' }
   if (report.status === 'completed') return { error: 'Review already completed' }
 
+  // Verify the calling user is the assigned mentor for this intern
+  const { data: internProfile } = await admin
+    .from('profiles')
+    .select('mentor_id')
+    .eq('id', report.intern_id)
+    .single()
+  if (!internProfile || internProfile.mentor_id !== user.id) return { error: 'Not authorized' }
+
   const { error } = await admin
     .from('reports')
     .update({
@@ -52,6 +60,22 @@ export async function completeMentorReview(payload: FeedbackPayload) {
   if (!user) return { error: 'Not authenticated' }
 
   const admin = createAdminClient()
+
+  // Verify the calling user is the assigned mentor for this report's intern
+  const { data: report } = await admin
+    .from('reports')
+    .select('intern_id, status')
+    .eq('id', payload.reportId)
+    .single()
+  if (!report) return { error: 'Report not found' }
+  if (report.status === 'completed') return { error: 'Review already completed' }
+
+  const { data: internProfile } = await admin
+    .from('profiles')
+    .select('mentor_id')
+    .eq('id', report.intern_id)
+    .single()
+  if (!internProfile || internProfile.mentor_id !== user.id) return { error: 'Not authorized' }
 
   const { error } = await admin
     .from('reports')

@@ -14,6 +14,28 @@ interface InterviewPayload {
   other: string
 }
 
+interface InterviewUpsertData {
+  mentor_id: string
+  intern_id: string
+  interview_date: string | null
+  content: string
+  suggestions: string
+  action_items: string
+  other: string
+  status: 'draft' | 'submitted'
+}
+
+/** Verify the current user is the assigned mentor for the given intern */
+async function verifyMentorOwnership(userId: string, internId: string): Promise<boolean> {
+  const admin = createAdminClient()
+  const { data: intern } = await admin
+    .from('profiles')
+    .select('mentor_id')
+    .eq('id', internId)
+    .single()
+  return intern?.mentor_id === userId
+}
+
 export async function getInterviewReports(internId: string) {
   const supabase = createClient()
   const { data: { user } } = await supabase.auth.getUser()
@@ -44,9 +66,13 @@ export async function saveInterviewReport(payload: InterviewPayload) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return { error: 'Not authenticated' }
 
+  // Verify caller is the assigned mentor for this intern
+  const authorized = await verifyMentorOwnership(user.id, payload.internId)
+  if (!authorized) return { error: 'Not authorized' }
+
   const admin = createAdminClient()
 
-  const upsertData: any = {
+  const upsertData: InterviewUpsertData = {
     mentor_id: user.id,
     intern_id: payload.internId,
     interview_date: payload.interviewDate || null,
@@ -59,7 +85,7 @@ export async function saveInterviewReport(payload: InterviewPayload) {
 
   let result
   if (payload.id) {
-    // 기존 레코드 업데이트 (submitted 상태면 차단)
+    // Block updates on already-submitted reports
     const { data: existing } = await admin
       .from('interview_reports')
       .select('status')
@@ -92,9 +118,13 @@ export async function submitInterviewReport(payload: InterviewPayload) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return { error: 'Not authenticated' }
 
+  // Verify caller is the assigned mentor for this intern
+  const authorized = await verifyMentorOwnership(user.id, payload.internId)
+  if (!authorized) return { error: 'Not authorized' }
+
   const admin = createAdminClient()
 
-  const upsertData: any = {
+  const upsertData: InterviewUpsertData = {
     mentor_id: user.id,
     intern_id: payload.internId,
     interview_date: payload.interviewDate || null,

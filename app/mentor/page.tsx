@@ -12,7 +12,7 @@ export default async function MentorPage() {
     .from('profiles')
     .select('*')
     .eq('mentor_id', profile.id)
-    .single()
+    .maybeSingle()
 
   const { data: reports } = intern
     ? await admin.from('reports').select('*').eq('intern_id', intern.id).order('week_number')
