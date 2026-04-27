@@ -4,7 +4,6 @@ on:
   schedule:
     # 매주 일요일 15:00 UTC = 월요일 00:00 KST
     - cron: '0 15 * * 0'
-  # 수동 실행 (GitHub Actions 탭에서 Run workflow 버튼)
   workflow_dispatch:
 
 jobs:
@@ -13,41 +12,30 @@ jobs:
     timeout-minutes: 15
 
     steps:
-      - name: Install PostgreSQL client
-        run: |
-          sudo apt-get update -q
-          sudo apt-get install -y postgresql-client
-
       - name: Set backup date
         run: echo "DATE=$(date +%Y-%m-%d)" >> $GITHUB_ENV
 
-      - name: Dump full data (SQL)
+      - name: Export tables as CSV (REST API)
         env:
-          DATABASE_URL: ${{ secrets.SUPABASE_DB_URL }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
         run: |
-          pg_dump "$DATABASE_URL" \
-            --data-only \
-            --no-owner \
-            --no-acl \
-            --table=profiles \
-            --table=reports \
-            --table=interview_reports \
-            -f "backup-${{ env.DATE }}.sql"
-          echo "✅ SQL dump complete: $(wc -l < backup-${{ env.DATE }}.sql) lines"
-
-      - name: Export tables as CSV
-        env:
-          DATABASE_URL: ${{ secrets.SUPABASE_DB_URL }}
-        run: |
-          psql "$DATABASE_URL" -c "\COPY profiles         TO 'profiles.csv'          CSV HEADER"
-          psql "$DATABASE_URL" -c "\COPY reports          TO 'reports.csv'           CSV HEADER"
-          psql "$DATABASE_URL" -c "\COPY interview_reports TO 'interview_reports.csv' CSV HEADER"
-          echo "✅ CSV export complete"
+          export_csv() {
+            local table=$1
+            curl -sf "$SUPABASE_URL/rest/v1/$table?select=*" \
+              -H "apikey: $SERVICE_ROLE_KEY" \
+              -H "Authorization: Bearer $SERVICE_ROLE_KEY" \
+              -H "Accept: text/csv" \
+              -o "$table.csv"
+            echo "✅ $table: $(( $(wc -l < $table.csv) - 1 )) rows"
+          }
+          export_csv profiles
+          export_csv reports
+          export_csv interview_reports
 
       - name: Package into zip
         run: |
           zip "db-backup-${{ env.DATE }}.zip" \
-            "backup-${{ env.DATE }}.sql" \
             profiles.csv \
             reports.csv \
             interview_reports.csv
@@ -61,15 +49,13 @@ jobs:
           retention-days: 90
 
       - name: Job summary
-        env:
-          DATABASE_URL: ${{ secrets.SUPABASE_DB_URL }}
         run: |
-          PROFILES=$(psql "$DATABASE_URL" -t -c "SELECT COUNT(*) FROM profiles;" | tr -d ' ')
-          REPORTS=$(psql "$DATABASE_URL" -t -c "SELECT COUNT(*) FROM reports;" | tr -d ' ')
-          INTERVIEWS=$(psql "$DATABASE_URL" -t -c "SELECT COUNT(*) FROM interview_reports;" | tr -d ' ')
+          PROFILES=$(( $(wc -l < profiles.csv) - 1 ))
+          REPORTS=$(( $(wc -l < reports.csv) - 1 ))
+          INTERVIEWS=$(( $(wc -l < interview_reports.csv) - 1 ))
           ZIP_SIZE=$(du -sh "db-backup-${{ env.DATE }}.zip" | cut -f1)
 
-          echo "## 🗄️ DB Backup — ${{ env.DATE }}" >> $GITHUB_STEP_SUMMARY
+          echo "## DB Backup — ${{ env.DATE }}" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "| Table | Rows |" >> $GITHUB_STEP_SUMMARY
           echo "|---|---|" >> $GITHUB_STEP_SUMMARY
