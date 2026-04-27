@@ -1,25 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Weekly Training Report — User Manual</title>
+<title>Weekly Training Report — 사용자 메뉴얼</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #F0F4F8; color: #222; line-height: 1.6; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif; background: #F0F4F8; color: #222; line-height: 1.6; }
 
-  /* ── Cover ── */
-  .cover {
-    background: linear-gradient(135deg, #1F4E79 0%, #2E75B6 100%);
-    color: #fff; padding: 72px 40px 60px; text-align: center;
-  }
+  .cover { background: linear-gradient(135deg, #1F4E79 0%, #2E75B6 100%); color: #fff; padding: 72px 40px 60px; text-align: center; }
   .cover-sub { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #9DC3E6; margin-bottom: 12px; }
-  .cover h1 { font-size: 36px; font-weight: 800; margin-bottom: 12px; }
-  .cover p { font-size: 15px; color: #cce3f5; max-width: 520px; margin: 0 auto 32px; line-height: 1.8; }
+  .cover h1 { font-size: 34px; font-weight: 800; margin-bottom: 12px; }
+  .cover p { font-size: 15px; color: #cce3f5; max-width: 520px; margin: 0 auto 32px; line-height: 1.9; }
   .cover-badges { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
   .cover-badge { background: rgba(255,255,255,.15); border-radius: 20px; padding: 6px 18px; font-size: 13px; font-weight: 600; }
 
-  /* ── TOC ── */
   .toc { background: #fff; max-width: 860px; margin: 32px auto 0; border-radius: 14px; box-shadow: 0 2px 16px rgba(0,0,0,.07); padding: 32px 40px; }
   .toc h2 { font-size: 16px; font-weight: 700; color: #1F4E79; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid #E8EDF3; }
   .toc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
@@ -27,13 +22,8 @@
   .toc-item:hover { background: #EEF2F7; }
   .toc-num { width: 26px; height: 26px; background: #1F4E79; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; }
 
-  /* ── Section wrapper ── */
   .section { max-width: 860px; margin: 28px auto 0; }
-  .section-header {
-    border-radius: 12px 12px 0 0;
-    padding: 20px 32px;
-    display: flex; align-items: center; gap: 14px;
-  }
+  .section-header { border-radius: 12px 12px 0 0; padding: 20px 32px; display: flex; align-items: center; gap: 14px; }
   .section-header.common  { background: #2E75B6; }
   .section-header.admin   { background: #C55A11; }
   .section-header.intern  { background: #3730A3; }
@@ -47,21 +37,18 @@
 
   .section-body { background: #fff; border-radius: 0 0 12px 12px; box-shadow: 0 2px 16px rgba(0,0,0,.07); padding: 32px; }
 
-  /* ── Feature block ── */
   .feature { margin-bottom: 44px; }
   .feature:last-child { margin-bottom: 0; }
   .feature-title { font-size: 15px; font-weight: 700; color: #1F4E79; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid #E8EDF3; display: flex; align-items: center; gap: 8px; }
-  .feature-desc { font-size: 14px; color: #444; line-height: 1.8; margin-top: 14px; }
+  .feature-desc { font-size: 14px; color: #444; line-height: 1.9; margin-top: 14px; }
   .feature-desc ul { padding-left: 20px; margin-top: 8px; }
-  .feature-desc li { margin-bottom: 5px; }
-  .highlight { background: #EEF2F7; border-left: 3px solid #1F4E79; padding: 12px 16px; border-radius: 0 8px 8px 0; font-size: 13px; color: #333; margin-top: 14px; line-height: 1.8; }
+  .feature-desc li { margin-bottom: 6px; }
+  .highlight { background: #EEF2F7; border-left: 3px solid #1F4E79; padding: 12px 16px; border-radius: 0 8px 8px 0; font-size: 13px; color: #333; margin-top: 14px; line-height: 1.9; }
   .highlight.warn    { background: #FFF3EE; border-color: #C55A11; color: #7a3000; }
   .highlight.success { background: #E2EFDA; border-color: #375623; color: #2a4118; }
 
-  /* ── Mockup shell ── */
   .mockup { border-radius: 10px; overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,.12); border: 1px solid #E8EDF3; margin-bottom: 6px; }
 
-  /* ── NavBar mockup ── */
   .nav-mock { background: linear-gradient(90deg, #1F4E79, #2E75B6); padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 56px; }
   .nav-brand-sub { font-size: 9px; color: #9DC3E6; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase; }
   .nav-brand-title { font-size: 14px; color: #fff; font-weight: 700; }
@@ -70,15 +57,11 @@
   .nav-btn { background: rgba(255,255,255,.12); border: none; color: #cce3f5; padding: 5px 11px; border-radius: 6px; font-size: 11px; font-weight: 600; }
   .nav-btn.active { background: rgba(255,255,255,.25); color: #fff; }
 
-  /* ── Page body mockup ── */
   .page-mock { background: #EEF2F7; padding: 20px 24px; }
   .card-mock { background: #fff; border-radius: 10px; padding: 20px 24px; box-shadow: 0 2px 10px rgba(0,0,0,.06); margin-bottom: 14px; }
   .card-mock:last-child { margin-bottom: 0; }
   .card-title { font-size: 14px; font-weight: 700; color: #1F4E79; margin-bottom: 14px; }
-  .card-title.orange { color: #C55A11; }
-  .card-title.gray   { color: #595959; }
 
-  /* ── Login form mockup ── */
   .login-wrap { background: #EEF2F7; padding: 30px 20px; display: flex; flex-direction: column; align-items: center; }
   .login-header { background: #1F4E79; padding: 12px 24px; border-radius: 10px 10px 0 0; width: 100%; max-width: 340px; }
   .login-header-sub { color: #9DC3E6; font-size: 9px; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase; }
@@ -86,12 +69,11 @@
   .login-body { background: #fff; border-radius: 0 0 10px 10px; padding: 22px 24px 18px; width: 100%; max-width: 340px; box-shadow: 0 4px 16px rgba(0,0,0,.1); }
   .form-label { font-size: 10px; font-weight: 700; color: #555; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 4px; display: block; }
   .form-input { width: 100%; border: 1.5px solid #E8EDF3; border-radius: 7px; padding: 9px 12px; font-size: 13px; color: #888; margin-bottom: 12px; }
-  .form-input.highlight-orange { border-color: #C55A11; background: #FFF3EE; }
+  .form-input.orange { border-color: #C55A11; background: #FFF3EE; }
   .form-btn { width: 100%; background: #1F4E79; color: #fff; border: none; padding: 11px; border-radius: 9px; font-size: 14px; font-weight: 700; }
   .form-link { text-align: center; margin-top: 12px; font-size: 12px; color: #999; }
   .form-link a { color: #1F4E79; font-weight: 600; text-decoration: none; }
 
-  /* ── Badges ── */
   .badge { display: inline-block; padding: 2px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; }
   .badge-intern    { background: #EEF2FF; color: #3730A3; }
   .badge-mentor    { background: #E2EFDA; color: #375623; }
@@ -100,15 +82,12 @@
   .badge-draft     { background: #F3F4F6; color: #6B7280; }
   .badge-submitted { background: #DBEAFE; color: #1D4ED8; }
   .badge-completed { background: #D1FAE5; color: #065F46; }
-  .badge-pending   { background: #FCE4D6; color: #C55A11; }
 
-  /* ── Table mockup ── */
   .table-mock { width: 100%; border-collapse: collapse; font-size: 12px; }
   .table-mock th { text-align: left; padding: 7px 10px; font-size: 10px; font-weight: 700; color: #555; text-transform: uppercase; letter-spacing: .5px; border-bottom: 2px solid #E8EDF3; }
   .table-mock td { padding: 9px 10px; border-bottom: 1px solid #E8EDF3; color: #555; vertical-align: middle; }
   .table-mock td:first-child { font-weight: 600; color: #222; }
 
-  /* ── Approve form mockup ── */
   .approve-box { background: #F9FAFB; border: 1px solid #E8EDF3; border-radius: 8px; padding: 14px; margin-top: 10px; }
   .approve-fields { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
   .approve-field label { display: block; font-size: 10px; font-weight: 700; color: #555; text-transform: uppercase; margin-bottom: 4px; }
@@ -119,10 +98,8 @@
   .btn-sm      { background: none; border: 1.5px solid #ddd; color: #888; padding: 5px 11px; border-radius: 6px; font-size: 11px; font-weight: 600; cursor: pointer; }
   .btn-sm.blue { border-color: #1F4E79; color: #1F4E79; }
 
-  /* ── Review textarea mockup ── */
   .review-textarea { width: 100%; border: 1.5px solid #E8EDF3; border-radius: 7px; padding: 9px 12px; font-size: 12px; color: #555; resize: none; height: 60px; margin-bottom: 10px; font-family: inherit; }
 
-  /* ── Step numbers ── */
   .steps { }
   .step { display: flex; gap: 14px; margin-bottom: 16px; }
   .step-num { width: 28px; height: 28px; background: #1F4E79; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
@@ -130,25 +107,21 @@
   .step-content strong { display: block; font-size: 14px; font-weight: 700; margin-bottom: 4px; }
   .step-content p { font-size: 13px; color: #555; line-height: 1.7; }
 
-  /* ── Screen caption ── */
   .screen-caption { font-size: 12px; color: #888; text-align: center; margin-bottom: 16px; font-style: italic; }
 
-  /* ── Workflow ── */
   .workflow { display: flex; align-items: center; gap: 0; flex-wrap: wrap; justify-content: center; margin: 20px 0; }
-  .wf-step { background: #fff; border: 2px solid #1F4E79; border-radius: 10px; padding: 12px 18px; text-align: center; min-width: 110px; }
+  .wf-step { background: #fff; border: 2px solid #1F4E79; border-radius: 10px; padding: 12px 16px; text-align: center; min-width: 100px; }
   .wf-step-num { font-size: 10px; font-weight: 700; color: #9DC3E6; text-transform: uppercase; letter-spacing: 1px; }
-  .wf-step-label { font-size: 13px; font-weight: 700; color: #1F4E79; margin-top: 2px; }
+  .wf-step-label { font-size: 12px; font-weight: 700; color: #1F4E79; margin-top: 2px; }
   .wf-step-sub { font-size: 10px; color: #888; margin-top: 2px; }
   .wf-arrow { font-size: 18px; color: #1F4E79; margin: 0 6px; }
 
-  /* ── Role table ── */
   .role-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 16px; }
   .role-table th { background: #1F4E79; color: #fff; padding: 10px 14px; text-align: left; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; }
   .role-table td { padding: 10px 14px; border-bottom: 1px solid #E8EDF3; }
   .role-table tr:last-child td { border-bottom: none; }
   .role-table tr:nth-child(even) td { background: #F9FAFB; }
 
-  /* ── Week bar mockup ── */
   .week-bar { background: #fff; border-bottom: 1px solid #E8EDF3; padding: 10px 20px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
   .week-nav-btn { width: 28px; height: 28px; border: 1.5px solid #ddd; border-radius: 6px; background: #fff; display: flex; align-items: center; justify-content: center; font-size: 16px; color: #555; }
   .week-label { min-width: 80px; text-align: center; }
@@ -157,18 +130,14 @@
   .week-topic-input { flex: 1; border: 1.5px solid #E8EDF3; border-radius: 8px; padding: 8px 12px; font-size: 13px; color: #888; min-width: 180px; }
   .week-topic-input.orange { border-color: #C55A11; background: #FFF3EE; }
 
-  /* ── Rating pills ── */
   .pill { display: inline-block; padding: 6px 16px; border-radius: 20px; border: 1.5px solid #E8EDF3; background: #fff; font-size: 13px; cursor: pointer; margin-right: 6px; margin-bottom: 6px; color: #555; }
   .pill.selected { background: #1F4E79; color: #fff; border-color: #1F4E79; }
   .pill.selected-green { background: #375623; color: #fff; border-color: #375623; }
 
-  /* ── Section number circle ── */
   .sec-num { width: 26px; height: 26px; border-radius: 6px; color: #fff; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 
-  /* ── Intern card grid mockup ── */
   .intern-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; padding: 4px 0; }
   .intern-card { background: #fff; border: 1.5px solid #E8EDF3; border-radius: 12px; padding: 16px 18px; cursor: pointer; }
-  .intern-card:hover { border-color: #2E75B6; }
   .intern-card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
   .intern-avatar { width: 36px; height: 36px; border-radius: 9px; background: #1F4E79; color: #fff; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
   .intern-name { font-size: 14px; font-weight: 700; color: #1a1a1a; }
@@ -178,71 +147,59 @@
   .intern-stat-val { font-size: 15px; font-weight: 700; color: #1F4E79; }
   .intern-stat-lbl { font-size: 9px; color: #999; text-transform: uppercase; letter-spacing: .5px; margin-top: 1px; }
 
-  /* ── Week grid mockup ── */
   .week-grid { display: flex; flex-wrap: wrap; gap: 4px; }
   .wk-cell { width: 28px; height: 28px; border-radius: 5px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; }
   .wk-done      { background: #D1FAE5; color: #065F46; }
   .wk-submitted { background: #DBEAFE; color: #1D4ED8; }
   .wk-draft     { background: #F3F4F6; color: #6B7280; }
   .wk-empty     { background: #F9FAFB; color: #ccc; border: 1px dashed #E8EDF3; }
-  .wk-current   { background: #1F4E79; color: #fff; }
 
-  /* ── Slide panel mockup ── */
   .slide-panel { background: #fff; border-left: 1px solid #E8EDF3; padding: 20px; width: 320px; flex-shrink: 0; }
   .panel-section-title { font-size: 11px; font-weight: 700; color: #999; text-transform: uppercase; letter-spacing: .8px; margin-bottom: 10px; margin-top: 16px; }
   .panel-section-title:first-child { margin-top: 0; }
 
-  /* ── Interview report card ── */
   .interview-card { display: flex; justify-content: space-between; align-items: center; border: 1px solid #E8EDF3; border-left: 3px solid #A9D18E; border-radius: 8px; padding: 10px 14px; margin-bottom: 8px; text-decoration: none; }
   .interview-card.draft-card { border-left-color: #C55A11; border-color: #FDBA74; }
   .interview-card-date { font-size: 13px; font-weight: 600; color: #1a1a1a; }
   .interview-card-preview { font-size: 11px; color: #888; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px; }
 
-  /* ── Mentor review form ── */
   .mentor-table { border: 1px solid #E8EDF3; border-radius: 10px; overflow: hidden; }
   .mentor-row { display: grid; grid-template-columns: 110px 1fr; border-bottom: 1px solid #E8EDF3; }
   .mentor-row:last-child { border-bottom: none; }
   .mentor-label-cell { background: #F9FAFB; padding: 12px 14px; font-size: 11px; font-weight: 700; color: #555; line-height: 1.4; }
   .mentor-input-cell { padding: 10px; }
 
-  /* ── Progress status pills ── */
   .progress-pills { display: flex; gap: 6px; flex-wrap: wrap; padding: 8px 12px; }
 
-  /* ── Submit / action buttons ── */
   .submit-btn { background: #1F4E79; color: #fff; border: none; padding: 12px 36px; border-radius: 10px; font-size: 14px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 14px rgba(31,78,121,.3); }
   .recall-btn { background: none; border: 1.5px solid #ddd; color: #888; padding: 8px 20px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; }
   .complete-btn { background: #375623; color: #fff; border: none; padding: 10px 28px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; }
 
-  /* ── Success / lock banners ── */
   .banner-success { background: #E2EFDA; border: 1px solid #A9D18E; border-radius: 10px; padding: 14px 18px; display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
   .banner-lock    { background: #E2EFDA; border: 1px solid #A9D18E; border-radius: 10px; padding: 14px 18px; display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
   .banner-title { font-weight: 700; color: #375623; font-size: 14px; }
   .banner-sub   { font-size: 12px; color: #375623; margin-top: 2px; }
 
-  /* ── Print page mockup ── */
   .print-mock { background: #fff; padding: 28px 32px; font-size: 12px; }
   .print-header { text-align: center; padding-bottom: 18px; border-bottom: 2px solid #1F4E79; margin-bottom: 18px; }
   .print-company { font-size: 10px; color: #888; text-transform: uppercase; letter-spacing: 1px; }
   .print-title { font-size: 18px; font-weight: 700; color: #1F4E79; margin-top: 4px; }
-  .print-info-table { width: 100%; border-collapse: collapse; margin-bottom: 18px; font-size: 12px; }
-  .print-info-table td { padding: 6px 10px; border: 1px solid #E8EDF3; }
+  .print-info-table { width: 100%; border-collapse: collapse; margin-bottom: 18px; }
+  .print-info-table td { padding: 6px 10px; border: 1px solid #E8EDF3; font-size: 12px; }
   .print-info-table td:first-child { font-weight: 700; color: #555; background: #F9FAFB; width: 130px; }
   .print-section { margin-bottom: 14px; }
   .print-section-title { font-size: 11px; font-weight: 700; color: #1F4E79; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 4px; }
   .print-section-body { border: 1px solid #E8EDF3; border-radius: 6px; padding: 10px 12px; font-size: 12px; color: #444; min-height: 44px; }
 
-  /* ── Group header (HR view) ── */
   .group-header { font-size: 13px; font-weight: 700; color: #1F4E79; border-bottom: 2px solid #E8EDF3; padding-bottom: 8px; margin-bottom: 12px; margin-top: 20px; }
   .group-header:first-child { margin-top: 0; }
 
-  /* ── Footer ── */
   footer { max-width: 860px; margin: 32px auto 48px; text-align: center; font-size: 12px; color: #aaa; }
 
   @media (max-width: 640px) {
     .toc-grid { grid-template-columns: 1fr; }
     .cover h1 { font-size: 26px; }
     .section-body { padding: 20px; }
-    .nav-mock { padding: 0 14px; }
     .intern-grid { grid-template-columns: 1fr; }
     .workflow { gap: 4px; }
     .wf-arrow { display: none; }
@@ -251,136 +208,128 @@
 </head>
 <body>
 
-<!-- ══════════════════════════════════════════
-     Cover
-══════════════════════════════════════════ -->
+<!-- ══ 커버 ══ -->
 <div class="cover">
   <div class="cover-sub">Promega Korea · Promega Biosystems Korea</div>
-  <h1>Weekly Training Report<br>User Manual</h1>
-  <p>Role-based guide to the Weekly Training Report system.<br>
-     Learn how to use each feature as an Intern, Mentor, Manager, HR, or Admin.</p>
+  <h1>Weekly Training Report<br>사용자 메뉴얼</h1>
+  <p>주간 교육 훈련 보고서 시스템의 역할별 사용 방법을 안내합니다.<br>
+     인턴 · 멘토 · 매니저 · HR · 어드민 각 역할의 화면과 사용 흐름을 설명합니다.</p>
   <div class="cover-badges">
-    <span class="cover-badge">🏠 Overview</span>
-    <span class="cover-badge">🔑 Common</span>
-    <span class="cover-badge">🛡 Admin</span>
-    <span class="cover-badge">📝 Intern</span>
-    <span class="cover-badge">👨‍🏫 Mentor</span>
-    <span class="cover-badge">📊 Manager</span>
+    <span class="cover-badge">🏠 서비스 소개</span>
+    <span class="cover-badge">🔑 공통</span>
+    <span class="cover-badge">🛡 어드민</span>
+    <span class="cover-badge">📝 인턴</span>
+    <span class="cover-badge">👨‍🏫 멘토</span>
+    <span class="cover-badge">📊 매니저</span>
     <span class="cover-badge">🏢 HR</span>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════
-     Table of Contents
-══════════════════════════════════════════ -->
+<!-- ══ 목차 ══ -->
 <div class="toc">
-  <h2>📋 Contents</h2>
+  <h2>📋 목차</h2>
   <div class="toc-grid">
-    <a href="#intro"   class="toc-item"><span class="toc-num">0</span> Service Overview &amp; Role Structure</a>
-    <a href="#common"  class="toc-item"><span class="toc-num">1</span> Common — Login · Sign Up · Password</a>
-    <a href="#admin"   class="toc-item"><span class="toc-num">2</span> Admin — Approvals &amp; User Management</a>
-    <a href="#intern"  class="toc-item"><span class="toc-num">3</span> Intern — Writing &amp; Submitting Reports</a>
-    <a href="#mentor"  class="toc-item"><span class="toc-num">4</span> Mentor — Reviews &amp; Interview Reports</a>
-    <a href="#manager" class="toc-item"><span class="toc-num">5</span> Manager — Team Report Overview</a>
-    <a href="#hr"      class="toc-item"><span class="toc-num">6</span> HR — All-Teams View &amp; Mentor Role</a>
+    <a href="#intro"   class="toc-item"><span class="toc-num">0</span> 서비스 소개 및 역할 구조</a>
+    <a href="#common"  class="toc-item"><span class="toc-num">1</span> 공통 기능 — 로그인 · 회원가입 · 비밀번호</a>
+    <a href="#admin"   class="toc-item"><span class="toc-num">2</span> 어드민 — 승인 및 사용자 관리</a>
+    <a href="#intern"  class="toc-item"><span class="toc-num">3</span> 인턴 — 레포트 작성 및 제출</a>
+    <a href="#mentor"  class="toc-item"><span class="toc-num">4</span> 멘토 — 리뷰 및 면담 보고서</a>
+    <a href="#manager" class="toc-item"><span class="toc-num">5</span> 매니저 — 팀 레포트 열람</a>
+    <a href="#hr"      class="toc-item"><span class="toc-num">6</span> HR — 전사 열람 및 멘토 겸직</a>
   </div>
 </div>
 
 
 <!-- ══════════════════════════════════════════
-     0. Service Overview
+     0. 서비스 소개
 ══════════════════════════════════════════ -->
 <div class="section" id="intro">
   <div class="section-header common">
     <span class="section-icon">🏠</span>
     <div class="section-title">
-      <h2>Service Overview</h2>
-      <p>What is the Weekly Training Report system?</p>
+      <h2>서비스 소개</h2>
+      <p>Weekly Training Report란 무엇인가요?</p>
     </div>
   </div>
   <div class="section-body">
 
     <div class="feature">
-      <div class="feature-title">📌 Purpose</div>
+      <div class="feature-title">📌 서비스 목적</div>
       <div class="feature-desc">
-        <p>The Weekly Training Report system allows interns to document what they learn each week, how they feel about their progress, and any questions they have. Mentors review reports and provide structured feedback. Managers and HR can view all reports across their team or the entire organization — giving leadership a clear, real-time picture of intern development.</p>
+        <p>Weekly Training Report는 인턴이 매주 배운 내용, 느낀 점, 궁금한 사항을 기록하는 시스템입니다. 멘토는 레포트를 검토하고 피드백을 작성합니다. 매니저와 HR은 자신의 팀 또는 전사 인턴들의 레포트를 열람하여 인턴십 현황을 한눈에 파악할 수 있습니다.</p>
       </div>
     </div>
 
     <div class="feature">
-      <div class="feature-title">🔄 How It Works — 5-Step Workflow</div>
+      <div class="feature-title">🔄 전체 진행 흐름 — 5단계</div>
       <div class="workflow">
         <div class="wf-step">
           <div class="wf-step-num">Step 1</div>
-          <div class="wf-step-label">Sign Up</div>
-          <div class="wf-step-sub">Intern registers</div>
+          <div class="wf-step-label">회원가입</div>
+          <div class="wf-step-sub">인턴이 등록</div>
         </div>
         <div class="wf-arrow">→</div>
         <div class="wf-step">
           <div class="wf-step-num">Step 2</div>
-          <div class="wf-step-label">Admin Approves</div>
-          <div class="wf-step-sub">Role + Mentor set</div>
+          <div class="wf-step-label">어드민 승인</div>
+          <div class="wf-step-sub">역할·멘토 지정</div>
         </div>
         <div class="wf-arrow">→</div>
         <div class="wf-step">
           <div class="wf-step-num">Step 3</div>
-          <div class="wf-step-label">Intern Writes</div>
-          <div class="wf-step-sub">Weekly report</div>
+          <div class="wf-step-label">인턴 작성</div>
+          <div class="wf-step-sub">주간 레포트</div>
         </div>
         <div class="wf-arrow">→</div>
         <div class="wf-step">
           <div class="wf-step-num">Step 4</div>
-          <div class="wf-step-label">Mentor Reviews</div>
-          <div class="wf-step-sub">Feedback + Complete</div>
+          <div class="wf-step-label">멘토 리뷰</div>
+          <div class="wf-step-sub">피드백 작성</div>
         </div>
         <div class="wf-arrow">→</div>
         <div class="wf-step">
           <div class="wf-step-num">Step 5</div>
-          <div class="wf-step-label">Manager / HR</div>
-          <div class="wf-step-sub">Read-only overview</div>
+          <div class="wf-step-label">매니저 / HR</div>
+          <div class="wf-step-sub">열람 (읽기 전용)</div>
         </div>
       </div>
     </div>
 
     <div class="feature">
-      <div class="feature-title">👥 Roles &amp; Access</div>
+      <div class="feature-title">👥 역할별 권한</div>
       <table class="role-table">
         <thead>
-          <tr>
-            <th>Role</th>
-            <th>Who</th>
-            <th>What they can do</th>
-          </tr>
+          <tr><th>역할</th><th>대상</th><th>할 수 있는 일</th></tr>
         </thead>
         <tbody>
           <tr>
             <td><span class="badge badge-intern">Admin</span></td>
-            <td>System administrator</td>
-            <td>Approve/reject signups · Assign roles &amp; mentors · Edit profiles · Reset passwords</td>
+            <td>시스템 관리자</td>
+            <td>회원 승인/반려 · 역할 및 멘토 지정 · 프로필 편집 · 임시 비밀번호 설정</td>
           </tr>
           <tr>
             <td><span class="badge badge-intern">Intern</span></td>
-            <td>Trainee</td>
-            <td>Write weekly reports · Submit · Recall (before mentor review) · View completed reports &amp; feedback</td>
+            <td>실습생(인턴)</td>
+            <td>주간 레포트 작성 · 제출 · 회수(멘토 리뷰 전까지) · 완료 레포트 열람 및 PDF 저장</td>
           </tr>
           <tr>
             <td><span class="badge badge-mentor">Mentor</span></td>
-            <td>Direct supervisor</td>
-            <td>Review &amp; complete intern reports · Write interview reports · Access assigned interns only</td>
+            <td>담당 멘토</td>
+            <td>담당 인턴 레포트 리뷰 및 완료 · 면담 보고서 작성/제출</td>
           </tr>
           <tr>
             <td><span class="badge badge-manager">Manager</span></td>
-            <td>Team manager</td>
-            <td>View all reports for their team (read-only) · View interview reports</td>
+            <td>팀 매니저</td>
+            <td>소속 팀 인턴 레포트·면담 보고서 열람 (읽기 전용)</td>
           </tr>
           <tr>
             <td><span class="badge badge-hr">HR</span></td>
-            <td>People Ops / HR</td>
-            <td>View all teams' reports (read-only) · Can also serve as a mentor for assigned interns</td>
+            <td>인사팀(HR)</td>
+            <td>전체 팀 레포트·면담 보고서 열람 · 담당 인턴의 멘토 역할도 수행 가능</td>
           </tr>
         </tbody>
       </table>
-      <div class="highlight">ℹ An HR user assigned as a mentor has access to both views: <strong>All Reports</strong> (HR-wide) and <strong>My Intern</strong> (mentor functions). Use the two NavBar buttons to switch between them.</div>
+      <div class="highlight">ℹ HR 사용자가 특정 인턴의 멘토로도 지정된 경우, 내비게이션 바에 <strong>All Reports(전사 열람)</strong>와 <strong>My Intern(멘토 기능)</strong> 두 버튼이 모두 표시됩니다.</div>
     </div>
 
   </div>
@@ -388,21 +337,21 @@
 
 
 <!-- ══════════════════════════════════════════
-     1. Common
+     1. 공통 기능
 ══════════════════════════════════════════ -->
 <div class="section" id="common">
   <div class="section-header common">
     <span class="section-icon">🔑</span>
     <div class="section-title">
-      <h2>Common — Login · Sign Up · Password</h2>
-      <p>Features shared by all roles</p>
+      <h2>공통 기능 — 로그인 · 회원가입 · 비밀번호</h2>
+      <p>모든 역할이 공통으로 사용하는 기능</p>
     </div>
   </div>
   <div class="section-body">
 
-    <!-- 1-1 Login -->
+    <!-- 1-1 로그인 -->
     <div class="feature">
-      <div class="feature-title">1-1. Login</div>
+      <div class="feature-title">1-1. 로그인</div>
       <div class="mockup">
         <div class="login-wrap">
           <div class="login-header">
@@ -421,19 +370,19 @@
           </div>
         </div>
       </div>
-      <p class="screen-caption">▲ Login page — enter your email and password to sign in</p>
+      <p class="screen-caption">▲ 로그인 화면 — 이메일과 비밀번호를 입력하고 Login → 버튼을 누르세요</p>
       <div class="feature-desc">
         <ul>
-          <li>Go to the app URL and enter your <strong>email address</strong> and <strong>password</strong>.</li>
-          <li>After login, you are automatically redirected to the page for your role (e.g. interns → weekly report, mentors → intern dashboard).</li>
-          <li>If you forget your password, click <strong>Forgot your password?</strong> and follow the instructions to contact the admin.</li>
+          <li>앱 주소에 접속한 후 <strong>이메일 주소</strong>와 <strong>비밀번호</strong>를 입력하고 <strong>Login →</strong> 버튼을 누릅니다.</li>
+          <li>로그인이 완료되면 자신의 역할에 맞는 화면으로 자동 이동합니다. (인턴 → 주간 레포트, 멘토 → 담당 인턴 현황, 매니저/HR → 팀/전사 현황)</li>
+          <li>비밀번호를 잊은 경우 <strong>Forgot your password?</strong> 링크를 클릭해 관리자에게 초기화를 요청하세요.</li>
         </ul>
       </div>
     </div>
 
-    <!-- 1-2 Sign Up -->
+    <!-- 1-2 회원가입 -->
     <div class="feature">
-      <div class="feature-title">1-2. Sign Up</div>
+      <div class="feature-title">1-2. 회원가입</div>
       <div class="mockup">
         <div class="login-wrap">
           <div class="login-header">
@@ -442,84 +391,83 @@
           </div>
           <div class="login-body">
             <label class="form-label">Full Name</label>
-            <div class="form-input" style="color:#aaa;">e.g. Gildong Hong</div>
+            <div class="form-input" style="color:#aaa;">홍길동 / Gildong Hong</div>
             <label class="form-label">Team</label>
-            <div class="form-input" style="color:#aaa;">e.g. Operations, Marketing</div>
+            <div class="form-input" style="color:#aaa;">예: Operations, Marketing</div>
             <label class="form-label">Position</label>
-            <div class="form-input" style="color:#aaa;">e.g. Intern, Lab Technician</div>
+            <div class="form-input" style="color:#aaa;">예: Intern, Lab Technician</div>
             <label class="form-label">Email</label>
             <div class="form-input" style="color:#aaa;">you@promega.com</div>
             <label class="form-label">Password</label>
-            <div class="form-input" style="color:#aaa;">Min. 8 characters</div>
+            <div class="form-input" style="color:#aaa;">8자 이상</div>
             <button class="form-btn">Create Account →</button>
             <div style="background:#EEF2F7;border-radius:8px;padding:10px 12px;margin-top:12px;font-size:12px;color:#555;text-align:center;">
-              ⏳ Your account will be activated after admin approval.
+              ⏳ 어드민 승인 후 계정이 활성화됩니다.
             </div>
           </div>
         </div>
       </div>
-      <p class="screen-caption">▲ Sign Up page — all five fields are required</p>
+      <p class="screen-caption">▲ 회원가입 화면 — 5개 항목을 모두 입력해야 합니다</p>
       <div class="feature-desc">
         <ul>
-          <li>Fill in your <strong>Full Name</strong>, <strong>Team</strong> (e.g. Operations), <strong>Position</strong> (e.g. Intern), <strong>Email</strong>, and <strong>Password</strong>.</li>
-          <li>After submitting, your account is in <em>pending</em> state. You cannot log in until an admin approves your account and assigns your role.</li>
-          <li>Once approved, you will be able to log in with the email and password you registered.</li>
+          <li><strong>Full Name</strong>(이름), <strong>Team</strong>(소속 팀), <strong>Position</strong>(직책), <strong>Email</strong>, <strong>Password</strong>(8자 이상)를 모두 입력한 후 <strong>Create Account →</strong>를 누릅니다.</li>
+          <li>가입 후 계정은 <em>대기(pending)</em> 상태가 됩니다. 어드민이 승인하고 역할을 지정하기 전까지는 로그인이 되지 않습니다.</li>
+          <li>승인이 완료되면 등록한 이메일과 비밀번호로 로그인할 수 있습니다.</li>
         </ul>
       </div>
-      <div class="highlight">ℹ Contact your admin if approval is taking longer than expected.</div>
+      <div class="highlight">ℹ 승인이 지연되는 경우 관리자에게 직접 문의하세요.</div>
     </div>
 
-    <!-- 1-3 Forgot Password -->
+    <!-- 1-3 비밀번호 찾기 -->
     <div class="feature">
-      <div class="feature-title">1-3. Forgot Password</div>
+      <div class="feature-title">1-3. 비밀번호를 잊어버린 경우</div>
       <div class="mockup">
         <div class="login-wrap">
           <div style="background:#fff;border-radius:12px;padding:36px 32px;max-width:340px;width:100%;text-align:center;box-shadow:0 4px 16px rgba(0,0,0,.1);">
             <div style="font-size:40px;margin-bottom:12px;">🔒</div>
             <div style="font-size:17px;font-weight:700;color:#1F4E79;margin-bottom:10px;">Forgot your password?</div>
-            <div style="font-size:13px;color:#666;line-height:1.8;margin-bottom:20px;">
-              Contact your admin to reset your password.<br>
+            <div style="font-size:13px;color:#666;line-height:1.9;margin-bottom:20px;">
+              관리자에게 비밀번호 초기화를 요청하세요.<br>
               <strong>Inho Son</strong> · inho.son@promega.com
             </div>
             <a href="#" style="font-size:13px;color:#1F4E79;font-weight:600;text-decoration:none;">← Back to Login</a>
           </div>
         </div>
       </div>
-      <p class="screen-caption">▲ Forgot Password page — contact admin for a temporary password</p>
+      <p class="screen-caption">▲ 비밀번호 찾기 화면 — 이메일 링크 대신 관리자 직접 초기화 방식으로 운영됩니다</p>
       <div class="feature-desc">
         <ul>
-          <li>Password resets are handled by the system admin. Contact the admin with your name and email.</li>
-          <li>The admin will set a temporary password for you via the Admin Panel.</li>
-          <li>Log in with the temporary password, then go to <strong>Settings → Change Password</strong> to set a new personal password.</li>
+          <li>비밀번호 재설정은 시스템 관리자가 직접 처리합니다. 이름과 이메일을 관리자에게 알려주세요.</li>
+          <li>관리자가 임시 비밀번호를 설정해 드리면, 임시 비밀번호로 로그인한 후 <strong>Settings → Change Password</strong>에서 새 비밀번호로 변경하세요.</li>
         </ul>
       </div>
     </div>
 
-    <!-- 1-4 Change Password -->
+    <!-- 1-4 비밀번호 변경 -->
     <div class="feature">
-      <div class="feature-title">1-4. Change Password (Settings)</div>
+      <div class="feature-title">1-4. 비밀번호 변경 (Settings)</div>
       <div class="mockup">
         <div class="nav-mock">
           <div><div class="nav-brand-sub">Promega Korea · PBK</div><div class="nav-brand-title">Weekly Training Report</div></div>
-          <div class="nav-right"><span class="nav-user">Gildong Hong</span><button class="nav-btn">Settings</button><button class="nav-btn">Logout</button></div>
+          <div class="nav-right"><span class="nav-user">홍길동</span><button class="nav-btn active">Settings</button><button class="nav-btn">Logout</button></div>
         </div>
         <div class="page-mock">
           <div class="card-mock" style="max-width:400px;margin:0 auto;">
             <div class="card-title">Change Password</div>
             <label class="form-label">New Password</label>
-            <div class="form-input" style="color:#aaa;">Min. 8 characters</div>
+            <div class="form-input" style="color:#aaa;">새 비밀번호 (8자 이상)</div>
             <label class="form-label">Confirm Password</label>
-            <div class="form-input" style="color:#aaa;">Re-enter new password</div>
+            <div class="form-input" style="color:#aaa;">새 비밀번호 확인</div>
             <button class="form-btn" style="margin-top:4px;">Update Password</button>
           </div>
         </div>
       </div>
-      <p class="screen-caption">▲ Settings page — accessible from the NavBar for all roles</p>
+      <p class="screen-caption">▲ Settings 화면 — 내비게이션 바의 Settings 버튼으로 접근 (모든 역할 공통)</p>
       <div class="feature-desc">
         <ul>
-          <li>Click <strong>Settings</strong> in the top navigation bar (available to all roles).</li>
-          <li>Enter your <strong>New Password</strong> (minimum 8 characters) and confirm it.</li>
-          <li>Click <strong>Update Password</strong> — a success message appears when the change is saved.</li>
+          <li>화면 상단 내비게이션 바의 <strong>Settings</strong> 버튼을 누릅니다.</li>
+          <li><strong>New Password</strong>(새 비밀번호, 8자 이상)를 입력하고 <strong>Confirm Password</strong>에 동일하게 입력합니다.</li>
+          <li><strong>Update Password</strong> 버튼을 누르면 즉시 변경됩니다.</li>
         </ul>
       </div>
     </div>
@@ -529,45 +477,41 @@
 
 
 <!-- ══════════════════════════════════════════
-     2. Admin
+     2. 어드민
 ══════════════════════════════════════════ -->
 <div class="section" id="admin">
   <div class="section-header admin">
     <span class="section-icon">🛡</span>
     <div class="section-title">
-      <h2>Admin — Approvals &amp; User Management</h2>
-      <p>Manage all accounts, roles, and access from the Admin Panel</p>
+      <h2>어드민 — 승인 및 사용자 관리</h2>
+      <p>Admin Panel에서 모든 계정의 역할, 팀, 멘토를 관리합니다</p>
     </div>
   </div>
   <div class="section-body">
 
-    <!-- 2-1 Pending Approvals -->
+    <!-- 2-1 신규 승인 -->
     <div class="feature">
-      <div class="feature-title">2-1. Approving New Users</div>
+      <div class="feature-title">2-1. 신규 가입자 승인</div>
       <div class="mockup">
-        <div class="nav-mock">
-          <div><div class="nav-brand-sub">Promega Korea · PBK</div><div class="nav-brand-title">Weekly Training Report</div></div>
-          <div class="nav-right"><span class="nav-user">Admin</span><button class="nav-btn">Admin Panel →</button><button class="nav-btn">Logout</button></div>
-        </div>
         <div class="page-mock">
           <div class="card-mock">
             <div class="card-title">Pending Approvals</div>
             <table class="table-mock">
               <thead>
-                <tr><th>Name</th><th>Email</th><th>Team</th><th>Position</th><th>Signed Up</th></tr>
+                <tr><th>이름</th><th>이메일</th><th>팀</th><th>직책</th><th>가입일</th></tr>
               </thead>
               <tbody>
                 <tr>
-                  <td>Hyesong Choi</td>
+                  <td>최혜송</td>
                   <td>h.choi@promega.com</td>
                   <td>People Operations</td>
                   <td>Intern</td>
-                  <td>Apr 24, 2026</td>
+                  <td>2026-04-24</td>
                 </tr>
               </tbody>
             </table>
             <div class="approve-box">
-              <div style="font-size:12px;font-weight:700;color:#1F4E79;margin-bottom:10px;">▼ Approve: Hyesong Choi</div>
+              <div style="font-size:12px;font-weight:700;color:#1F4E79;margin-bottom:10px;">▼ 최혜송 승인 설정</div>
               <div class="approve-fields">
                 <div class="approve-field">
                   <label>Role</label>
@@ -589,9 +533,9 @@
                 <div class="approve-field">
                   <label>Paired Mentor</label>
                   <select>
-                    <option>— Select —</option>
-                    <option>Yura Lee (HR)</option>
-                    <option>Jisoo Park (Mentor)</option>
+                    <option>— 선택 —</option>
+                    <option>이유라 (HR)</option>
+                    <option>박지수 (Mentor)</option>
                   </select>
                 </div>
               </div>
@@ -603,95 +547,82 @@
           </div>
         </div>
       </div>
-      <p class="screen-caption">▲ Admin Panel — Pending Approvals section with inline approval form</p>
+      <p class="screen-caption">▲ 승인 대기 목록 — 행 클릭 시 인라인 승인 폼이 펼쳐집니다</p>
       <div class="feature-desc">
         <ul>
-          <li>New registrations appear in the <strong>Pending Approvals</strong> table.</li>
-          <li>Click on a row to expand the inline approval form. Set:
+          <li>새 가입자가 생기면 <strong>Pending Approvals</strong> 항목에 표시됩니다.</li>
+          <li>해당 행을 클릭하면 아래에 인라인 승인 폼이 나타납니다. 다음 항목을 설정합니다:
             <ul>
-              <li><strong>Role</strong>: Intern / Mentor / Manager (Team) / HR (All Teams)</li>
-              <li><strong>Team</strong>: The intern's or staff member's department (e.g. Operations, Marketing)</li>
-              <li><strong>Position</strong>: Job title (e.g. Intern, Lab Technician)</li>
-              <li><strong>Paired Mentor</strong>: Select the mentor responsible for this intern. HR users also appear in this dropdown.</li>
+              <li><strong>Role</strong> — Intern / Mentor / Manager (Team) / HR (All Teams) 중 선택</li>
+              <li><strong>Team</strong> — 소속 팀명 (예: Operations, Marketing)</li>
+              <li><strong>Position</strong> — 직책 (예: Intern, Lab Technician)</li>
+              <li><strong>Paired Mentor</strong> — 담당 멘토 선택. HR 사용자도 멘토로 지정 가능합니다.</li>
             </ul>
           </li>
-          <li>Click <strong>✓ Approve</strong> to activate the account, or <strong>✕ Reject</strong> to delete it.</li>
+          <li><strong>✓ Approve</strong>를 누르면 계정이 활성화되고, <strong>✕ Reject</strong>를 누르면 계정이 삭제됩니다.</li>
         </ul>
       </div>
-      <div class="highlight">ℹ HR users appear in the Paired Mentor dropdown, so an HR staff member can be assigned as an intern's mentor without changing their HR role.</div>
+      <div class="highlight">ℹ HR 사용자도 Paired Mentor 드롭다운에 표시됩니다. HR 역할을 유지하면서 동시에 특정 인턴의 멘토로 지정할 수 있습니다.</div>
     </div>
 
-    <!-- 2-2 Active Users -->
+    <!-- 2-2 활성 사용자 관리 -->
     <div class="feature">
-      <div class="feature-title">2-2. Managing Active Users</div>
+      <div class="feature-title">2-2. 활성 사용자 관리 — 프로필 편집 및 비밀번호 초기화</div>
       <div class="mockup">
         <div class="page-mock">
           <div class="card-mock">
             <div class="card-title">Active Users</div>
             <table class="table-mock">
               <thead>
-                <tr><th>Name</th><th>Email</th><th>Role</th><th>Team / Position</th><th>Paired Mentor</th><th>Actions</th></tr>
+                <tr><th>이름</th><th>이메일</th><th>역할</th><th>팀 / 직책</th><th>담당 멘토</th><th>관리</th></tr>
               </thead>
               <tbody>
                 <tr>
-                  <td>Yura Lee</td>
+                  <td>이유라</td>
                   <td>y.lee@promega.com</td>
                   <td><span class="badge badge-hr">HR</span></td>
                   <td>People Ops · HR Manager</td>
                   <td>—</td>
-                  <td style="white-space:nowrap;">
-                    <button class="btn-sm blue">Edit</button>&nbsp;
-                    <button class="btn-sm">Reset PW</button>
-                  </td>
+                  <td style="white-space:nowrap;"><button class="btn-sm blue">Edit</button>&nbsp;<button class="btn-sm">Reset PW</button></td>
                 </tr>
                 <tr>
-                  <td>Gildong Hong</td>
+                  <td>홍길동</td>
                   <td>g.hong@promega.com</td>
                   <td><span class="badge badge-intern">Intern</span></td>
                   <td>Operations · Intern</td>
-                  <td>Jisoo Park</td>
-                  <td style="white-space:nowrap;">
-                    <button class="btn-sm blue">Edit</button>&nbsp;
-                    <button class="btn-sm">Reset PW</button>
-                  </td>
+                  <td>박지수</td>
+                  <td style="white-space:nowrap;"><button class="btn-sm blue">Edit</button>&nbsp;<button class="btn-sm">Reset PW</button></td>
                 </tr>
               </tbody>
             </table>
-            <!-- Edit inline -->
+            <!-- Edit 인라인 -->
             <div class="approve-box" style="margin-top:12px;">
-              <div style="font-size:12px;font-weight:700;color:#1F4E79;margin-bottom:8px;">✎ Edit Gildong Hong</div>
+              <div style="font-size:12px;font-weight:700;color:#1F4E79;margin-bottom:8px;">✎ Edit 홍길동</div>
               <div class="approve-fields">
                 <div class="approve-field"><label>Team</label><input value="Operations" style="width:130px;"></div>
                 <div class="approve-field"><label>Position</label><input value="Intern" style="width:120px;"></div>
               </div>
-              <div class="approve-actions">
-                <button class="btn-approve">Save</button>
-                <button class="btn-reject">Cancel</button>
-              </div>
+              <div class="approve-actions"><button class="btn-approve">Save</button><button class="btn-reject">Cancel</button></div>
             </div>
-            <!-- Reset PW inline -->
+            <!-- Reset PW 인라인 -->
             <div class="approve-box" style="margin-top:10px;">
-              <div style="font-size:12px;font-weight:700;color:#C55A11;margin-bottom:8px;">🔑 Set Temporary Password for Gildong Hong</div>
+              <div style="font-size:12px;font-weight:700;color:#C55A11;margin-bottom:8px;">🔑 Set Temporary Password for 홍길동</div>
               <div class="approve-fields">
-                <div class="approve-field"><label>New Password</label><input placeholder="Temporary password (min. 8 chars)" style="width:220px;"></div>
+                <div class="approve-field"><label>New Password</label><input placeholder="임시 비밀번호 (8자 이상)" style="width:220px;"></div>
               </div>
-              <div class="approve-actions">
-                <button class="btn-approve" style="background:#C55A11;">Reset</button>
-                <button class="btn-reject">Cancel</button>
-              </div>
+              <div class="approve-actions"><button class="btn-approve" style="background:#C55A11;">Reset</button><button class="btn-reject">Cancel</button></div>
             </div>
           </div>
         </div>
       </div>
-      <p class="screen-caption">▲ Active Users table with Edit and Reset PW inline forms</p>
+      <p class="screen-caption">▲ 활성 사용자 목록 — Edit(팀/직책 수정)와 Reset PW(임시 비밀번호 설정) 기능</p>
       <div class="feature-desc">
         <ul>
-          <li>The <strong>Active Users</strong> table lists all approved accounts with their role, team, position, and assigned mentor.</li>
-          <li><strong>Edit</strong> — click to open an inline form to update the user's <strong>Team</strong> and <strong>Position</strong>. Click <em>Save</em> to apply.</li>
-          <li><strong>Reset PW</strong> — click to set a temporary password for the user. Enter a password (min. 8 characters) and click <em>Reset</em>. Communicate the temporary password to the user directly; they can change it in Settings.</li>
+          <li><strong>Edit</strong> 버튼 — 클릭하면 해당 사용자의 <strong>Team</strong>(팀)과 <strong>Position</strong>(직책)을 수정할 수 있는 인라인 폼이 열립니다. 수정 후 <em>Save</em>를 누르면 즉시 반영됩니다.</li>
+          <li><strong>Reset PW</strong> 버튼 — 비밀번호를 잊은 사용자를 위해 임시 비밀번호를 설정합니다. 8자 이상 임시 비밀번호를 입력하고 <em>Reset</em>을 누른 뒤, 해당 사용자에게 임시 비밀번호를 직접 전달하세요. 사용자는 로그인 후 Settings에서 새 비밀번호로 변경할 수 있습니다.</li>
         </ul>
       </div>
-      <div class="highlight warn">⚠ Only users with <strong>is_admin = true</strong> in their profile can access the Admin Panel. Contact the system owner if you need admin access.</div>
+      <div class="highlight warn">⚠ 어드민 패널은 프로필에 <strong>is_admin = true</strong>로 설정된 계정만 접근할 수 있습니다.</div>
     </div>
 
   </div>
@@ -699,25 +630,25 @@
 
 
 <!-- ══════════════════════════════════════════
-     3. Intern
+     3. 인턴
 ══════════════════════════════════════════ -->
 <div class="section" id="intern">
   <div class="section-header intern">
     <span class="section-icon">📝</span>
     <div class="section-title">
-      <h2>Intern — Writing &amp; Submitting Reports</h2>
-      <p>Document your weekly progress, feelings, and questions</p>
+      <h2>인턴 — 레포트 작성 및 제출</h2>
+      <p>매주 배운 내용, 느낀 점, 궁금한 것을 기록하고 멘토에게 제출하세요</p>
     </div>
   </div>
   <div class="section-body">
 
-    <!-- 3-1 Week bar & navigation -->
+    <!-- 3-1 주차 이동 -->
     <div class="feature">
-      <div class="feature-title">3-1. Week Navigation &amp; Topic</div>
+      <div class="feature-title">3-1. 주차 이동 및 Topic 입력</div>
       <div class="mockup">
         <div class="nav-mock">
           <div><div class="nav-brand-sub">Promega Korea · PBK</div><div class="nav-brand-title">Weekly Training Report</div></div>
-          <div class="nav-right"><span class="nav-user">Gildong Hong</span><button class="nav-btn">Settings</button><button class="nav-btn">Logout</button></div>
+          <div class="nav-right"><span class="nav-user">홍길동</span><button class="nav-btn">Settings</button><button class="nav-btn">Logout</button></div>
         </div>
         <div class="week-bar">
           <div style="display:flex;align-items:center;gap:6px;">
@@ -733,81 +664,75 @@
           <span class="badge badge-draft">Draft</span>
         </div>
       </div>
-      <p class="screen-caption">▲ Week bar — navigate weeks, enter the topic, and see save/status feedback</p>
+      <p class="screen-caption">▲ 상단 주차 바 — 로그인하면 오늘 날짜에 해당하는 주차로 자동 이동됩니다</p>
       <div class="feature-desc">
         <ul>
-          <li>When you log in, the app automatically opens the <strong>current week</strong> based on today's date (e.g. Week 1 = Apr 20–25, Week 2 = Apr 28–May 2).</li>
-          <li>Use the <strong>‹ ›</strong> buttons to view previous or upcoming weeks.</li>
-          <li>The <strong>Topic</strong> input (next to the week number) is for a short label of the week's theme — e.g. <em>"Onboarding &amp; Fundamentals"</em>, <em>"PCR &amp; Gel Electrophoresis"</em>. Fill this in so mentors and managers can scan quickly.</li>
-          <li>The status badge on the right shows the current state: <span class="badge badge-draft">Draft</span> <span class="badge badge-submitted">Submitted</span> <span class="badge badge-completed">Completed</span></li>
+          <li>로그인하면 <strong>오늘 날짜가 포함된 주차</strong>가 자동으로 열립니다. (예: 4월 20일~25일은 Week 1, 4월 28일부터는 Week 2)</li>
+          <li><strong>‹ ›</strong> 버튼으로 이전/다음 주차로 이동할 수 있습니다.</li>
+          <li>주차 번호 옆의 <strong>Topic</strong> 입력란에 이번 주 핵심 주제를 짧게 적어주세요. (예: <em>"Onboarding &amp; Fundamentals"</em>, <em>"PCR &amp; Gel Electrophoresis"</em>) 멘토와 매니저가 한눈에 파악하는 데 도움이 됩니다.</li>
+          <li>오른쪽 상태 배지로 현재 레포트 상태를 확인할 수 있습니다: <span class="badge badge-draft">Draft</span> <span class="badge badge-submitted">Submitted</span> <span class="badge badge-completed">Completed</span></li>
         </ul>
       </div>
     </div>
 
-    <!-- 3-2 Writing -->
+    <!-- 3-2 레포트 작성 -->
     <div class="feature">
-      <div class="feature-title">3-2. Writing Your Report</div>
+      <div class="feature-title">3-2. 레포트 작성하기</div>
       <div class="mockup">
         <div class="page-mock">
-          <!-- S01 -->
           <div class="card-mock">
             <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
               <div class="sec-num" style="background:#1F4E79;">01</div>
               <span style="font-size:14px;font-weight:700;color:#1F4E79;">What I Learned This Week</span>
             </div>
-            <div style="font-size:12px;color:#888;margin-bottom:10px;">Key takeaways, processes observed, skills practiced, or concepts understood.</div>
-            <textarea class="review-textarea" style="height:80px;color:#555;">Today I completed my lab orientation and learned the basic safety protocols. I also observed a gel electrophoresis run and understood how DNA bands separate by size…</textarea>
+            <div style="font-size:12px;color:#888;margin-bottom:10px;">이번 주 배운 내용, 관찰한 과정, 연습한 기술, 이해한 개념을 자유롭게 작성하세요.</div>
+            <textarea class="review-textarea" style="height:80px;color:#555;">오늘 실험실 오리엔테이션을 완료하고 기본 안전 수칙을 배웠습니다. 또한 겔 전기영동 실험을 관찰하면서 DNA 밴드가 크기에 따라 분리되는 원리를 이해했습니다…</textarea>
           </div>
-          <!-- S02 -->
           <div class="card-mock">
             <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
               <div class="sec-num" style="background:#1F4E79;">02</div>
               <span style="font-size:14px;font-weight:700;color:#1F4E79;">How Was This Week</span>
             </div>
-            <div style="font-size:11px;font-weight:700;color:#555;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;">Overall</div>
+            <div style="font-size:11px;font-weight:700;color:#555;text-transform:uppercase;margin-bottom:8px;">Overall</div>
             <div>
               <span class="pill selected">Excellent</span>
               <span class="pill">Good</span>
               <span class="pill">Okay</span>
               <span class="pill">Tough</span>
             </div>
-            <div style="font-size:12px;color:#888;margin:10px 0 8px;">Overall impression, pace of work, memorable moments, or anything on your mind.</div>
-            <textarea class="review-textarea" style="color:#555;">Felt very welcomed by the team. The first week flew by. A bit overwhelmed by all the new names and procedures but excited!</textarea>
+            <div style="font-size:12px;color:#888;margin:10px 0 8px;">전반적인 느낌, 업무 속도, 기억에 남는 순간 등을 자유롭게 적어주세요.</div>
+            <textarea class="review-textarea" style="color:#555;">팀 분위기가 정말 따뜻했습니다. 첫 주가 순식간에 지나간 것 같아요. 새로운 이름과 절차를 익히는 게 조금 벅차지만 설레는 마음이 더 큽니다!</textarea>
           </div>
-          <!-- S03 -->
           <div class="card-mock">
             <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
               <div class="sec-num" style="background:#C55A11;">03</div>
               <span style="font-size:14px;font-weight:700;color:#C55A11;">Questions &amp; What I Want to Know More</span>
             </div>
-            <div style="font-size:12px;color:#888;margin-bottom:10px;">Anything unclear, questions for the mentor or manager, topics to explore further.</div>
-            <textarea class="review-textarea" style="color:#aaa;">Write your questions or curiosities here…</textarea>
+            <div style="font-size:12px;color:#888;margin-bottom:10px;">궁금한 점, 멘토에게 물어보고 싶은 것, 더 알고 싶은 주제를 적어주세요.</div>
+            <textarea class="review-textarea" style="color:#aaa;">궁금한 점이나 더 알고 싶은 내용을 적어주세요…</textarea>
           </div>
         </div>
       </div>
-      <p class="screen-caption">▲ Report form — three sections to fill in each week</p>
+      <p class="screen-caption">▲ 레포트 폼 — 3개 섹션을 매주 채워주세요. 작성하는 동안 자동 저장됩니다.</p>
       <div class="feature-desc">
         <ul>
-          <li><strong>01 What I Learned This Week</strong> — Write freely about what you studied, observed, or practiced. Bullet points and full sentences both work.</li>
-          <li><strong>02 How Was This Week</strong> — Pick one overall rating (Excellent / Good / Okay / Tough) and add a short description of how the week felt.</li>
-          <li><strong>03 Questions &amp; What I Want to Know More</strong> — Write down anything you're curious about or want your mentor to address. This is private from other interns.</li>
-          <li>All three sections are <strong>auto-saved</strong> as you type (600ms delay). The "Saved ✓" message appears in the top bar when saved successfully.</li>
+          <li><strong>01 What I Learned This Week</strong> — 이번 주 배운 내용을 자유롭게 작성합니다. 형식 제한 없이 메모처럼 작성해도 됩니다.</li>
+          <li><strong>02 How Was This Week</strong> — <em>Excellent / Good / Okay / Tough</em> 중 하나를 선택하고, 이번 주가 어땠는지 간단히 적습니다.</li>
+          <li><strong>03 Questions</strong> — 멘토에게 물어보고 싶은 내용이나 더 공부하고 싶은 주제를 적습니다. 다른 인턴에게는 보이지 않습니다.</li>
+          <li>세 섹션 모두 입력하는 동안 <strong>자동으로 저장</strong>됩니다 (입력 후 약 0.6초). 상단 바에 <em>Saved ✓</em> 메시지가 표시되면 저장된 것입니다.</li>
         </ul>
       </div>
-      <div class="highlight success">✅ You can save and come back later. The report stays in <strong>Draft</strong> state until you submit it.</div>
+      <div class="highlight success">✅ 저장 후 언제든지 다시 와서 내용을 수정할 수 있습니다. 제출하기 전까지는 <strong>Draft</strong> 상태로 유지됩니다.</div>
     </div>
 
-    <!-- 3-3 Topic prompt -->
+    <!-- 3-3 Topic 미입력 경고 -->
     <div class="feature">
-      <div class="feature-title">3-3. Topic Field Reminder</div>
+      <div class="feature-title">3-3. Topic을 비워두고 제출하는 경우</div>
       <div class="mockup">
         <div class="week-bar">
           <div style="display:flex;align-items:center;gap:6px;">
             <div class="week-nav-btn">‹</div>
-            <div class="week-label">
-              <div class="week-label-num">Week 2</div>
-              <div class="week-label-date">Apr 28 – May 2</div>
-            </div>
+            <div class="week-label"><div class="week-label-num">Week 2</div><div class="week-label-date">Apr 28 – May 2</div></div>
             <div class="week-nav-btn">›</div>
           </div>
           <input class="week-topic-input orange" placeholder="Topic this week (e.g. Onboarding &amp; Fundamentals)" style="color:#C55A11;">
@@ -828,27 +753,26 @@
           </div>
         </div>
       </div>
-      <p class="screen-caption">▲ If Topic is empty on submit, a dialog appears — you can proceed or go back to fill it in</p>
+      <p class="screen-caption">▲ Topic 미입력 시 팝업 — OK(그대로 제출) 또는 Cancel(돌아가서 입력)을 선택하세요</p>
       <div class="feature-desc">
         <ul>
-          <li>If you click <strong>Submit Report</strong> with the Topic field empty, a confirmation dialog appears.</li>
-          <li>The Topic input is highlighted in <span style="color:#C55A11;font-weight:700;">orange</span> as a visual reminder.</li>
-          <li>Click <strong>OK</strong> to submit anyway, or <strong>Cancel</strong> to go back and fill in the Topic before submitting.</li>
+          <li>Topic을 비운 채로 <strong>Submit Report →</strong> 버튼을 누르면 확인 팝업이 표시됩니다.</li>
+          <li>Topic 입력란이 <span style="color:#C55A11;font-weight:700;">주황색</span>으로 강조 표시되어 입력 위치를 알려줍니다.</li>
+          <li><strong>OK</strong>를 누르면 Topic 없이 그대로 제출, <strong>Cancel</strong>을 누르면 돌아가서 Topic을 입력할 수 있습니다.</li>
         </ul>
       </div>
-      <div class="highlight">ℹ The Topic helps mentors and managers quickly identify what you worked on each week. It's worth taking 5 seconds to fill it in!</div>
+      <div class="highlight">ℹ Topic은 멘토와 매니저가 주차별 내용을 한눈에 파악할 수 있게 해주는 중요한 정보입니다. 5초만 투자해서 꼭 채워주세요!</div>
     </div>
 
-    <!-- 3-4 Submit & Recall -->
+    <!-- 3-4 제출 및 회수 -->
     <div class="feature">
-      <div class="feature-title">3-4. Submitting &amp; Recalling</div>
+      <div class="feature-title">3-4. 레포트 제출 및 회수</div>
       <div class="mockup">
         <div class="page-mock">
           <div style="text-align:center;padding:20px 0;">
             <button class="submit-btn">Submit Report →</button>
             <div style="font-size:12px;color:#aaa;margin-top:8px;">Drafts are auto-saved</div>
           </div>
-          <!-- After submit -->
           <div class="banner-success">
             <span style="font-size:22px;">✅</span>
             <div>
@@ -862,20 +786,20 @@
           </div>
         </div>
       </div>
-      <p class="screen-caption">▲ Submit button (draft state) → success banner + Recall button (submitted state)</p>
+      <p class="screen-caption">▲ 제출 버튼(Draft 상태) → 제출 완료 배너 + 회수 버튼(Submitted 상태)</p>
       <div class="feature-desc">
         <ul>
-          <li>When your report is ready, click <strong>Submit Report →</strong>. The report moves to <span class="badge badge-submitted">Submitted</span> state and becomes visible to your mentor.</li>
-          <li>After submitting, you can click <strong>↩ Recall &amp; Edit</strong> to pull the report back to Draft if you want to make changes.</li>
-          <li>Recall is only available while the report is in <em>Submitted</em> state. Once your mentor clicks <strong>Complete Review</strong>, the report is locked and cannot be recalled.</li>
+          <li>레포트 작성이 끝나면 <strong>Submit Report →</strong> 버튼을 누릅니다. 레포트가 <span class="badge badge-submitted">Submitted</span> 상태로 바뀌고 멘토에게 보이기 시작합니다.</li>
+          <li>제출 후 내용을 수정하고 싶다면 <strong>↩ Recall &amp; Edit</strong> 버튼을 눌러 Draft 상태로 되돌릴 수 있습니다.</li>
+          <li>멘토가 <strong>Complete Review</strong>를 누르기 전까지만 회수가 가능합니다. 멘토 리뷰 완료 후에는 회수할 수 없습니다.</li>
         </ul>
       </div>
-      <div class="highlight warn">⚠ Once the mentor completes their review, the report cannot be recalled or edited. Contact your mentor directly if a correction is needed.</div>
+      <div class="highlight warn">⚠ 멘토가 리뷰를 완료하면 레포트가 잠기고 더 이상 수정이 불가능합니다. 수정이 필요하면 멘토에게 직접 문의하세요.</div>
     </div>
 
-    <!-- 3-5 Completed -->
+    <!-- 3-5 완료 레포트 -->
     <div class="feature">
-      <div class="feature-title">3-5. Completed Reports — Mentor Feedback &amp; PDF</div>
+      <div class="feature-title">3-5. 완료된 레포트 — 멘토 피드백 확인 및 PDF 저장</div>
       <div class="mockup">
         <div class="page-mock">
           <div class="banner-lock">
@@ -893,15 +817,15 @@
             <div class="mentor-table">
               <div class="mentor-row">
                 <div class="mentor-label-cell">This week<br>good at</div>
-                <div class="mentor-input-cell"><textarea class="review-textarea" disabled style="color:#555;background:#fff;">Adapted quickly to the lab environment and asked great questions during the orientation session.</textarea></div>
+                <div class="mentor-input-cell"><textarea class="review-textarea" disabled style="color:#555;background:#fff;">실험실 환경에 빠르게 적응했으며 오리엔테이션 중 좋은 질문을 많이 했습니다.</textarea></div>
               </div>
               <div class="mentor-row">
                 <div class="mentor-label-cell">Next week<br>focus</div>
-                <div class="mentor-input-cell"><textarea class="review-textarea" disabled style="color:#555;background:#fff;">Practice writing up experimental procedures in the lab notebook.</textarea></div>
+                <div class="mentor-input-cell"><textarea class="review-textarea" disabled style="color:#555;background:#fff;">실험 노트에 실험 절차를 직접 기록해보는 연습을 해보세요.</textarea></div>
               </div>
               <div class="mentor-row">
                 <div class="mentor-label-cell">Q&amp;A<br>summary</div>
-                <div class="mentor-input-cell"><textarea class="review-textarea" disabled style="color:#555;background:#fff;">Discussed PCR basics and answered questions about gel lane loading.</textarea></div>
+                <div class="mentor-input-cell"><textarea class="review-textarea" disabled style="color:#555;background:#fff;">PCR 기초 원리와 겔 레인 로딩 방법에 대해 함께 이야기했습니다.</textarea></div>
               </div>
               <div class="mentor-row">
                 <div class="mentor-label-cell">Progress<br>status</div>
@@ -916,13 +840,20 @@
           </div>
         </div>
       </div>
-      <p class="screen-caption">▲ Completed report — read-only, mentor feedback visible, PDF export available</p>
+      <p class="screen-caption">▲ 완료(Completed) 상태 — 모든 필드가 잠기고, 멘토 피드백과 PDF 저장 버튼이 표시됩니다</p>
       <div class="feature-desc">
         <ul>
-          <li>When a mentor clicks <strong>Complete Review</strong>, the report status changes to <span class="badge badge-completed">✓ Completed</span>.</li>
-          <li>A <strong>🔒 lock banner</strong> appears at the top. All fields become read-only.</li>
-          <li>Section <strong>04 Mentor Feedback</strong> displays the mentor's written feedback across four areas: what you did well, what to focus on next week, Q&amp;A summary, and progress status.</li>
-          <li>Click <strong>🖨 Print / Save as PDF</strong> to open a clean print-ready version of the report in a new tab. Use your browser's print dialog to save as PDF.</li>
+          <li>멘토가 <strong>Complete Review</strong>를 누르면 레포트 상태가 <span class="badge badge-completed">✓ Completed</span>로 바뀝니다.</li>
+          <li>상단에 <strong>🔒 잠금 배너</strong>가 표시되고 모든 입력 필드가 읽기 전용으로 고정됩니다.</li>
+          <li><strong>04 Mentor Feedback</strong> 섹션에서 멘토의 피드백 4가지 항목을 확인할 수 있습니다:
+            <ul>
+              <li><em>This week good at</em> — 이번 주 잘한 점</li>
+              <li><em>Next week focus</em> — 다음 주 집중할 사항</li>
+              <li><em>Q&amp;A summary</em> — 질문/답변 요약</li>
+              <li><em>Progress status</em> — 진행 상태 (On Track / Needs Attention / Excellent)</li>
+            </ul>
+          </li>
+          <li><strong>🖨 Print / Save as PDF</strong> 버튼을 클릭하면 인쇄용 페이지가 새 탭에서 열립니다. 브라우저의 인쇄(Ctrl+P / Cmd+P) 기능으로 PDF로 저장할 수 있습니다.</li>
         </ul>
       </div>
     </div>
@@ -932,36 +863,33 @@
 
 
 <!-- ══════════════════════════════════════════
-     4. Mentor
+     4. 멘토
 ══════════════════════════════════════════ -->
 <div class="section" id="mentor">
   <div class="section-header mentor">
     <span class="section-icon">👨‍🏫</span>
     <div class="section-title">
-      <h2>Mentor — Reviews &amp; Interview Reports</h2>
-      <p>Review intern reports and record regular interview notes</p>
+      <h2>멘토 — 리뷰 및 면담 보고서</h2>
+      <p>담당 인턴의 레포트를 검토하고, 정기 면담 내용을 기록하세요</p>
     </div>
   </div>
   <div class="section-body">
 
-    <!-- 4-1 Card Grid -->
+    <!-- 4-1 카드 그리드 -->
     <div class="feature">
-      <div class="feature-title">4-1. Intern Dashboard — Card Grid</div>
+      <div class="feature-title">4-1. 담당 인턴 현황 — 카드 그리드</div>
       <div class="mockup">
         <div class="nav-mock">
           <div><div class="nav-brand-sub">Promega Korea · PBK</div><div class="nav-brand-title">Weekly Training Report</div></div>
-          <div class="nav-right"><span class="nav-user">Jisoo Park</span><button class="nav-btn">Settings</button><button class="nav-btn">Logout</button></div>
+          <div class="nav-right"><span class="nav-user">박지수</span><button class="nav-btn">Settings</button><button class="nav-btn">Logout</button></div>
         </div>
         <div class="page-mock">
           <div style="font-size:15px;font-weight:700;color:#1F4E79;margin-bottom:14px;">My Interns</div>
           <div class="intern-grid">
             <div class="intern-card">
               <div class="intern-card-header">
-                <div class="intern-avatar">GH</div>
-                <div>
-                  <div class="intern-name">Gildong Hong</div>
-                  <div class="intern-dept">Operations · Intern</div>
-                </div>
+                <div class="intern-avatar">홍길</div>
+                <div><div class="intern-name">홍길동</div><div class="intern-dept">Operations · Intern</div></div>
               </div>
               <div class="intern-stats">
                 <div class="intern-stat"><div class="intern-stat-val" style="color:#065F46;">3</div><div class="intern-stat-lbl">Done</div></div>
@@ -972,46 +900,41 @@
             </div>
             <div class="intern-card">
               <div class="intern-card-header">
-                <div class="intern-avatar" style="background:#375623;">SC</div>
-                <div>
-                  <div class="intern-name">Sunwoo Choi</div>
-                  <div class="intern-dept">Operations · Intern</div>
-                </div>
+                <div class="intern-avatar" style="background:#375623;">최선</div>
+                <div><div class="intern-name">최선우</div><div class="intern-dept">Operations · Intern</div></div>
               </div>
               <div class="intern-stats">
                 <div class="intern-stat"><div class="intern-stat-val" style="color:#065F46;">2</div><div class="intern-stat-lbl">Done</div></div>
                 <div class="intern-stat"><div class="intern-stat-val" style="color:#1D4ED8;">0</div><div class="intern-stat-lbl">Pending</div></div>
                 <div class="intern-stat"><div class="intern-stat-val" style="color:#C55A11;">1</div><div class="intern-stat-lbl">Interviews</div></div>
-                <div class="intern-stat"><div class="intern-stat-val">4/20</div><div class="intern-stat-lbl">wks</div></div>
+                <div class="intern-stat"><div class="intern-stat-val">3/20</div><div class="intern-stat-lbl">wks</div></div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <p class="screen-caption">▲ Mentor dashboard — one card per assigned intern showing progress stats</p>
+      <p class="screen-caption">▲ 멘토 대시보드 — 담당 인턴별 카드. Done(완료)/Pending(검토 대기)/Interviews(면담 보고서 수) 표시</p>
       <div class="feature-desc">
         <ul>
-          <li>After login, you see a card for each intern assigned to you.</li>
-          <li>Each card shows: <strong>Done</strong> (completed reviews), <strong>Pending</strong> (submitted, awaiting your review), <strong>Interviews</strong> (interview reports written), and total weeks of the internship.</li>
-          <li>Click any card to open the <strong>slide panel</strong> with details (see 4-2).</li>
+          <li>로그인하면 담당 인턴 각각의 카드가 표시됩니다.</li>
+          <li>각 카드의 통계: <strong>Done</strong>(멘토 리뷰 완료 수), <strong>Pending</strong>(제출됐으나 아직 리뷰 대기 중), <strong>Interviews</strong>(작성한 면담 보고서 수), 전체 주차 진행 현황.</li>
+          <li>카드를 클릭하면 오른쪽에서 <strong>슬라이드 패널</strong>이 열립니다 (4-2 참조).</li>
         </ul>
       </div>
     </div>
 
-    <!-- 4-2 Slide Panel -->
+    <!-- 4-2 슬라이드 패널 -->
     <div class="feature">
-      <div class="feature-title">4-2. Slide Panel — Weekly Grid &amp; Interview Reports</div>
+      <div class="feature-title">4-2. 슬라이드 패널 — 주차 그리드 및 면담 보고서</div>
       <div class="mockup">
         <div class="page-mock" style="display:flex;gap:0;padding:0;min-height:300px;">
-          <!-- Left: dimmed grid -->
           <div style="flex:1;padding:20px;opacity:.4;">
-            <div class="intern-grid"><div class="intern-card"><div class="intern-card-header"><div class="intern-avatar">GH</div><div><div class="intern-name">Gildong Hong</div><div class="intern-dept">Operations</div></div></div></div></div>
+            <div class="intern-grid"><div class="intern-card"><div class="intern-card-header"><div class="intern-avatar">홍길</div><div><div class="intern-name">홍길동</div><div class="intern-dept">Operations</div></div></div></div></div>
           </div>
-          <!-- Right: slide panel -->
           <div class="slide-panel">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
               <div>
-                <div style="font-size:15px;font-weight:700;color:#1a1a1a;">Gildong Hong</div>
+                <div style="font-size:15px;font-weight:700;color:#1a1a1a;">홍길동</div>
                 <div style="font-size:11px;color:#888;">Operations · Intern</div>
               </div>
               <span style="font-size:18px;cursor:pointer;color:#aaa;">✕</span>
@@ -1028,21 +951,15 @@
               <div class="wk-cell wk-empty">8</div>
             </div>
             <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;font-size:10px;color:#888;">
-              <span>🟩 Done</span><span>🟦 Submitted</span><span>⬜ Draft</span><span style="opacity:.5;">□ Empty</span>
+              <span>🟩 완료</span><span>🟦 제출됨</span><span>⬜ 작성 중</span><span style="opacity:.5;">□ 미작성</span>
             </div>
             <div class="panel-section-title">Interview Reports</div>
             <a class="interview-card" href="#">
-              <div>
-                <div class="interview-card-date">April 18, 2026</div>
-                <div class="interview-card-preview">Discussed onboarding progress and first impressions of the lab…</div>
-              </div>
+              <div><div class="interview-card-date">2026년 4월 18일</div><div class="interview-card-preview">온보딩 진행 상황 및 첫인상 면담…</div></div>
               <span class="badge badge-completed">✓ Submitted</span>
             </a>
             <a class="interview-card draft-card" href="#">
-              <div>
-                <div class="interview-card-date">April 25, 2026</div>
-                <div class="interview-card-preview">Week 2 check-in notes…</div>
-              </div>
+              <div><div class="interview-card-date">2026년 4월 25일</div><div class="interview-card-preview">2주차 체크인…</div></div>
               <span class="badge badge-draft">✎ Draft</span>
             </a>
             <div style="margin-top:10px;">
@@ -1051,35 +968,33 @@
           </div>
         </div>
       </div>
-      <p class="screen-caption">▲ Slide panel — week status grid + interview reports list. Click a week cell to open that report.</p>
+      <p class="screen-caption">▲ 슬라이드 패널 — 주차 그리드(색상별 상태)와 면담 보고서 목록이 표시됩니다</p>
       <div class="feature-desc">
         <ul>
-          <li>Click any intern card to open the side panel on the right.</li>
-          <li>The <strong>Weekly Reports</strong> grid shows a colored cell for each of the 20 weeks:
-            <span class="wk-cell wk-done" style="display:inline-flex;width:20px;height:20px;border-radius:4px;margin:0 4px;vertical-align:middle;font-size:9px;">✓</span> Completed &nbsp;
-            <span class="wk-cell wk-submitted" style="display:inline-flex;width:20px;height:20px;border-radius:4px;margin:0 4px;vertical-align:middle;font-size:9px;">!</span> Submitted &nbsp;
-            <span class="wk-cell wk-draft" style="display:inline-flex;width:20px;height:20px;border-radius:4px;margin:0 4px;vertical-align:middle;font-size:9px;">~</span> Draft &nbsp;
-            <span class="wk-cell wk-empty" style="display:inline-flex;width:20px;height:20px;border-radius:4px;margin:0 4px;vertical-align:middle;font-size:9px;"> </span> Not yet
+          <li>인턴 카드를 클릭하면 오른쪽에서 패널이 슬라이드됩니다.</li>
+          <li><strong>Weekly Reports</strong> 그리드: 색상별 의미 —
+            <span class="wk-cell wk-done" style="display:inline-flex;width:20px;height:20px;border-radius:4px;margin:0 4px;vertical-align:middle;font-size:9px;">✓</span> 완료(Completed)&nbsp;
+            <span class="wk-cell wk-submitted" style="display:inline-flex;width:20px;height:20px;border-radius:4px;margin:0 4px;vertical-align:middle;"> </span> 제출됨(Submitted, 리뷰 대기)&nbsp;
+            <span class="wk-cell wk-draft" style="display:inline-flex;width:20px;height:20px;border-radius:4px;margin:0 4px;vertical-align:middle;"> </span> Draft&nbsp;
+            <span class="wk-cell wk-empty" style="display:inline-flex;width:20px;height:20px;border-radius:4px;margin:0 4px;vertical-align:middle;"> </span> 미작성
           </li>
-          <li>Click a week cell to open that week's report for review.</li>
-          <li>The <strong>Interview Reports</strong> section lists all interview records for this intern. Click any card to view or edit it.</li>
-          <li>Click <strong>+ New Report</strong> to create a new interview report for this intern.</li>
+          <li>주차 셀을 클릭하면 해당 주의 레포트가 열립니다. 파란색(Submitted) 셀이 리뷰를 기다리는 레포트입니다.</li>
+          <li><strong>Interview Reports</strong> 섹션에 해당 인턴의 면담 보고서 목록이 표시됩니다. 카드를 클릭해 열거나 수정할 수 있습니다.</li>
+          <li><strong>+ New Report</strong>를 클릭하면 새 면담 보고서를 작성할 수 있습니다.</li>
         </ul>
       </div>
     </div>
 
-    <!-- 4-3 Weekly Review -->
+    <!-- 4-3 주간 레포트 리뷰 -->
     <div class="feature">
-      <div class="feature-title">4-3. Reviewing a Weekly Report</div>
+      <div class="feature-title">4-3. 주간 레포트 리뷰하기</div>
       <div class="mockup">
         <div class="page-mock">
-          <div style="font-size:13px;color:#888;margin-bottom:14px;">← Back &nbsp;|&nbsp; <strong style="color:#1F4E79;">Gildong Hong — Week 4</strong> &nbsp;<span class="badge badge-submitted">Submitted</span></div>
-          <!-- Intern content read-only preview -->
+          <div style="font-size:13px;color:#888;margin-bottom:14px;">← 뒤로 &nbsp;|&nbsp; <strong style="color:#1F4E79;">홍길동 — Week 4</strong> &nbsp;<span class="badge badge-submitted">Submitted</span></div>
           <div class="card-mock" style="margin-bottom:10px;">
             <div style="font-size:12px;font-weight:700;color:#1F4E79;margin-bottom:6px;">01 What I Learned</div>
-            <div style="font-size:12px;color:#555;line-height:1.7;">Learned the standard operating procedure for PCR setup and ran my first gel independently under supervision…</div>
+            <div style="font-size:12px;color:#555;line-height:1.7;">PCR 셋업 SOP를 익히고 감독 아래 처음으로 혼자 겔 전기영동을 진행했습니다…</div>
           </div>
-          <!-- Mentor feedback form -->
           <div class="card-mock" style="border:2px solid #375623;">
             <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
               <div class="sec-num" style="background:#595959;">04</div>
@@ -1088,15 +1003,15 @@
             <div class="mentor-table">
               <div class="mentor-row">
                 <div class="mentor-label-cell">This week<br>good at</div>
-                <div class="mentor-input-cell"><textarea class="review-textarea" placeholder="What did this intern do well?"></textarea></div>
+                <div class="mentor-input-cell"><textarea class="review-textarea" placeholder="이번 주 인턴이 잘한 점을 적어주세요"></textarea></div>
               </div>
               <div class="mentor-row">
                 <div class="mentor-label-cell">Next week<br>focus</div>
-                <div class="mentor-input-cell"><textarea class="review-textarea" placeholder="What should they focus on next week?"></textarea></div>
+                <div class="mentor-input-cell"><textarea class="review-textarea" placeholder="다음 주에 집중할 사항"></textarea></div>
               </div>
               <div class="mentor-row">
                 <div class="mentor-label-cell">Q&amp;A<br>summary</div>
-                <div class="mentor-input-cell"><textarea class="review-textarea" placeholder="Summary of questions &amp; answers"></textarea></div>
+                <div class="mentor-input-cell"><textarea class="review-textarea" placeholder="질문·답변 요약"></textarea></div>
               </div>
               <div class="mentor-row">
                 <div class="mentor-label-cell">Progress<br>status</div>
@@ -1109,124 +1024,117 @@
             </div>
             <div style="text-align:center;margin-top:16px;">
               <button class="complete-btn">✓ Complete Review</button>
-              <div style="font-size:11px;color:#aaa;margin-top:6px;">This will lock the report and notify the intern.</div>
+              <div style="font-size:11px;color:#aaa;margin-top:6px;">클릭하면 레포트가 잠기고 인턴이 피드백을 볼 수 있습니다.</div>
             </div>
           </div>
         </div>
       </div>
-      <p class="screen-caption">▲ Weekly report review page — read intern's report above, write feedback below</p>
+      <p class="screen-caption">▲ 레포트 리뷰 화면 — 위쪽에서 인턴 내용 확인, 아래 04 섹션에서 피드백 작성</p>
       <div class="feature-desc">
         <ul>
-          <li>Open a submitted report from the slide panel (week cells shown in blue = submitted).</li>
-          <li>Read the intern's report (sections 01–03) at the top of the page.</li>
-          <li>Fill in the <strong>04 Mentor Feedback</strong> form at the bottom:
+          <li>슬라이드 패널에서 파란색(Submitted) 주차 셀을 클릭하면 리뷰 화면이 열립니다.</li>
+          <li>화면 위쪽에서 인턴이 작성한 섹션 01~03 내용을 읽습니다.</li>
+          <li>아래 <strong>04 Mentor Feedback</strong> 폼을 채웁니다:
             <ul>
-              <li><strong>This week good at</strong> — what the intern did well</li>
-              <li><strong>Next week focus</strong> — what to work on next</li>
-              <li><strong>Q&amp;A summary</strong> — answers to their Section 03 questions</li>
-              <li><strong>Progress status</strong> — select one: On Track / Needs Attention / Excellent</li>
+              <li><strong>This week good at</strong> — 이번 주 잘한 점</li>
+              <li><strong>Next week focus</strong> — 다음 주 집중 사항</li>
+              <li><strong>Q&amp;A summary</strong> — 섹션 03 질문에 대한 답변 요약</li>
+              <li><strong>Progress status</strong> — On Track / Needs Attention / Excellent 중 선택</li>
             </ul>
           </li>
-          <li>Click <strong>✓ Complete Review</strong> to finalize. The report is locked and the intern can see your feedback.</li>
+          <li>모두 작성하면 <strong>✓ Complete Review</strong> 버튼을 누릅니다. 레포트가 Completed 상태로 잠기고 인턴이 피드백을 볼 수 있게 됩니다.</li>
         </ul>
       </div>
-      <div class="highlight">ℹ Feedback is auto-saved as you type. You can come back and edit before clicking Complete Review.</div>
+      <div class="highlight">ℹ 피드백 내용은 작성하는 동안 자동 저장됩니다. Complete Review를 누르기 전까지는 자유롭게 수정할 수 있습니다.</div>
     </div>
 
-    <!-- 4-4 Interview Reports list -->
+    <!-- 4-4 면담 보고서 목록 -->
     <div class="feature">
-      <div class="feature-title">4-4. Interview Reports List</div>
+      <div class="feature-title">4-4. 면담 보고서 목록</div>
       <div class="mockup">
         <div class="page-mock">
           <div style="margin-bottom:14px;">
             <a href="#" style="font-size:13px;color:#888;font-weight:600;text-decoration:none;">← Back</a>
             <div style="font-size:18px;font-weight:700;color:#1F4E79;margin-top:8px;">Interview Reports</div>
-            <div style="font-size:13px;color:#999;margin-top:2px;">Manage intern interview reports</div>
+            <div style="font-size:13px;color:#999;margin-top:2px;">면담 보고서 작성 및 관리</div>
           </div>
-          <!-- Intern group -->
           <div style="border-bottom:2px solid #E8EDF3;padding-bottom:10px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;">
             <div style="display:flex;align-items:center;gap:8px;">
-              <div class="intern-avatar" style="width:30px;height:30px;border-radius:7px;font-size:11px;">GH</div>
+              <div class="intern-avatar" style="width:30px;height:30px;border-radius:7px;font-size:11px;">홍길</div>
               <div>
-                <div style="font-size:14px;font-weight:700;">Gildong Hong</div>
+                <div style="font-size:14px;font-weight:700;">홍길동</div>
                 <div style="font-size:11px;color:#999;">Operations · <span style="color:#1F4E79;font-weight:600;">2 reports</span></div>
               </div>
             </div>
             <button class="btn-approve" style="font-size:12px;padding:6px 14px;">+ New Report</button>
           </div>
           <a class="interview-card" href="#">
-            <div style="flex:1;">
-              <div class="interview-card-date">April 18, 2026</div>
-              <div class="interview-card-preview">Discussed onboarding and first week impressions in detail…</div>
-            </div>
+            <div style="flex:1;"><div class="interview-card-date">2026년 4월 18일</div><div class="interview-card-preview">온보딩 경험 및 첫인상 면담 내용…</div></div>
             <span class="badge badge-completed">✓ Submitted</span>
           </a>
           <a class="interview-card draft-card" href="#">
-            <div style="flex:1;">
-              <div class="interview-card-date">April 25, 2026</div>
-              <div class="interview-card-preview">Week 2 check-in — PCR progress…</div>
-            </div>
+            <div style="flex:1;"><div class="interview-card-date">2026년 4월 25일</div><div class="interview-card-preview">2주차 PCR 진행 상황 체크인…</div></div>
             <span class="badge badge-draft">✎ Draft</span>
           </a>
         </div>
       </div>
-      <p class="screen-caption">▲ /mentor/interview — interview reports grouped by intern</p>
+      <p class="screen-caption">▲ /mentor/interview — 인턴별로 그룹핑된 면담 보고서 목록</p>
       <div class="feature-desc">
         <ul>
-          <li>Access the Interview Reports list from <strong>My Intern → slide panel → + New Report</strong>, or directly at <code>/mentor/interview</code>.</li>
-          <li>Reports are grouped by intern. Each row shows the interview date, a content preview, and status badge.</li>
-          <li>Click any report card to open and edit it (if Draft) or view it (if Submitted).</li>
-          <li>Click <strong>+ New Report</strong> next to an intern's name to create a new interview record for them.</li>
+          <li>슬라이드 패널의 <strong>+ New Report</strong> 버튼 또는 직접 <code>/mentor/interview</code>로 접근할 수 있습니다.</li>
+          <li>각 인턴별로 작성한 면담 보고서가 날짜 순으로 표시됩니다.</li>
+          <li>카드를 클릭하면 내용을 열람하거나 수정(Draft 상태)할 수 있습니다.</li>
+          <li>인턴 이름 옆 <strong>+ New Report</strong>를 클릭하면 해당 인턴의 새 면담 보고서 작성 화면으로 이동합니다.</li>
         </ul>
       </div>
     </div>
 
-    <!-- 4-5 New Interview Report -->
+    <!-- 4-5 면담 보고서 작성 -->
     <div class="feature">
-      <div class="feature-title">4-5. Writing an Interview Report</div>
+      <div class="feature-title">4-5. 면담 보고서 작성하기</div>
       <div class="mockup">
         <div class="page-mock">
           <div class="card-mock">
-            <div class="card-title">New Interview Report — Gildong Hong</div>
+            <div class="card-title">New Interview Report — 홍길동</div>
             <label class="form-label">Interview Date</label>
             <input type="date" class="form-input" value="2026-04-25" style="width:180px;margin-bottom:14px;">
             <div style="font-size:12px;color:#aaa;margin-bottom:4px;text-align:right;">Saving…</div>
-            <label class="form-label" style="margin-bottom:6px;">Content</label>
-            <textarea class="review-textarea" style="height:70px;" placeholder="Interview content, key discussion points…"></textarea>
-            <label class="form-label" style="margin-bottom:6px;">Suggestions</label>
-            <textarea class="review-textarea" placeholder="Intern's suggestions or requests…"></textarea>
-            <label class="form-label" style="margin-bottom:6px;">Action Items</label>
-            <textarea class="review-textarea" placeholder="Follow-up actions to take…"></textarea>
-            <label class="form-label" style="margin-bottom:6px;">Other</label>
-            <textarea class="review-textarea" placeholder="Any other notes…"></textarea>
+            <label class="form-label" style="margin-bottom:6px;">Content (면담 내용)</label>
+            <textarea class="review-textarea" style="height:70px;" placeholder="면담 내용, 주요 논의 사항…"></textarea>
+            <label class="form-label" style="margin-bottom:6px;">Suggestions (건의 및 문의)</label>
+            <textarea class="review-textarea" placeholder="인턴의 건의 사항 또는 문의 내용…"></textarea>
+            <label class="form-label" style="margin-bottom:6px;">Action Items (조치사항)</label>
+            <textarea class="review-textarea" placeholder="후속 조치가 필요한 사항…"></textarea>
+            <label class="form-label" style="margin-bottom:6px;">Other (기타)</label>
+            <textarea class="review-textarea" placeholder="기타 메모…"></textarea>
             <div style="text-align:center;margin-top:16px;">
               <button class="submit-btn" style="font-size:13px;padding:10px 32px;">Submit →</button>
-              <div style="font-size:11px;color:#aaa;margin-top:6px;">Draft is auto-saved</div>
+              <div style="font-size:11px;color:#aaa;margin-top:6px;">Draft 상태로 자동 저장됩니다</div>
             </div>
           </div>
         </div>
       </div>
-      <p class="screen-caption">▲ Interview report form — select date, fill four fields, auto-saved as Draft</p>
+      <p class="screen-caption">▲ 면담 보고서 작성 화면 — 날짜 선택 후 4개 항목을 채우고 제출하세요</p>
       <div class="feature-desc">
         <ul>
-          <li>Select the <strong>Interview Date</strong> (defaults to today).</li>
-          <li>Fill in any or all of the four text areas:
+          <li><strong>Interview Date</strong>에 면담 날짜를 선택합니다 (기본값: 오늘).</li>
+          <li>4개 텍스트 영역을 필요에 따라 채웁니다:
             <ul>
-              <li><strong>Content</strong> — main discussion topics and observations</li>
-              <li><strong>Suggestions</strong> — intern's requests or feedback to the organization</li>
-              <li><strong>Action Items</strong> — follow-up tasks assigned to mentor or intern</li>
-              <li><strong>Other</strong> — any additional notes</li>
+              <li><strong>Content</strong> — 면담의 주요 내용 및 논의 사항</li>
+              <li><strong>Suggestions</strong> — 인턴의 건의/문의 사항</li>
+              <li><strong>Action Items</strong> — 멘토 또는 인턴이 실행할 후속 조치</li>
+              <li><strong>Other</strong> — 기타 메모</li>
             </ul>
           </li>
-          <li>The form <strong>auto-saves</strong> as Draft whenever you stop typing (after 800ms).</li>
-          <li>When ready, click <strong>Submit →</strong> to finalize. Submitted reports are visible to Managers and HR.</li>
+          <li>입력을 멈추면 약 0.8초 후 <strong>자동으로 Draft 저장</strong>됩니다.</li>
+          <li>완성되면 <strong>Submit →</strong> 버튼을 누릅니다. 제출 후에는 매니저와 HR이 열람할 수 있습니다.</li>
         </ul>
       </div>
     </div>
 
-    <!-- 4-6 Print Interview Report -->
+    <!-- 4-6 면담 보고서 인쇄 -->
     <div class="feature">
-      <div class="feature-title">4-6. Printing an Interview Report</div>
+      <div class="feature-title">4-6. 면담 보고서 인쇄 / PDF 저장</div>
       <div class="mockup">
         <div class="print-mock">
           <div class="print-header">
@@ -1234,18 +1142,18 @@
             <div class="print-title">Interview Report</div>
           </div>
           <table class="print-info-table">
-            <tr><td>Intern</td><td>Gildong Hong</td></tr>
+            <tr><td>Intern</td><td>홍길동</td></tr>
             <tr><td>Department</td><td>Operations · Intern</td></tr>
             <tr><td>Interview Date</td><td>April 25, 2026</td></tr>
-            <tr><td>Mentor</td><td>Jisoo Park</td></tr>
+            <tr><td>Mentor</td><td>박지수</td></tr>
           </table>
           <div class="print-section">
             <div class="print-section-title">Content</div>
-            <div class="print-section-body">Discussed Week 2 PCR results and next steps for documentation.</div>
+            <div class="print-section-body">2주차 PCR 결과 및 향후 문서화 방향 논의.</div>
           </div>
           <div class="print-section">
-            <div class="print-section-title">Suggestions</div>
-            <div class="print-section-body" style="color:#aaa;font-style:italic;">(not filled)</div>
+            <div class="print-section-title">Action Items</div>
+            <div class="print-section-body">3주차 말까지 실험 노트 기록 완료 예정.</div>
           </div>
           <div style="margin-top:20px;font-size:10px;color:#aaa;text-align:right;">Submitted April 25, 2026</div>
           <div style="text-align:center;margin-top:16px;">
@@ -1253,12 +1161,12 @@
           </div>
         </div>
       </div>
-      <p class="screen-caption">▲ Print page — clean layout with auto-filled header info</p>
+      <p class="screen-caption">▲ 인쇄용 페이지 — 인턴 정보와 멘토명이 자동으로 채워집니다</p>
       <div class="feature-desc">
         <ul>
-          <li>After submitting an interview report, a <strong>🖨 Print / Save as PDF</strong> button appears on the report detail page.</li>
-          <li>Click it to open a clean print-ready page in a new tab. Intern info, date, and mentor name are automatically filled.</li>
-          <li>Use your browser's <strong>File → Print</strong> (or Ctrl+P / Cmd+P) and select <em>Save as PDF</em> to export.</li>
+          <li>면담 보고서를 제출한 후 상세 보기 화면에서 <strong>🖨 Print / Save as PDF</strong> 버튼이 표시됩니다.</li>
+          <li>버튼을 클릭하면 인쇄 전용 페이지가 새 탭에서 열리며, 인턴 정보·날짜·멘토명이 자동으로 입력됩니다.</li>
+          <li>브라우저의 <strong>파일 → 인쇄</strong> (Ctrl+P / Cmd+P)를 눌러 PDF로 저장하거나 인쇄할 수 있습니다.</li>
         </ul>
       </div>
     </div>
@@ -1268,39 +1176,33 @@
 
 
 <!-- ══════════════════════════════════════════
-     5. Manager
+     5. 매니저
 ══════════════════════════════════════════ -->
 <div class="section" id="manager">
   <div class="section-header manager">
     <span class="section-icon">📊</span>
     <div class="section-title">
-      <h2>Manager — Team Report Overview</h2>
-      <p>Read-only view of your team's weekly reports and interview records</p>
+      <h2>매니저 — 팀 레포트 열람</h2>
+      <p>소속 팀 인턴들의 주간 레포트와 면담 보고서를 읽기 전용으로 확인합니다</p>
     </div>
   </div>
   <div class="section-body">
 
-    <!-- 5-1 Dashboard -->
     <div class="feature">
-      <div class="feature-title">5-1. Team Dashboard</div>
+      <div class="feature-title">5-1. 팀 대시보드</div>
       <div class="mockup">
         <div class="nav-mock">
           <div><div class="nav-brand-sub">Promega Korea · PBK</div><div class="nav-brand-title">Weekly Training Report</div></div>
-          <div class="nav-right"><span class="nav-user">Suyeon Kim</span><button class="nav-btn">Settings</button><button class="nav-btn">Logout</button></div>
+          <div class="nav-right"><span class="nav-user">김수연</span><button class="nav-btn">Settings</button><button class="nav-btn">Logout</button></div>
         </div>
         <div class="page-mock">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
-            <div>
-              <div style="font-size:16px;font-weight:700;color:#1F4E79;">Team Reports — Manager View</div>
-              <div style="font-size:13px;color:#999;margin-top:2px;">Operations Team · 3 interns</div>
-            </div>
+          <div style="margin-bottom:16px;">
+            <div style="font-size:16px;font-weight:700;color:#1F4E79;">Team Reports — Manager View</div>
+            <div style="font-size:13px;color:#999;margin-top:2px;">Operations Team · 인턴 3명</div>
           </div>
           <div class="intern-grid">
             <div class="intern-card">
-              <div class="intern-card-header">
-                <div class="intern-avatar">GH</div>
-                <div><div class="intern-name">Gildong Hong</div><div class="intern-dept">Operations · Intern</div></div>
-              </div>
+              <div class="intern-card-header"><div class="intern-avatar">홍길</div><div><div class="intern-name">홍길동</div><div class="intern-dept">Operations · Intern</div></div></div>
               <div class="intern-stats">
                 <div class="intern-stat"><div class="intern-stat-val" style="color:#065F46;">3</div><div class="intern-stat-lbl">Done</div></div>
                 <div class="intern-stat"><div class="intern-stat-val" style="color:#1D4ED8;">1</div><div class="intern-stat-lbl">Pending</div></div>
@@ -1309,10 +1211,7 @@
               </div>
             </div>
             <div class="intern-card">
-              <div class="intern-card-header">
-                <div class="intern-avatar" style="background:#375623;">SC</div>
-                <div><div class="intern-name">Sunwoo Choi</div><div class="intern-dept">Operations · Intern</div></div>
-              </div>
+              <div class="intern-card-header"><div class="intern-avatar" style="background:#375623;">최선</div><div><div class="intern-name">최선우</div><div class="intern-dept">Operations · Intern</div></div></div>
               <div class="intern-stats">
                 <div class="intern-stat"><div class="intern-stat-val" style="color:#065F46;">2</div><div class="intern-stat-lbl">Done</div></div>
                 <div class="intern-stat"><div class="intern-stat-val" style="color:#1D4ED8;">0</div><div class="intern-stat-lbl">Pending</div></div>
@@ -1323,93 +1222,34 @@
           </div>
         </div>
       </div>
-      <p class="screen-caption">▲ Manager dashboard — shows only interns from your own team (department)</p>
+      <p class="screen-caption">▲ 매니저 대시보드 — 본인 팀(같은 department) 인턴만 표시됩니다</p>
       <div class="feature-desc">
         <ul>
-          <li>After login, you see cards for all interns in <strong>your team</strong> (same department as your profile).</li>
-          <li>Click any card to open the slide panel with the full week grid and interview report list.</li>
-          <li>All views are <strong>read-only</strong> — managers cannot edit reports or feedback.</li>
+          <li>로그인하면 <strong>자신과 동일한 팀(department)</strong>에 속한 인턴들의 카드가 표시됩니다.</li>
+          <li>카드를 클릭하면 슬라이드 패널이 열려 주차별 상태와 면담 보고서를 확인할 수 있습니다.</li>
+          <li>매니저는 <strong>모든 내용을 읽기 전용</strong>으로만 볼 수 있습니다. 레포트 수정이나 피드백 작성은 불가합니다.</li>
         </ul>
       </div>
-      <div class="highlight">ℹ If no interns appear and a warning about "Team (Department) is not configured" shows, contact the admin to set your department in your profile.</div>
+      <div class="highlight">ℹ "Team (Department) is not configured" 경고가 표시되면 관리자에게 프로필의 팀(department) 설정을 요청하세요.</div>
     </div>
 
-    <!-- 5-2 Report Detail -->
     <div class="feature">
-      <div class="feature-title">5-2. Viewing a Weekly Report</div>
-      <div class="mockup">
-        <div class="page-mock">
-          <div style="margin-bottom:12px;">
-            <a href="#" style="font-size:13px;color:#888;font-weight:600;text-decoration:none;">← Back</a>
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;">
-              <div style="font-size:16px;font-weight:700;color:#1F4E79;">Gildong Hong — Week 4</div>
-              <span class="badge badge-completed">✓ Completed</span>
-            </div>
-            <div style="font-size:12px;color:#999;margin-top:2px;">Topic: PCR &amp; Gel Electrophoresis &nbsp;·&nbsp; Mentor: Jisoo Park</div>
-          </div>
-          <div class="card-mock">
-            <div style="font-size:12px;font-weight:700;color:#1F4E79;margin-bottom:6px;">01 What I Learned</div>
-            <div style="font-size:12px;color:#555;line-height:1.7;">Learned PCR setup and ran my first gel. Understood how band size correlates to DNA fragment length…</div>
-          </div>
-          <div class="card-mock">
-            <div style="font-size:12px;font-weight:700;color:#1F4E79;margin-bottom:6px;">02 How Was This Week &nbsp;<span class="pill selected" style="font-size:11px;padding:3px 10px;">Good</span></div>
-            <div style="font-size:12px;color:#555;line-height:1.7;">Felt confident this week. The hands-on time really helped consolidate theory.</div>
-          </div>
-          <div class="card-mock" style="border-color:#E8EDF3;">
-            <div style="font-size:12px;font-weight:700;color:#595959;margin-bottom:8px;">04 Mentor Feedback</div>
-            <div style="display:grid;grid-template-columns:120px 1fr;gap:8px;font-size:12px;">
-              <span style="color:#777;">This week good at</span><span style="color:#333;">Independent gel setup was clean and precise.</span>
-              <span style="color:#777;">Next week focus</span><span style="color:#333;">Lab notebook documentation.</span>
-              <span style="color:#777;">Progress status</span><span><span class="badge badge-completed">On Track</span></span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <p class="screen-caption">▲ Report detail — intern content + mentor feedback, all read-only</p>
+      <div class="feature-title">5-2. 주간 레포트 상세 보기</div>
       <div class="feature-desc">
         <ul>
-          <li>Click a week cell in the slide panel to open the full report.</li>
-          <li>You can see the intern's three sections (What I Learned, How Was This Week, Questions) and — if completed — the mentor's feedback in Section 04.</li>
-          <li>If the report is still in <span class="badge badge-submitted">Submitted</span> state, an "Awaiting Mentor Feedback" notice is shown instead of Section 04.</li>
+          <li>슬라이드 패널에서 주차 셀을 클릭하면 해당 주의 레포트 상세 페이지가 열립니다.</li>
+          <li>인턴의 섹션 01~03 내용과 멘토의 피드백(Completed 상태인 경우 섹션 04)을 모두 읽을 수 있습니다.</li>
+          <li>아직 Submitted 상태라면 "Awaiting Mentor Feedback"(멘토 피드백 대기 중) 안내가 표시됩니다.</li>
         </ul>
       </div>
     </div>
 
-    <!-- 5-3 Interview Detail -->
     <div class="feature">
-      <div class="feature-title">5-3. Viewing an Interview Report</div>
-      <div class="mockup">
-        <div class="page-mock">
-          <div style="margin-bottom:12px;">
-            <a href="#" style="font-size:13px;color:#888;font-weight:600;text-decoration:none;">← Back</a>
-            <div style="font-size:16px;font-weight:700;color:#1F4E79;margin-top:8px;">Interview Report</div>
-          </div>
-          <div class="card-mock">
-            <div style="display:grid;grid-template-columns:100px 1fr;gap:8px;font-size:13px;margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid #E8EDF3;">
-              <span style="color:#777;font-weight:600;">Intern</span><span>Gildong Hong</span>
-              <span style="color:#777;font-weight:600;">Mentor</span><span>Jisoo Park</span>
-              <span style="color:#777;font-weight:600;">Date</span><span>April 25, 2026</span>
-            </div>
-            <div style="margin-bottom:12px;">
-              <div style="font-size:11px;font-weight:700;color:#555;text-transform:uppercase;margin-bottom:4px;">Content</div>
-              <div style="font-size:13px;color:#444;line-height:1.7;">Discussed Week 2 progress, PCR success rate, and documentation habits.</div>
-            </div>
-            <div style="margin-bottom:12px;">
-              <div style="font-size:11px;font-weight:700;color:#555;text-transform:uppercase;margin-bottom:4px;">Action Items</div>
-              <div style="font-size:13px;color:#444;line-height:1.7;">Intern to complete lab notebook entries by end of Week 3.</div>
-            </div>
-            <div style="text-align:right;margin-top:12px;">
-              <button style="background:none;border:1.5px solid #ddd;color:#888;padding:7px 18px;border-radius:8px;font-size:12px;font-weight:600;">🖨 Print / Save as PDF</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <p class="screen-caption">▲ Interview report detail — read-only view with Print button</p>
+      <div class="feature-title">5-3. 면담 보고서 열람 및 인쇄</div>
       <div class="feature-desc">
         <ul>
-          <li>Click an interview report in the slide panel to view its details.</li>
-          <li>All four fields (Content, Suggestions, Action Items, Other) are shown read-only.</li>
-          <li>Click <strong>🖨 Print / Save as PDF</strong> to generate a formatted print version.</li>
+          <li>슬라이드 패널의 면담 보고서 카드를 클릭하면 Content / Suggestions / Action Items / Other 내용을 모두 읽을 수 있습니다.</li>
+          <li>제출된 면담 보고서에서 <strong>🖨 Print / Save as PDF</strong> 버튼으로 PDF 출력이 가능합니다.</li>
         </ul>
       </div>
     </div>
@@ -1425,20 +1265,20 @@
   <div class="section-header hr">
     <span class="section-icon">🏢</span>
     <div class="section-title">
-      <h2>HR — All-Teams View &amp; Mentor Role</h2>
-      <p>Organization-wide report access · Dual role as mentor for assigned interns</p>
+      <h2>HR — 전사 열람 및 멘토 겸직</h2>
+      <p>전체 팀 레포트 열람 · 담당 인턴에 대한 멘토 기능 병행 가능</p>
     </div>
   </div>
   <div class="section-body">
 
-    <!-- 6-1 All Reports Dashboard -->
+    <!-- 6-1 전사 대시보드 -->
     <div class="feature">
-      <div class="feature-title">6-1. All Reports Dashboard</div>
+      <div class="feature-title">6-1. 전사 레포트 대시보드</div>
       <div class="mockup">
         <div class="nav-mock">
           <div><div class="nav-brand-sub">Promega Korea · PBK</div><div class="nav-brand-title">Weekly Training Report</div></div>
           <div class="nav-right">
-            <span class="nav-user">Yura Lee</span>
+            <span class="nav-user">이유라</span>
             <button class="nav-btn active">All Reports</button>
             <button class="nav-btn">My Intern</button>
             <button class="nav-btn">Settings</button>
@@ -1447,12 +1287,11 @@
         </div>
         <div class="page-mock">
           <div style="font-size:16px;font-weight:700;color:#1F4E79;margin-bottom:4px;">All Reports — HR View</div>
-          <div style="font-size:13px;color:#999;margin-bottom:18px;">All intern reports &amp; interview records · 5 interns</div>
-          <!-- Operations group -->
+          <div style="font-size:13px;color:#999;margin-bottom:18px;">전체 인턴 레포트 및 면담 보고서 · 5명</div>
           <div class="group-header">Operations Team</div>
           <div class="intern-grid" style="margin-bottom:18px;">
             <div class="intern-card">
-              <div class="intern-card-header"><div class="intern-avatar">GH</div><div><div class="intern-name">Gildong Hong</div><div class="intern-dept">Operations · Intern</div></div></div>
+              <div class="intern-card-header"><div class="intern-avatar">홍길</div><div><div class="intern-name">홍길동</div><div class="intern-dept">Operations · Intern</div></div></div>
               <div class="intern-stats">
                 <div class="intern-stat"><div class="intern-stat-val" style="color:#065F46;">3</div><div class="intern-stat-lbl">Done</div></div>
                 <div class="intern-stat"><div class="intern-stat-val" style="color:#1D4ED8;">1</div><div class="intern-stat-lbl">Pending</div></div>
@@ -1461,11 +1300,10 @@
               </div>
             </div>
           </div>
-          <!-- People Operations group -->
           <div class="group-header">People Operations Team</div>
           <div class="intern-grid">
             <div class="intern-card">
-              <div class="intern-card-header"><div class="intern-avatar" style="background:#C55A11;">HC</div><div><div class="intern-name">Hyesong Choi</div><div class="intern-dept">People Operations · Intern</div></div></div>
+              <div class="intern-card-header"><div class="intern-avatar" style="background:#C55A11;">최혜</div><div><div class="intern-name">최혜송</div><div class="intern-dept">People Operations · Intern</div></div></div>
               <div class="intern-stats">
                 <div class="intern-stat"><div class="intern-stat-val" style="color:#065F46;">0</div><div class="intern-stat-lbl">Done</div></div>
                 <div class="intern-stat"><div class="intern-stat-val" style="color:#1D4ED8;">0</div><div class="intern-stat-lbl">Pending</div></div>
@@ -1476,67 +1314,69 @@
           </div>
         </div>
       </div>
-      <p class="screen-caption">▲ HR dashboard — all interns from every team, grouped by Team</p>
+      <p class="screen-caption">▲ HR 대시보드 — 모든 팀의 인턴이 팀별로 그룹핑되어 표시됩니다</p>
       <div class="feature-desc">
         <ul>
-          <li>After login, HR users are taken to <strong>/hr</strong> — showing interns from <em>all teams</em>, grouped by Team name.</li>
-          <li>This view is identical in functionality to the Manager view, but covers the entire organization instead of one team.</li>
-          <li>Click any intern card to open the slide panel with the week grid and interview reports (read-only).</li>
+          <li>로그인하면 <strong>전체 팀의 모든 인턴</strong>이 팀별로 묶여서 카드 그리드로 표시됩니다.</li>
+          <li>기능은 매니저 뷰와 동일하나 <strong>팀 범위 제한 없이</strong> 조직 전체를 볼 수 있습니다.</li>
+          <li>카드를 클릭하면 슬라이드 패널이 열려 주차 그리드와 면담 보고서를 확인할 수 있습니다 (읽기 전용).</li>
         </ul>
       </div>
     </div>
 
-    <!-- 6-2 Dual Nav -->
+    <!-- 6-2 이중 네비게이션 -->
     <div class="feature">
-      <div class="feature-title">6-2. Dual Navigation — All Reports &amp; My Intern</div>
+      <div class="feature-title">6-2. 내비게이션 바 — All Reports / My Intern 두 버튼</div>
       <div class="mockup">
         <div class="nav-mock">
           <div><div class="nav-brand-sub">Promega Korea · PBK</div><div class="nav-brand-title">Weekly Training Report</div></div>
           <div class="nav-right">
-            <span class="nav-user">Yura Lee (HR)</span>
+            <span class="nav-user">이유라 (HR)</span>
             <button class="nav-btn active">All Reports</button>
             <button class="nav-btn">My Intern</button>
             <button class="nav-btn">Settings</button>
             <button class="nav-btn">Logout</button>
           </div>
         </div>
-        <div class="page-mock" style="padding:30px 24px;text-align:center;">
-          <div style="display:inline-flex;gap:16px;align-items:flex-start;">
-            <div style="background:#fff;border:2px solid #1F4E79;border-radius:12px;padding:18px 22px;max-width:200px;text-align:left;">
-              <div style="font-size:13px;font-weight:700;color:#1F4E79;margin-bottom:6px;">All Reports</div>
-              <div style="font-size:12px;color:#666;line-height:1.6;">View all interns across every team. Read-only access to reports and interview records.</div>
+        <div class="page-mock" style="padding:24px;">
+          <div style="display:flex;gap:16px;flex-wrap:wrap;">
+            <div style="background:#fff;border:2px solid #1F4E79;border-radius:12px;padding:16px 18px;flex:1;min-width:180px;">
+              <div style="font-size:14px;font-weight:700;color:#1F4E79;margin-bottom:6px;">All Reports</div>
+              <div style="font-size:12px;color:#666;line-height:1.8;">전체 팀 인턴의 레포트·면담 보고서를 읽기 전용으로 열람합니다.</div>
             </div>
-            <div style="font-size:22px;color:#aaa;margin-top:28px;">↔</div>
-            <div style="background:#fff;border:2px solid #375623;border-radius:12px;padding:18px 22px;max-width:200px;text-align:left;">
-              <div style="font-size:13px;font-weight:700;color:#375623;margin-bottom:6px;">My Intern</div>
-              <div style="font-size:12px;color:#666;line-height:1.6;">Switch to mentor view for your assigned intern. Write reviews and interview reports.</div>
+            <div style="background:#fff;border:2px solid #375623;border-radius:12px;padding:16px 18px;flex:1;min-width:180px;">
+              <div style="font-size:14px;font-weight:700;color:#375623;margin-bottom:6px;">My Intern</div>
+              <div style="font-size:12px;color:#666;line-height:1.8;">담당 인턴의 멘토 기능으로 전환합니다. 리뷰 작성과 면담 보고서 작성이 가능합니다.</div>
             </div>
           </div>
         </div>
       </div>
-      <p class="screen-caption">▲ HR users see two buttons in the NavBar — switch between HR view and Mentor view</p>
+      <p class="screen-caption">▲ HR 사용자가 멘토로도 지정된 경우 두 버튼이 내비게이션 바에 모두 표시됩니다</p>
       <div class="feature-desc">
         <ul>
-          <li>If an HR user is also assigned as a mentor (e.g. Yura Lee is Hyesong Choi's mentor), two buttons appear in the NavBar: <strong>All Reports</strong> and <strong>My Intern</strong>.</li>
-          <li><strong>All Reports</strong> → takes you to <code>/hr</code> — the organization-wide read-only dashboard.</li>
-          <li><strong>My Intern</strong> → takes you to <code>/mentor</code> — where you can write weekly report feedback and create interview reports for your assigned intern.</li>
-          <li>You can switch between the two views at any time without losing any data.</li>
+          <li>HR 사용자가 특정 인턴의 멘토로 지정되어 있으면 내비게이션 바에 <strong>All Reports</strong>와 <strong>My Intern</strong> 두 버튼이 표시됩니다.</li>
+          <li><strong>All Reports</strong> → <code>/hr</code> 페이지 — 전사 열람 뷰</li>
+          <li><strong>My Intern</strong> → <code>/mentor</code> 페이지 — 멘토 기능 뷰 (리뷰 작성, 면담 보고서 작성)</li>
+          <li>언제든 두 버튼을 자유롭게 전환하며 사용할 수 있습니다.</li>
         </ul>
       </div>
-      <div class="highlight success">✅ The HR + Mentor dual role requires no special setup. The admin simply selects the HR user from the <strong>Paired Mentor</strong> dropdown when approving an intern's account.</div>
+      <div class="highlight success">✅ HR + 멘토 겸직은 별도 설정 없이 어드민이 승인 시 Paired Mentor 드롭다운에서 HR 사용자를 선택하면 자동으로 활성화됩니다.</div>
     </div>
 
-    <!-- 6-3 HR as Mentor -->
+    <!-- 6-3 멘토 기능 사용 -->
     <div class="feature">
-      <div class="feature-title">6-3. HR as Mentor — Mentor Functions</div>
+      <div class="feature-title">6-3. My Intern — 멘토 기능 사용하기</div>
       <div class="mockup">
         <div class="page-mock">
-          <div style="font-size:15px;font-weight:700;color:#375623;margin-bottom:14px;">My Interns <span style="font-size:12px;font-weight:400;color:#999;">(via My Intern button)</span></div>
+          <div style="font-size:15px;font-weight:700;color:#375623;margin-bottom:14px;">My Interns</div>
           <div class="intern-grid" style="grid-template-columns:1fr;">
             <div class="intern-card" style="border-color:#375623;">
               <div class="intern-card-header">
-                <div class="intern-avatar" style="background:#C55A11;">HC</div>
-                <div><div class="intern-name">Hyesong Choi</div><div class="intern-dept">People Operations · Intern &nbsp;<span class="badge badge-mentor" style="font-size:10px;">Your intern</span></div></div>
+                <div class="intern-avatar" style="background:#C55A11;">최혜</div>
+                <div>
+                  <div class="intern-name">최혜송</div>
+                  <div class="intern-dept">People Operations · Intern &nbsp;<span class="badge badge-mentor" style="font-size:10px;">담당 인턴</span></div>
+                </div>
               </div>
               <div class="intern-stats">
                 <div class="intern-stat"><div class="intern-stat-val" style="color:#065F46;">0</div><div class="intern-stat-lbl">Done</div></div>
@@ -1548,15 +1388,15 @@
           </div>
         </div>
       </div>
-      <p class="screen-caption">▲ My Intern view — same as a standard mentor dashboard, only for assigned interns</p>
+      <p class="screen-caption">▲ My Intern 뷰 — 일반 멘토 대시보드와 동일, 담당 인턴만 표시됩니다</p>
       <div class="feature-desc">
         <ul>
-          <li>After clicking <strong>My Intern</strong>, you enter the standard mentor dashboard — showing only your assigned intern(s).</li>
-          <li>All mentor functions are available: review weekly reports, complete reviews, write interview reports, and print them.</li>
-          <li>This view is identical to what a regular Mentor sees — refer to Section 4 (Mentor) for detailed instructions.</li>
+          <li><strong>My Intern</strong> 버튼을 클릭하면 일반 멘토와 동일한 화면으로 전환됩니다.</li>
+          <li>담당 인턴의 카드를 클릭해 주차별 레포트 리뷰, 면담 보고서 작성이 모두 가능합니다.</li>
+          <li>구체적인 사용 방법은 <strong>4. 멘토</strong> 섹션을 참고하세요.</li>
         </ul>
       </div>
-      <div class="highlight">ℹ Your HR read access (All Reports) and mentor write access (My Intern) are completely independent. Using one does not affect the other.</div>
+      <div class="highlight">ℹ All Reports(HR 열람)와 My Intern(멘토 기능)은 완전히 독립적입니다. 어느 쪽을 사용하든 서로 영향을 주지 않습니다.</div>
     </div>
 
   </div>
@@ -1565,7 +1405,7 @@
 
 <footer>
   <div style="margin-bottom:8px;">Promega Korea · Promega Biosystems Korea</div>
-  <div>Weekly Training Report — User Manual · Last updated April 2026</div>
+  <div>Weekly Training Report 사용자 메뉴얼 · 최종 업데이트: 2026년 4월</div>
 </footer>
 
 </body>

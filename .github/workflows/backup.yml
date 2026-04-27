@@ -1,0 +1,81 @@
+name: Weekly DB Backup
+
+on:
+  schedule:
+    # 매주 일요일 15:00 UTC = 월요일 00:00 KST
+    - cron: '0 15 * * 0'
+  # 수동 실행 (GitHub Actions 탭에서 Run workflow 버튼)
+  workflow_dispatch:
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Install PostgreSQL client
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y postgresql-client
+
+      - name: Set backup date
+        run: echo "DATE=$(date +%Y-%m-%d)" >> $GITHUB_ENV
+
+      - name: Dump full data (SQL)
+        env:
+          DATABASE_URL: ${{ secrets.SUPABASE_DB_URL }}
+        run: |
+          pg_dump "$DATABASE_URL" \
+            --data-only \
+            --no-owner \
+            --no-acl \
+            --table=profiles \
+            --table=reports \
+            --table=interview_reports \
+            -f "backup-${{ env.DATE }}.sql"
+          echo "✅ SQL dump complete: $(wc -l < backup-${{ env.DATE }}.sql) lines"
+
+      - name: Export tables as CSV
+        env:
+          DATABASE_URL: ${{ secrets.SUPABASE_DB_URL }}
+        run: |
+          psql "$DATABASE_URL" -c "\COPY profiles         TO 'profiles.csv'          CSV HEADER"
+          psql "$DATABASE_URL" -c "\COPY reports          TO 'reports.csv'           CSV HEADER"
+          psql "$DATABASE_URL" -c "\COPY interview_reports TO 'interview_reports.csv' CSV HEADER"
+          echo "✅ CSV export complete"
+
+      - name: Package into zip
+        run: |
+          zip "db-backup-${{ env.DATE }}.zip" \
+            "backup-${{ env.DATE }}.sql" \
+            profiles.csv \
+            reports.csv \
+            interview_reports.csv
+          echo "📦 Zip size: $(du -sh db-backup-${{ env.DATE }}.zip | cut -f1)"
+
+      - name: Upload artifact (90 days retention)
+        uses: actions/upload-artifact@v4
+        with:
+          name: db-backup-${{ env.DATE }}
+          path: db-backup-${{ env.DATE }}.zip
+          retention-days: 90
+
+      - name: Job summary
+        env:
+          DATABASE_URL: ${{ secrets.SUPABASE_DB_URL }}
+        run: |
+          PROFILES=$(psql "$DATABASE_URL" -t -c "SELECT COUNT(*) FROM profiles;" | tr -d ' ')
+          REPORTS=$(psql "$DATABASE_URL" -t -c "SELECT COUNT(*) FROM reports;" | tr -d ' ')
+          INTERVIEWS=$(psql "$DATABASE_URL" -t -c "SELECT COUNT(*) FROM interview_reports;" | tr -d ' ')
+          ZIP_SIZE=$(du -sh "db-backup-${{ env.DATE }}.zip" | cut -f1)
+
+          echo "## 🗄️ DB Backup — ${{ env.DATE }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Table | Rows |" >> $GITHUB_STEP_SUMMARY
+          echo "|---|---|" >> $GITHUB_STEP_SUMMARY
+          echo "| profiles | ${PROFILES} |" >> $GITHUB_STEP_SUMMARY
+          echo "| reports | ${REPORTS} |" >> $GITHUB_STEP_SUMMARY
+          echo "| interview_reports | ${INTERVIEWS} |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Artifact:** \`db-backup-${{ env.DATE }}.zip\` (${ZIP_SIZE})" >> $GITHUB_STEP_SUMMARY
+          echo "**Retention:** 90 days" >> $GITHUB_STEP_SUMMARY
