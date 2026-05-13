@@ -53,6 +53,32 @@ export async function getInterviewReports(internId: string) {
   return { data: data || [] }
 }
 
+export async function recallInterviewReport(id: string) {
+  const supabase = createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return { error: 'Not authenticated' }
+
+  const admin = createAdminClient()
+
+  // 해당 보고서의 mentor_id가 현재 사용자인지 확인
+  const { data: existing } = await admin
+    .from('interview_reports')
+    .select('mentor_id')
+    .eq('id', id)
+    .single()
+
+  if (!existing || existing.mentor_id !== user.id) return { error: 'Not authorized' }
+
+  const { error } = await admin
+    .from('interview_reports')
+    .update({ status: 'draft' })
+    .eq('id', id)
+
+  if (error) return { error: error.message }
+  revalidatePath('/mentor/interview')
+  return { success: true }
+}
+
 export async function getAllInterviewReports() {
   const admin = createAdminClient()
   const { data } = await admin

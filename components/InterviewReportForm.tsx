@@ -3,7 +3,7 @@
 import { useCallback, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { InterviewReport, Profile } from '@/types'
-import { saveInterviewReport, submitInterviewReport } from '@/app/mentor/interview/actions'
+import { saveInterviewReport, submitInterviewReport, recallInterviewReport } from '@/app/mentor/interview/actions'
 import { getWeekInfo } from '@/lib/weeks'
 
 export default function InterviewReportForm({
@@ -29,6 +29,7 @@ export default function InterviewReportForm({
   const [saveHint, setSaveHint] = useState('')
   const [saveError, setSaveError] = useState('')
   const [submitting, setSubmitting] = useState(false)
+  const [recalling, setRecalling] = useState(false)
   const [submitted, setSubmitted] = useState(initialReport?.status === 'submitted')
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
@@ -219,12 +220,29 @@ export default function InterviewReportForm({
       )}
 
       {locked && (
-        <button
-          onClick={() => router.push('/mentor/interview')}
-          style={{ background: 'none', border: '1.5px solid #ddd', color: '#888', padding: '10px 20px', borderRadius: 10, fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}
-        >
-          ← 목록으로
-        </button>
+        <div style={{ display: 'flex', gap: 10 }}>
+          <button
+            onClick={async () => {
+              if (!reportId) return
+              setRecalling(true)
+              const result = await recallInterviewReport(reportId)
+              if (!('error' in result && result.error)) {
+                setSubmitted(false)
+              }
+              setRecalling(false)
+            }}
+            disabled={recalling}
+            style={{ background: '#FFF7ED', color: '#C55A11', border: '1.5px solid #FDBA74', padding: '10px 20px', borderRadius: 10, fontSize: 13, fontWeight: 600, cursor: recalling ? 'default' : 'pointer', fontFamily: 'inherit', opacity: recalling ? 0.7 : 1 }}
+          >
+            {recalling ? '처리 중…' : '✎ 수정하기'}
+          </button>
+          <button
+            onClick={() => router.push('/mentor/interview')}
+            style={{ background: 'none', border: '1.5px solid #ddd', color: '#888', padding: '10px 20px', borderRadius: 10, fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}
+          >
+            ← 목록으로
+          </button>
+        </div>
       )}
     </div>
   )

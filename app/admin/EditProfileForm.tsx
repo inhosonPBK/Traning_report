@@ -9,6 +9,7 @@ const ROLE_OPTIONS = [
   { value: 'mentor',  label: 'Mentor' },
   { value: 'manager', label: 'Manager' },
   { value: 'hr',      label: 'HR' },
+  { value: 'gm',      label: 'GM' },
 ]
 
 export default function EditProfileForm({

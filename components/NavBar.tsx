@@ -42,6 +42,11 @@ export default function NavBar({ profile }: { profile: Profile }) {
             면담보고서 열람
           </Link>
         )}
+        {profile.role === 'gm' && (
+          <Link href="/gm" style={{ color: '#cce3f5', fontSize: 12, fontWeight: 600, textDecoration: 'none', padding: '7px 14px', borderRadius: 7, background: 'rgba(255,255,255,.08)' }}>
+            All Reports
+          </Link>
+        )}
         {profile.role === 'manager' && (
           <Link href="/manager" style={{ color: '#cce3f5', fontSize: 12, fontWeight: 600, textDecoration: 'none', padding: '7px 14px', borderRadius: 7, background: 'rgba(255,255,255,.08)' }}>
             Team Reports

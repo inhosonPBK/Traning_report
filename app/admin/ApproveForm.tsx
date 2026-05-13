@@ -9,6 +9,7 @@ const ROLE_OPTIONS = [
   { value: 'mentor', label: 'Mentor' },
   { value: 'manager', label: 'Manager (Team)' },
   { value: 'hr', label: 'HR (All Teams)' },
+  { value: 'gm', label: 'GM (Read-Only)' },
 ]
 
 export default function ApproveForm({ user, mentors }: { user: Profile; mentors: Profile[] }) {
