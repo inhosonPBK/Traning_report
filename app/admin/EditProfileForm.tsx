@@ -18,6 +18,7 @@ export default function EditProfileForm({
   currentPosition,
   currentRole,
   currentMentorId,
+  currentIsHrViewer,
   mentors,
 }: {
   userId: string
