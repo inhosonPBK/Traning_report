@@ -19,6 +19,7 @@ export default function ApproveForm({ user, mentors }: { user: Profile; mentors:
   const [position, setPosition] = useState(user.position || '')
   const [isPending, startTransition] = useTransition()
   const [done, setDone] = useState(false)
+  const [approveError, setApproveError] = useState('')
 
   if (done) return <div style={{ color: '#375623', fontSize: 13, fontWeight: 600 }}>✓ Processed</div>
 
@@ -67,6 +68,11 @@ export default function ApproveForm({ user, mentors }: { user: Profile; mentors:
           </div>
         )}
       </div>
+      {approveError && (
+        <div style={{ color: '#C55A11', fontSize: 12, marginTop: 10, background: '#FFF3EE', border: '1px solid #FCE4D6', borderRadius: 6, padding: '8px 12px' }}>
+          ⚠ 승인 실패: {approveError}
+        </div>
+      )}
       <div style={{ display: 'flex', gap: 8, marginTop: 12 }}>
         <form action={async (fd) => {
           fd.append('userId', user.id)
@@ -74,7 +80,15 @@ export default function ApproveForm({ user, mentors }: { user: Profile; mentors:
           fd.append('department', department)
           fd.append('position', position)
           if (role === 'intern') fd.append('mentorId', mentorId)
-          startTransition(async () => { await approveUser(fd); setDone(true) })
+          startTransition(async () => {
+            setApproveError('')
+            const result = await approveUser(fd)
+            if ('error' in result && result.error) {
+              setApproveError(result.error)
+            } else {
+              setDone(true)
+            }
+          })
         }}>
           <button
             type="submit"
