@@ -25,9 +25,6 @@ export interface InterviewReport {
   week_number: number | null
   interview_date: string | null
   content: string | null
-  suggestions: string | null
-  action_items: string | null
-  other: string | null
   status: 'draft' | 'submitted'
   created_at: string
   updated_at: string

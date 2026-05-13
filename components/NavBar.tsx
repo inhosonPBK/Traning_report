@@ -37,7 +37,7 @@ export default function NavBar({ profile }: { profile: Profile }) {
             </Link>
           </>
         )}
-        {profile.is_hr_viewer && profile.role !== 'hr' && (
+        {(profile.is_hr_viewer || profile.role === 'hr') && (
           <Link href="/interview-viewer" style={{ color: '#cce3f5', fontSize: 12, fontWeight: 600, textDecoration: 'none', padding: '7px 14px', borderRadius: 7, background: 'rgba(255,255,255,.08)' }}>
             면담보고서 열람
           </Link>

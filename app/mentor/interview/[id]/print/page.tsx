@@ -94,23 +94,8 @@ export default async function InterviewPrintPage({ params }: { params: { id: str
 
         {/* Content */}
         <div className="pc">
-          <span className="sec-label">Content</span>
+          <span className="sec-label">면담내용 및 청년 건의사항</span>
           <div className="p-content">{report.content || '—'}</div>
-        </div>
-
-        <div className="pc">
-          <span className="sec-label">Suggestions</span>
-          <div className="p-content">{report.suggestions || '—'}</div>
-        </div>
-
-        <div className="pc">
-          <span className="sec-label">Action Items</span>
-          <div className="p-content">{report.action_items || '—'}</div>
-        </div>
-
-        <div className="pc">
-          <span className="sec-label">Other</span>
-          <div className="p-content">{report.other || '—'}</div>
         </div>
 
         {submittedAt && (

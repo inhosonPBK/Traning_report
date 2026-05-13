@@ -96,28 +96,10 @@ export default async function ManagerInterviewDetailPage({ params }: { params: {
             </div>
           </div>
 
-          {/* 면담내용 */}
-          <div style={{ marginBottom: 20 }}>
-            <label style={labelStyle}>Content</label>
-            <div style={fieldStyle}>{report.content || '—'}</div>
-          </div>
-
-          {/* 건의 및 문의 */}
-          <div style={{ marginBottom: 20 }}>
-            <label style={labelStyle}>Suggestions</label>
-            <div style={fieldStyle}>{report.suggestions || '—'}</div>
-          </div>
-
-          {/* 조치사항 */}
-          <div style={{ marginBottom: 20 }}>
-            <label style={labelStyle}>Action Items</label>
-            <div style={fieldStyle}>{report.action_items || '—'}</div>
-          </div>
-
-          {/* 기타 */}
+          {/* 면담내용 및 청년 건의사항 */}
           <div style={{ marginBottom: 8 }}>
-            <label style={labelStyle}>Other</label>
-            <div style={fieldStyle}>{report.other || '—'}</div>
+            <label style={labelStyle}>면담내용 및 청년 건의사항</label>
+            <div style={fieldStyle}>{report.content || '—'}</div>
           </div>
         </div>
       </div>

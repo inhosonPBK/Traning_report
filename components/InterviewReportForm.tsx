@@ -23,9 +23,6 @@ export default function InterviewReportForm({
   const [reportId, setReportId] = useState(initialReport?.id || '')
   const [interviewDate, setInterviewDate] = useState(initialReport?.interview_date?.split('T')[0] ?? today)
   const [content, setContent] = useState(initialReport?.content ?? '')
-  const [suggestions, setSuggestions] = useState(initialReport?.suggestions ?? '')
-  const [actionItems, setActionItems] = useState(initialReport?.action_items ?? '')
-  const [other, setOther] = useState(initialReport?.other ?? '')
   const [saveHint, setSaveHint] = useState('')
   const [saveError, setSaveError] = useState('')
   const [submitting, setSubmitting] = useState(false)
@@ -47,9 +44,6 @@ export default function InterviewReportForm({
         weekNumber: effectiveWeek,
         interviewDate,
         content,
-        suggestions,
-        actionItems,
-        other,
       })
       if ('error' in result && result.error) {
         if (!result.error.includes('overwrite')) setSaveError(result.error)
@@ -60,7 +54,7 @@ export default function InterviewReportForm({
         setTimeout(() => setSaveHint(''), 1500)
       }
     }, 800)
-  }, [reportId, intern.id, effectiveWeek, interviewDate, content, suggestions, actionItems, other, locked])
+  }, [reportId, intern.id, effectiveWeek, interviewDate, content, locked])
 
   async function handleSubmit() {
     setSubmitting(true)
@@ -71,9 +65,6 @@ export default function InterviewReportForm({
       weekNumber: effectiveWeek,
       interviewDate,
       content,
-      suggestions,
-      actionItems,
-      other,
     })
     if ('error' in result && result.error) {
       setSaveError(result.error)
@@ -134,51 +125,15 @@ export default function InterviewReportForm({
         <span style={{ marginLeft: 12, fontSize: 12, color: saveError ? '#C55A11' : '#aaa' }}>{saveHint}</span>
       </div>
 
-      {/* 면담내용 */}
-      <div style={{ marginBottom: 16 }}>
-        <label style={labelStyle}>면담내용</label>
+      {/* 면담내용 및 청년 건의사항 */}
+      <div style={{ marginBottom: 24 }}>
+        <label style={labelStyle}>면담내용 및 청년 건의사항</label>
         <textarea
-          rows={4}
+          rows={10}
           value={content}
           onChange={e => { setContent(e.target.value); if (!locked) autoSave() }}
           disabled={locked}
-          placeholder="이번 면담에서 나눈 주요 내용을 작성하세요."
-        />
-      </div>
-
-      {/* 건의 및 문의 */}
-      <div style={{ marginBottom: 16 }}>
-        <label style={labelStyle}>건의 및 문의</label>
-        <textarea
-          rows={3}
-          value={suggestions}
-          onChange={e => { setSuggestions(e.target.value); if (!locked) autoSave() }}
-          disabled={locked}
-          placeholder="인턴이 제기한 건의사항이나 질문을 기록하세요."
-        />
-      </div>
-
-      {/* 조치사항 */}
-      <div style={{ marginBottom: 16 }}>
-        <label style={labelStyle}>조치사항</label>
-        <textarea
-          rows={3}
-          value={actionItems}
-          onChange={e => { setActionItems(e.target.value); if (!locked) autoSave() }}
-          disabled={locked}
-          placeholder="건의사항에 대한 조치 내용을 기록하세요."
-        />
-      </div>
-
-      {/* 기타 */}
-      <div style={{ marginBottom: 24 }}>
-        <label style={labelStyle}>기타</label>
-        <textarea
-          rows={2}
-          value={other}
-          onChange={e => { setOther(e.target.value); if (!locked) autoSave() }}
-          disabled={locked}
-          placeholder="기타 특이사항이 있으면 기록하세요."
+          placeholder={`면담내용:\n\n건의 및 문의:\n\n조치사항:\n\n기타:`}
         />
       </div>
 

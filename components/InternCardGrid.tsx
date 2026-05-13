@@ -15,6 +15,7 @@ interface Props {
   internsData: InternData[]
   groupByTeam?: boolean
   viewerRole: 'mentor' | 'manager' | 'hr'
+  mentorForInternIds?: Set<string>
 }
 
 const WEEK_TOTAL = 20
@@ -48,7 +49,7 @@ const WEEK_STYLE: Record<string, { bg: string; border: string; color: string; ic
   empty:     { bg: '#FAFAFA', border: '#EEEEEE', color: '#ccc',    icon: '—', label: 'Not started' },
 }
 
-export default function InternCardGrid({ internsData, groupByTeam = false, viewerRole }: Props) {
+export default function InternCardGrid({ internsData, groupByTeam = false, viewerRole, mentorForInternIds }: Props) {
   const [selected, setSelected] = useState<InternData | null>(null)
 
   // Team grouping
@@ -324,7 +325,7 @@ export default function InternCardGrid({ internsData, groupByTeam = false, viewe
                       borderRadius: 10, padding: '1px 7px',
                     }}>{selected.interviewReports.length}</span>
                   </div>
-                  {viewerRole === 'mentor' && (
+                  {(viewerRole === 'mentor' || mentorForInternIds?.has(selected.intern.id)) && (
                     <Link
                       href={`/mentor/interview/new?internId=${selected.intern.id}`}
                       onClick={() => setSelected(null)}

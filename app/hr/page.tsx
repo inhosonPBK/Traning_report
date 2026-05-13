@@ -38,6 +38,12 @@ export default async function HRPage() {
     mentorName: intern.mentor_id ? mentorMap[intern.mentor_id] ?? null : null,
   }))
 
+  const mentorForInternIds = new Set(
+    (interns as Profile[] || [])
+      .filter(i => i.mentor_id === profile.id)
+      .map(i => i.id)
+  )
+
   return (
     <>
       <NavBar profile={profile} />
@@ -59,6 +65,7 @@ export default async function HRPage() {
             internsData={internsData}
             groupByTeam={true}
             viewerRole="hr"
+            mentorForInternIds={mentorForInternIds}
           />
         )}
       </div>

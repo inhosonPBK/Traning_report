@@ -10,9 +10,6 @@ interface InterviewPayload {
   weekNumber?: number
   interviewDate: string
   content: string
-  suggestions: string
-  actionItems: string
-  other: string
 }
 
 interface InterviewUpsertData {
@@ -21,9 +18,6 @@ interface InterviewUpsertData {
   week_number: number | null
   interview_date: string | null
   content: string
-  suggestions: string
-  action_items: string
-  other: string
   status: 'draft' | 'submitted'
 }
 
@@ -106,9 +100,6 @@ export async function saveInterviewReport(payload: InterviewPayload) {
     week_number: payload.weekNumber ?? null,
     interview_date: payload.interviewDate || null,
     content: payload.content,
-    suggestions: payload.suggestions,
-    action_items: payload.actionItems,
-    other: payload.other,
     status: 'draft',
   }
 
@@ -159,9 +150,6 @@ export async function submitInterviewReport(payload: InterviewPayload) {
     week_number: payload.weekNumber ?? null,
     interview_date: payload.interviewDate || null,
     content: payload.content,
-    suggestions: payload.suggestions,
-    action_items: payload.actionItems,
-    other: payload.other,
     status: 'submitted',
   }
 

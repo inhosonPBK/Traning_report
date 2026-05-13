@@ -87,22 +87,13 @@ export default async function InterviewFullPrintPage({
               <th style={{ width: 70 }}>성명</th>
               <th style={{ width: 90 }}>근무부서</th>
               <th style={{ width: 80 }}>면담일</th>
-              <th colSpan={3}>면담 내용 및 청년 건의사항</th>
-            </tr>
-            <tr>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th style={{ width: '28%' }}>면담내용</th>
-              <th style={{ width: '28%' }}>건의 및 문의</th>
-              <th style={{ width: '28%' }}>조치사항</th>
+              <th>면담내용 및 청년 건의사항</th>
             </tr>
           </thead>
           <tbody>
             {reports.length === 0 ? (
               <tr>
-                <td colSpan={7} className="empty-row">제출된 면담보고서가 없습니다.</td>
+                <td colSpan={5} className="empty-row">제출된 면담보고서가 없습니다.</td>
               </tr>
             ) : (
               reports.map((r, idx) => (
@@ -112,8 +103,6 @@ export default async function InterviewFullPrintPage({
                   <td className="td-center">{intern.department ?? '—'}</td>
                   <td className="td-center">{fmtDate(r.interview_date)}</td>
                   <td className="td-content">{r.content || '—'}</td>
-                  <td className="td-content">{r.suggestions || '—'}</td>
-                  <td className="td-content">{r.action_items || '—'}</td>
                 </tr>
               ))
             )}

@@ -5,7 +5,7 @@ import { resetUserPassword } from './actions'
 
 export default function ResetPasswordForm({ userId, userName }: { userId: string; userName: string }) {
   const [open, setOpen] = useState(false)
-  const [password, setPassword] = useState('')
+  const [password, setPassword] = useState('qwer1234')
   const [message, setMessage] = useState('')
   const [isError, setIsError] = useState(false)
   const [isPending, startTransition] = useTransition()
@@ -35,7 +35,7 @@ export default function ResetPasswordForm({ userId, userName }: { userId: string
           type="text"
           value={password}
           onChange={e => setPassword(e.target.value)}
-          placeholder="Temporary password (min. 8 chars)"
+          placeholder="Default: qwer1234"
           style={{ border: '1.5px solid #E8EDF3', borderRadius: 6, padding: '6px 10px', fontSize: 12, fontFamily: 'inherit', outline: 'none', width: 170 }}
         />
         <button
