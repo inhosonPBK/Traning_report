@@ -75,7 +75,15 @@ export default async function AdminPage() {
                     </td>
                     <td style={{ padding: '10px' }}>
                       <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-                        <EditProfileForm userId={u.id} userName={u.name} currentTeam={u.department} currentPosition={u.position} />
+                        <EditProfileForm
+                          userId={u.id}
+                          userName={u.name}
+                          currentTeam={u.department}
+                          currentPosition={u.position}
+                          currentRole={u.role}
+                          currentMentorId={u.mentor_id}
+                          mentors={mentors}
+                        />
                         <ResetPasswordForm userId={u.id} userName={u.name} />
                       </div>
                     </td>

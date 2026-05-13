@@ -65,13 +65,23 @@ export async function updateUserProfile(formData: FormData) {
   const targetId = formData.get('userId') as string
   const department = (formData.get('department') as string) || null
   const position = (formData.get('position') as string) || null
+  const role = (formData.get('role') as string) || null
+  const mentorId = (formData.get('mentorId') as string) || null
 
-  const { error } = await admin.from('profiles').update({ department, position }).eq('id', targetId)
+  const updateData: Record<string, string | null> = { department, position }
+  if (role) {
+    updateData.role = role
+    // intern/hr만 mentor_id 허용, 나머지는 null
+    updateData.mentor_id = (role === 'intern' || role === 'hr') ? mentorId : null
+  }
+
+  const { error } = await admin.from('profiles').update(updateData).eq('id', targetId)
   if (error) return { error: error.message }
 
   revalidatePath('/admin')
   revalidatePath('/manager')
   revalidatePath('/mentor')
+  revalidatePath('/hr')
   return { success: true }
 }
 
