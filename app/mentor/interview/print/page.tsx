@@ -15,8 +15,11 @@ export default async function InterviewFullPrintPage({
 
   const admin = createAdminClient()
 
-  const { data: viewer } = await admin.from('profiles').select('role').eq('id', user.id).single()
-  if (!viewer || !['mentor', 'manager', 'hr'].includes(viewer.role)) redirect('/dashboard')
+  const { data: viewer } = await admin.from('profiles').select('role, is_hr_viewer').eq('id', user.id).single()
+  const allowed = viewer && (
+    ['mentor', 'manager', 'hr'].includes(viewer.role) || viewer.is_hr_viewer
+  )
+  if (!allowed) redirect('/dashboard')
 
   const internId = searchParams.internId
   if (!internId) redirect('/mentor/interview')

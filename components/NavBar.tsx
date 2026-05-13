@@ -35,12 +35,12 @@ export default function NavBar({ profile }: { profile: Profile }) {
             <Link href="/mentor" style={{ color: '#cce3f5', fontSize: 12, fontWeight: 600, textDecoration: 'none', padding: '7px 14px', borderRadius: 7, background: 'rgba(255,255,255,.08)' }}>
               My Intern
             </Link>
-            {profile.mentor_id && (
-              <Link href="/intern" style={{ color: '#cce3f5', fontSize: 12, fontWeight: 600, textDecoration: 'none', padding: '7px 14px', borderRadius: 7, background: 'rgba(255,255,255,.08)' }}>
-                내 주간 보고서
-              </Link>
-            )}
           </>
+        )}
+        {profile.is_hr_viewer && profile.role !== 'hr' && (
+          <Link href="/interview-viewer" style={{ color: '#cce3f5', fontSize: 12, fontWeight: 600, textDecoration: 'none', padding: '7px 14px', borderRadius: 7, background: 'rgba(255,255,255,.08)' }}>
+            면담보고서 열람
+          </Link>
         )}
         {profile.role === 'manager' && (
           <Link href="/manager" style={{ color: '#cce3f5', fontSize: 12, fontWeight: 600, textDecoration: 'none', padding: '7px 14px', borderRadius: 7, background: 'rgba(255,255,255,.08)' }}>

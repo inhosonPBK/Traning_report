@@ -26,6 +26,7 @@ export default function EditProfileForm({
   currentPosition: string | null
   currentRole: string | null
   currentMentorId: string | null
+  currentIsHrViewer: boolean
   mentors: Pick<Profile, 'id' | 'name'>[]
 }) {
   const [open, setOpen] = useState(false)
@@ -33,6 +34,7 @@ export default function EditProfileForm({
   const [position, setPosition] = useState(currentPosition || '')
   const [role, setRole] = useState(currentRole || 'intern')
   const [mentorId, setMentorId] = useState(currentMentorId || '')
+  const [isHrViewer, setIsHrViewer] = useState(currentIsHrViewer || false)
   const [message, setMessage] = useState('')
   const [isError, setIsError] = useState(false)
   const [isPending, startTransition] = useTransition()
@@ -87,6 +89,17 @@ export default function EditProfileForm({
         />
       </div>
 
+      {/* 면담보고서 열람 권한 */}
+      <label style={{ fontSize: 12, color: '#555', display: 'flex', alignItems: 'center', gap: 6, cursor: 'pointer', userSelect: 'none' }}>
+        <input
+          type="checkbox"
+          checked={isHrViewer}
+          onChange={e => setIsHrViewer(e.target.checked)}
+          style={{ cursor: 'pointer' }}
+        />
+        면담보고서 열람 권한 (HR 보조)
+      </label>
+
       {/* 둘째 줄: Mentor (intern/hr 역할만) */}
       {needsMentor && (
         <select
@@ -112,6 +125,7 @@ export default function EditProfileForm({
             fd.append('position', position)
             fd.append('role', role)
             fd.append('mentorId', needsMentor ? mentorId : '')
+            fd.append('isHrViewer', String(isHrViewer))
             startTransition(async () => {
               const result = await updateUserProfile(fd)
               if (result.error) {

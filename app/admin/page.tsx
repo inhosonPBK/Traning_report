@@ -82,6 +82,7 @@ export default async function AdminPage() {
                           currentPosition={u.position}
                           currentRole={u.role}
                           currentMentorId={u.mentor_id}
+                          currentIsHrViewer={u.is_hr_viewer}
                           mentors={mentors}
                         />
                         <ResetPasswordForm userId={u.id} userName={u.name} />

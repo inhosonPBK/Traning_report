@@ -10,9 +10,12 @@ export default async function InterviewPrintPage({ params }: { params: { id: str
 
   const admin = createAdminClient()
 
-  // Allow mentor, manager, hr roles
-  const { data: viewer } = await admin.from('profiles').select('role').eq('id', user.id).single()
-  if (!viewer || !['mentor', 'manager', 'hr'].includes(viewer.role)) redirect('/dashboard')
+  // Allow mentor, manager, hr roles — and interns with is_hr_viewer
+  const { data: viewer } = await admin.from('profiles').select('role, is_hr_viewer').eq('id', user.id).single()
+  const allowed = viewer && (
+    ['mentor', 'manager', 'hr'].includes(viewer.role) || viewer.is_hr_viewer
+  )
+  if (!allowed) redirect('/dashboard')
 
   const { data: report } = await admin
     .from('interview_reports')

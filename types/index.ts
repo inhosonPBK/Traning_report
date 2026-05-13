@@ -14,6 +14,7 @@ export interface Profile {
   mentor_id: string | null
   status: ProfileStatus
   is_admin: boolean
+  is_hr_viewer: boolean
   created_at: string
 }
 

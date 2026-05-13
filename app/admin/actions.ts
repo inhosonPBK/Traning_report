@@ -68,7 +68,9 @@ export async function updateUserProfile(formData: FormData) {
   const role = (formData.get('role') as string) || null
   const mentorId = (formData.get('mentorId') as string) || null
 
-  const updateData: Record<string, string | null> = { department, position }
+  const isHrViewer = formData.get('isHrViewer') === 'true'
+
+  const updateData: Record<string, string | null | boolean> = { department, position, is_hr_viewer: isHrViewer }
   if (role) {
     updateData.role = role
     // intern/hr만 mentor_id 허용, 나머지는 null
