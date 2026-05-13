@@ -6,6 +6,16 @@ import { getWeekInfo, TOTAL_WEEKS } from '@/lib/weeks'
 import Link from 'next/link'
 
 const WEEKS = Array.from({ length: TOTAL_WEEKS }, (_, i) => i + 1)
+const PROGRAM_START = new Date('2026-04-20')
+
+/** week_number가 없을 때 interview_date로 주차 추론 */
+function inferWeek(r: InterviewReport): number | null {
+  if (r.week_number) return r.week_number
+  if (!r.interview_date) return null
+  const diff = Math.floor((new Date(r.interview_date).getTime() - PROGRAM_START.getTime()) / (7 * 24 * 60 * 60 * 1000))
+  const w = diff + 1
+  return w >= 1 && w <= TOTAL_WEEKS ? w : null
+}
 
 export default async function InterviewListPage() {
   const { profile } = await requireProfile(['mentor', 'hr'])
@@ -44,7 +54,12 @@ export default async function InterviewListPage() {
           (interns as Profile[]).map(intern => {
             const internReports = (reports || []) as InterviewReport[]
             const myReports = internReports.filter(r => r.intern_id === intern.id)
-            const reportByWeek = Object.fromEntries(myReports.map(r => [r.week_number, r]))
+            // week_number가 없는 기존 보고서는 interview_date로 주차 추론
+            const reportByWeek: Record<number, InterviewReport> = {}
+            for (const r of myReports) {
+              const w = inferWeek(r)
+              if (w) reportByWeek[w] = r
+            }
             const submittedCount = myReports.filter(r => r.status === 'submitted').length
             const draftCount = myReports.filter(r => r.status === 'draft').length
 
