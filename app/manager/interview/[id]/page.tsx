@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 
 export default async function ManagerInterviewDetailPage({ params }: { params: { id: string } }) {
-  const { profile } = await requireProfile(['manager', 'hr'])
+  const { profile } = await requireProfile(['manager', 'hr', 'gm'])
   const admin = createAdminClient()
 
   const { data: report } = await admin
@@ -49,7 +49,10 @@ export default async function ManagerInterviewDetailPage({ params }: { params: {
       <div style={{ maxWidth: 800, margin: '28px auto', padding: '0 20px 80px' }}>
         {/* 헤더 */}
         <div style={{ marginBottom: 24 }}>
-          <Link href="/manager" style={{ fontSize: 13, color: '#888', textDecoration: 'none', fontWeight: 600 }}>
+          <Link
+            href={profile.role === 'gm' ? '/gm' : '/manager'}
+            style={{ fontSize: 13, color: '#888', textDecoration: 'none', fontWeight: 600 }}
+          >
             ← All Reports
           </Link>
           <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginTop: 12 }}>

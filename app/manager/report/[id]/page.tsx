@@ -13,7 +13,7 @@ const RATING_COLOR: Record<string, string> = {
 }
 
 export default async function ManagerReportDetailPage({ params }: { params: { id: string } }) {
-  const { profile } = await requireProfile(['manager', 'hr'])
+  const { profile } = await requireProfile(['manager', 'hr', 'gm'])
   const admin = createAdminClient()
 
   const { data: report } = await admin
@@ -63,7 +63,10 @@ export default async function ManagerReportDetailPage({ params }: { params: { id
 
         {/* 헤더 */}
         <div style={{ marginBottom: 24 }}>
-          <Link href="/manager" style={{ fontSize: 13, color: '#888', textDecoration: 'none', fontWeight: 600 }}>
+          <Link
+            href={profile.role === 'gm' ? '/gm' : '/manager'}
+            style={{ fontSize: 13, color: '#888', textDecoration: 'none', fontWeight: 600 }}
+          >
             ← All Reports
           </Link>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginTop: 12 }}>
