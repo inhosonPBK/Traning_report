@@ -21,6 +21,7 @@ export interface InterviewReport {
   id: string
   mentor_id: string
   intern_id: string
+  week_number: number | null
   interview_date: string | null
   content: string | null
   suggestions: string | null

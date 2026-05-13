@@ -2,7 +2,10 @@ import { requireProfile } from '@/lib/get-profile'
 import { createAdminClient } from '@/lib/supabase-admin'
 import NavBar from '@/components/NavBar'
 import { InterviewReport, Profile } from '@/types'
+import { getWeekInfo, TOTAL_WEEKS } from '@/lib/weeks'
 import Link from 'next/link'
+
+const WEEKS = Array.from({ length: TOTAL_WEEKS }, (_, i) => i + 1)
 
 export default async function InterviewListPage() {
   const { profile } = await requireProfile(['mentor', 'hr'])
@@ -20,40 +23,41 @@ export default async function InterviewListPage() {
         .from('interview_reports')
         .select('*')
         .in('intern_id', internIds)
-        .order('interview_date', { ascending: false })
     : { data: [] }
 
   return (
     <>
       <NavBar profile={profile} />
-      <div style={{ maxWidth: 860, margin: '28px auto', padding: '0 24px 80px' }}>
+      <div style={{ maxWidth: 900, margin: '28px auto', padding: '0 24px 80px' }}>
 
-        {/* 헤더 */}
         <div style={{ marginBottom: 28 }}>
           <Link href="/mentor" style={{ fontSize: 13, color: '#888', fontWeight: 600, textDecoration: 'none' }}>
             ← Back
           </Link>
           <div style={{ fontSize: 20, fontWeight: 700, color: '#1F4E79', marginTop: 10 }}>Interview Reports</div>
-          <div style={{ fontSize: 13, color: '#999', marginTop: 3 }}>Manage intern interview reports</div>
+          <div style={{ fontSize: 13, color: '#999', marginTop: 3 }}>주간 면담보고서 관리 (Week 1–{TOTAL_WEEKS})</div>
         </div>
 
         {!interns?.length ? (
           <div style={{ textAlign: 'center', color: '#aaa', padding: '60px 0' }}>No assigned interns.</div>
         ) : (
           (interns as Profile[]).map(intern => {
-            const internReports = (reports || []).filter((r: InterviewReport) => r.intern_id === intern.id)
-            const draftCount = internReports.filter(r => r.status === 'draft').length
+            const internReports = (reports || []) as InterviewReport[]
+            const myReports = internReports.filter(r => r.intern_id === intern.id)
+            const reportByWeek = Object.fromEntries(myReports.map(r => [r.week_number, r]))
+            const submittedCount = myReports.filter(r => r.status === 'submitted').length
+            const draftCount = myReports.filter(r => r.status === 'draft').length
 
             return (
-              <div key={intern.id} style={{ marginBottom: 32 }}>
+              <div key={intern.id} style={{ marginBottom: 40 }}>
 
                 {/* 인턴 헤더 */}
                 <div style={{
                   display: 'flex',
                   justifyContent: 'space-between',
                   alignItems: 'center',
-                  marginBottom: 12,
-                  paddingBottom: 10,
+                  marginBottom: 16,
+                  paddingBottom: 12,
                   borderBottom: '2px solid #E8EDF3',
                 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
@@ -70,7 +74,7 @@ export default async function InterviewListPage() {
                       <div style={{ fontSize: 11, color: '#999', marginTop: 1 }}>
                         {intern.department}{intern.position ? ` · ${intern.position}` : ''}
                         {' · '}
-                        <span style={{ color: '#1F4E79', fontWeight: 600 }}>{internReports.length} {internReports.length === 1 ? 'report' : 'reports'}</span>
+                        <span style={{ color: '#375623', fontWeight: 600 }}>{submittedCount}회 제출</span>
                         {draftCount > 0 && (
                           <span style={{
                             marginLeft: 6,
@@ -86,70 +90,104 @@ export default async function InterviewListPage() {
                     </div>
                   </div>
                   <Link
-                    href={`/mentor/interview/new?internId=${intern.id}`}
+                    href={`/mentor/interview/print?internId=${intern.id}`}
+                    target="_blank"
                     style={{
-                      background: '#1F4E79', color: '#fff',
-                      padding: '8px 16px', borderRadius: 8,
-                      fontSize: 13, fontWeight: 600,
+                      background: 'none', color: '#595959',
+                      border: '1.5px solid #ddd',
+                      padding: '7px 14px', borderRadius: 8,
+                      fontSize: 12, fontWeight: 600,
                       textDecoration: 'none',
                     }}
                   >
-                    + New Report
+                    🖨 전체 출력
                   </Link>
                 </div>
 
-                {/* 보고서 목록 */}
-                {!internReports.length ? (
-                  <div style={{ color: '#bbb', fontSize: 13, fontStyle: 'italic', padding: '12px 0' }}>
-                    No reports yet.
-                  </div>
-                ) : (
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                    {(internReports as InterviewReport[]).map(r => (
-                      <Link key={r.id} href={`/mentor/interview/${r.id}`} style={{ textDecoration: 'none' }}>
+                {/* 20주 그리드 */}
+                <div style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(5, 1fr)',
+                  gap: 8,
+                }}>
+                  {WEEKS.map(w => {
+                    const r = reportByWeek[w]
+                    const isEmpty = !r
+                    const isDraft = r?.status === 'draft'
+                    const isSubmitted = r?.status === 'submitted'
+
+                    let bg = '#F8FAFC'
+                    let border = '1.5px solid #E8EDF3'
+                    let textColor = '#aaa'
+                    let badgeBg = ''
+                    let badgeColor = ''
+                    let badgeText = ''
+
+                    if (isDraft) {
+                      bg = '#FFFBF5'
+                      border = '1.5px solid #FDBA74'
+                      textColor = '#C55A11'
+                      badgeBg = '#FFF7ED'
+                      badgeColor = '#C55A11'
+                      badgeText = 'Draft'
+                    } else if (isSubmitted) {
+                      bg = '#F0FAF4'
+                      border = '1.5px solid #A9D18E'
+                      textColor = '#375623'
+                      badgeBg = '#E2EFDA'
+                      badgeColor = '#375623'
+                      badgeText = '✓'
+                    }
+
+                    const href = r
+                      ? `/mentor/interview/${r.id}`
+                      : `/mentor/interview/new?internId=${intern.id}&week=${w}`
+
+                    return (
+                      <Link key={w} href={href} style={{ textDecoration: 'none' }}>
                         <div style={{
-                          display: 'flex',
-                          justifyContent: 'space-between',
-                          alignItems: 'center',
-                          background: '#fff',
-                          border: `1px solid ${r.status === 'draft' ? '#FDBA74' : '#E8EDF3'}`,
-                          borderLeft: `3px solid ${r.status === 'draft' ? '#C55A11' : '#A9D18E'}`,
-                          borderRadius: 8,
-                          padding: '12px 16px',
+                          background: bg,
+                          border,
+                          borderRadius: 10,
+                          padding: '12px 14px',
                           cursor: 'pointer',
+                          transition: 'box-shadow 0.15s',
+                          minHeight: 72,
+                          display: 'flex',
+                          flexDirection: 'column',
+                          justifyContent: 'space-between',
                         }}>
-                          <div style={{ flex: 1, minWidth: 0 }}>
-                            <div style={{ fontSize: 14, fontWeight: 600, color: '#1a1a1a' }}>
-                              {r.interview_date
-                                ? new Date(r.interview_date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
-                                : 'No date'}
-                            </div>
-                            {r.content && (
-                              <div style={{
-                                fontSize: 12, color: '#888', marginTop: 3,
-                                overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
-                                maxWidth: 500,
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                            <span style={{ fontSize: 13, fontWeight: 700, color: isEmpty ? '#ccc' : textColor }}>
+                              W{w}
+                            </span>
+                            {badgeText && (
+                              <span style={{
+                                background: badgeBg, color: badgeColor,
+                                fontSize: 10, fontWeight: 700,
+                                padding: '2px 7px', borderRadius: 10,
+                                border: `1px solid ${badgeColor === '#375623' ? '#A9D18E' : '#FDBA74'}`,
                               }}>
-                                {r.content}
-                              </div>
+                                {badgeText}
+                              </span>
                             )}
                           </div>
-                          <span style={{
-                            flexShrink: 0,
-                            marginLeft: 12,
-                            padding: '3px 10px', borderRadius: 20,
-                            fontSize: 11, fontWeight: 700,
-                            background: r.status === 'submitted' ? '#E2EFDA' : '#FFF7ED',
-                            color: r.status === 'submitted' ? '#375623' : '#C55A11',
-                            border: `1px solid ${r.status === 'submitted' ? '#A9D18E' : '#FDBA74'}`,
-                          }}>
-                            {r.status === 'submitted' ? '✓ Submitted' : '✎ Draft'}
-                          </span>
+                          <div style={{ fontSize: 10, color: isEmpty ? '#ddd' : '#999', marginTop: 4 }}>
+                            {getWeekInfo(w)}
+                          </div>
+                          {r?.interview_date && (
+                            <div style={{ fontSize: 10, color: textColor, marginTop: 2, fontWeight: 600 }}>
+                              {new Date(r.interview_date).toLocaleDateString('ko-KR', { month: 'numeric', day: 'numeric' })}
+                            </div>
+                          )}
+                          {isEmpty && (
+                            <div style={{ fontSize: 10, color: '#ccc', marginTop: 4 }}>+ 작성</div>
+                          )}
                         </div>
                       </Link>
-                    ))}
-                  </div>
-                )}
+                    )
+                  })}
+                </div>
               </div>
             )
           })

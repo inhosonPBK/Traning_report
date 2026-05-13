@@ -7,6 +7,7 @@ import { revalidatePath } from 'next/cache'
 interface InterviewPayload {
   id?: string
   internId: string
+  weekNumber?: number
   interviewDate: string
   content: string
   suggestions: string
@@ -17,6 +18,7 @@ interface InterviewPayload {
 interface InterviewUpsertData {
   mentor_id: string
   intern_id: string
+  week_number: number | null
   interview_date: string | null
   content: string
   suggestions: string
@@ -75,6 +77,7 @@ export async function saveInterviewReport(payload: InterviewPayload) {
   const upsertData: InterviewUpsertData = {
     mentor_id: user.id,
     intern_id: payload.internId,
+    week_number: payload.weekNumber ?? null,
     interview_date: payload.interviewDate || null,
     content: payload.content,
     suggestions: payload.suggestions,
@@ -127,6 +130,7 @@ export async function submitInterviewReport(payload: InterviewPayload) {
   const upsertData: InterviewUpsertData = {
     mentor_id: user.id,
     intern_id: payload.internId,
+    week_number: payload.weekNumber ?? null,
     interview_date: payload.interviewDate || null,
     content: payload.content,
     suggestions: payload.suggestions,
