@@ -13,7 +13,7 @@ export default async function InterviewPrintPage({ params }: { params: { id: str
   // Allow mentor, manager, hr roles — and interns with is_hr_viewer
   const { data: viewer } = await admin.from('profiles').select('role, is_hr_viewer').eq('id', user.id).single()
   const allowed = viewer && (
-    ['mentor', 'manager', 'hr'].includes(viewer.role) || viewer.is_hr_viewer
+    ['mentor', 'manager', 'hr', 'gm'].includes(viewer.role) || viewer.is_hr_viewer
   )
   if (!allowed) redirect('/dashboard')
 
