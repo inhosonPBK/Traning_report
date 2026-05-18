@@ -7,10 +7,10 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 
 export default async function InterviewViewerPage() {
-  const { profile } = await requireProfile(['intern', 'hr', 'mentor', 'manager'])
+  const { profile } = await requireProfile(['intern', 'hr', 'mentor', 'manager', 'gm'])
 
-  // is_hr_viewer 또는 hr/mentor/manager 역할만 접근 허용
-  if (!profile.is_hr_viewer && !['hr', 'mentor', 'manager'].includes(profile.role ?? '')) {
+  // is_hr_viewer 또는 hr/mentor/manager/gm 역할만 접근 허용
+  if (!profile.is_hr_viewer && !['hr', 'mentor', 'manager', 'gm'].includes(profile.role ?? '')) {
     redirect('/intern')
   }
 

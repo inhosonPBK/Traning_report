@@ -15,6 +15,12 @@ export default async function AdminPage() {
   const { data: approved } = await admin.from('profiles').select('*').eq('status', 'approved').order('role')
   const mentors = (approved || []).filter((p: Profile) => p.role === 'mentor' || p.role === 'hr')
 
+  // Supabase auth.users에서 last_sign_in_at 가져오기 (추가 DB 스키마 불필요)
+  const { data: { users: authUsers } } = await admin.auth.admin.listUsers({ perPage: 1000 })
+  const lastLoginMap: Record<string, string | null> = Object.fromEntries(
+    authUsers.map(u => [u.id, u.last_sign_in_at ?? null])
+  )
+
   return (
     <>
       <NavBar profile={profile} />
@@ -53,7 +59,7 @@ export default async function AdminPage() {
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
               <thead>
                 <tr style={{ borderBottom: '2px solid #E8EDF3' }}>
-                  {['Name', 'Email', 'Role', 'Team / Position', 'Paired Mentor', 'Actions'].map(h => (
+                  {['Name', 'Email', 'Role', 'Team / Position', 'Paired Mentor', 'Last Login', 'Actions'].map(h => (
                     <th key={h} style={{ textAlign: 'left', padding: '8px 10px', fontSize: 11, fontWeight: 700, color: '#555', textTransform: 'uppercase', letterSpacing: .5 }}>{h}</th>
                   ))}
                 </tr>
@@ -72,6 +78,14 @@ export default async function AdminPage() {
                     </td>
                     <td style={{ padding: '10px', color: '#666' }}>
                       {u.mentor_id ? (approved as Profile[]).find(m => m.id === u.mentor_id)?.name || '—' : '—'}
+                    </td>
+                    <td style={{ padding: '10px', fontSize: 12, color: '#888', whiteSpace: 'nowrap' }}>
+                      {lastLoginMap[u.id]
+                        ? new Date(lastLoginMap[u.id]!).toLocaleDateString('ko-KR', {
+                            year: '2-digit', month: '2-digit', day: '2-digit',
+                            hour: '2-digit', minute: '2-digit',
+                          })
+                        : '—'}
                     </td>
                     <td style={{ padding: '10px' }}>
                       <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
