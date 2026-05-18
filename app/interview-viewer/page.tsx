@@ -37,7 +37,7 @@ export default async function InterviewViewerPage() {
         .in('intern_id', internIds)
         .eq('status', 'submitted')
         .order('intern_id')
-        .order('week_number', { ascending: true })
+        .order('interview_date', { ascending: true, nullsFirst: false })
     : { data: [] }
 
   const reports = (rawReports || []) as InterviewReport[]

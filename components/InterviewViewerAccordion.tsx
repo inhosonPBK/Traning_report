@@ -143,16 +143,6 @@ export default function InterviewViewerAccordion({ sections }: { sections: Inter
                         padding: '10px 14px',
                       }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 14, minWidth: 0 }}>
-                          {r.week_number && (
-                            <span style={{
-                              background: '#EEF3F9', color: '#1F4E79',
-                              fontSize: 11, fontWeight: 700,
-                              padding: '2px 8px', borderRadius: 6,
-                              whiteSpace: 'nowrap', flexShrink: 0,
-                            }}>
-                              W{r.week_number}
-                            </span>
-                          )}
                           <span style={{ fontSize: 13, fontWeight: 600, color: '#1a1a1a', flexShrink: 0 }}>
                             {fmtDate(r.interview_date)}
                           </span>
